@@ -17,3 +17,5 @@ In a terminal do:
 Running Node server
 In a another terminal do:
 `npm run dev-node`
+## Web App is hosted on heroku
+URL: https://teach--it.herokuapp.com/
