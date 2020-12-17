@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
 	Navbar,
 	Nav,
@@ -32,9 +33,11 @@ export default function Header() {
 					<Button variant="outline-success">Search</Button>
 				</Form>
 			</Navbar.Collapse>
-			<Button variant="outline-primary" className="mr-3">
-				Log In
-			</Button>
+			<Link to="/login">
+				<Button variant="outline-primary" className="mr-3">
+					Log In
+				</Button>
+			</Link>
 			<Button variant="primary" className="mr-3">
 				Sign Up
 			</Button>
