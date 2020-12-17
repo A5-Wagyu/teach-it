@@ -1,0 +1,40 @@
+{
+  "name": "node",
+  "version": "3.0.0",
+  "description": "teach-it",
+  "engines": {
+    "node": "10.x",
+    "require": "^2.4.20",
+    "mysql": "^2.18.1",
+    "express": "^4.17.1"
+  },
+  "scripts": {
+    "start": "cd server && node server.js",
+    "build": "npm install && cd react-ui/ && npm install && npm run build",
+    "dev": "cd react-ui/ && npm run build",
+    "dev-node": "cd server && nodemon server.js",
+    "dev-react": "cd react-ui/ && npm start"
+  },
+  "cacheDirectories": [
+    "node_modules",
+    "react-ui/node_modules"
+  ],
+  "dependencies": {
+    "axios": "^0.21.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "mysql-pool-booster": "^1.0.3",
+    "nodemon": "^2.0.6",
+    "q": "^1.5.1",
+    "dotenv": "^8.2.0"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "create-react-app",
+    "react"
+  ],
+  "license": "MIT"
+}
