@@ -27,8 +27,8 @@ export default function Header() {
 					</NavDropdownMenu>
 				</Nav>
 
-				<Form inline>
-					<FormControl type="text" placeholder="Search" />
+				<Form className="w-75" inline>
+					<FormControl className="w-50 mr-2" type="text" placeholder="Search" />
 					<Button variant="outline-success">Search</Button>
 				</Form>
 			</Navbar.Collapse>

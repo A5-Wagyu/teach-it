@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import { Button, Container } from "react-bootstrap";
 
 import { NavLink } from "react-router-dom";
 
@@ -18,9 +18,9 @@ export default function Login() {
 
 	return (
 		<NavLink to={`/login`}>
-			<div className="Login">
+			<Container className="Login w-50">
 				<Form onSubmit={handleSubmit}>
-					<Form.Group size="lg" controlId="email">
+					<Form.Group className="mt-5" size="lg" controlId="email">
 						<Form.Label>Email</Form.Label>
 						<Form.Control
 							autoFocus
@@ -41,7 +41,7 @@ export default function Login() {
 						Login
 					</Button>
 				</Form>
-			</div>
+			</Container>
 		</NavLink>
 	);
 }
