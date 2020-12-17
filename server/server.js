@@ -6,26 +6,10 @@ const cors = require("cors");
 const isDev = process.env.NODE_ENV !== "production";
 const PORT = process.env.PORT || 5000;
 const bodyParser = require("body-parser");
-const MysqlPoolBooster = require("mysql-pool-booster");
-var mysql = require("mysql");
-
-require("dotenv").config({ path: "./../.env" });
-
-mysql = MysqlPoolBooster(mysql);
-const config = {
-	host: process.env.DB_HOST,
-	user: process.env.DB_USER,
-	password: process.env.DB_PASS,
-	database: process.env.DB_NAME,
-	connectionLimit: 10,
-	maxIdle: 1,
-	multipleStatements: true,
-};
-
-const pool = mysql.createPool(config);
+var mysql = require("./db-config");
 
 console.log("Testing Connection");
-pool.query("SELECT 1 + 1 AS solution", function (error, results, fields) {
+mysql.pool.query("SELECT 1 + 1 AS solution", function (error, results, fields) {
 	if (error) throw Error("Could not connect to DB!");
 	if (results[0].solution == 2) {
 		console.log("Connection GOOD!");
