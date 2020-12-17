@@ -1,6 +1,6 @@
 import React from "react";
 
-import CreateWebinar from "./CreateWebinar";
+import CreateWebinar from "./pages/CreateWebinar";
 
 function App() {
 	return (
