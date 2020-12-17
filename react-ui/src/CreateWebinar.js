@@ -28,7 +28,7 @@ export default function CreateWebinar() {
 
   return (
     <div>
-      <Container className="mt-5">
+      <Container className="mt-5 w-50">
         <h1>Create A New Webinar</h1>
 
         <Form onSubmit={onSubmit}>
