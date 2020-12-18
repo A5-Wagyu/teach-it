@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { WebinarInfoCard } from "../components/WebinarInfoCard";
+import { getWebinars } from "../services/webinarService";
+import { getTopicById } from "../services/topicService";
 const testData = {
 	topic: "Computer Science",
 	title: "How to Design a Relational Database",
@@ -11,6 +13,31 @@ const testData = {
 };
 
 function Home() {
+	const [webinars, setWebinars] = useState([]);
+
+	const getWebinarsQuery = () => {
+		getWebinars().then(async (data) => {
+			data = data.data;
+			for (let i = 0; i < data.length; i++) {
+				let topic = await getTopicById(data[i].topicID);
+				data[i].topic = topic.data;
+			}
+			setWebinars(data);
+		});
+	};
+
+	// const getTopicByIdQuery = () => {
+	// 	getTopicById(topicID).then(function (data) {
+	// 		setTopic(data.)
+	// 		console.log("topic:", data);
+	// 	});
+	// };
+
+	useEffect(() => {
+		getWebinarsQuery();
+	}, []);
+
+	console.log(webinars);
 	return (
 		<Container>
 			<h1 className="mt-5 text-justify">Upcoming Webinars</h1>
