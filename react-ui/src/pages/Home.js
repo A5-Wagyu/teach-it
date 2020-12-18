@@ -21,8 +21,28 @@ function Home() {
 			const month = data[i].date.substring(5, 7);
 			const day = data[i].date.substring(8, 10);
 			data[i].date = `${month}/${day}/${year}`;
-			data[i].startTime = data[i].startTime.substring(0, 5);
-			data[i].endTime = data[i].endTime.substring(0, 5);
+
+			data[i].startTime = "12:02:00"
+
+			let startHour = parseInt(data[i].startTime.substring(0, 2));
+			let ampm = "am";
+			if (startHour >= 12) {
+				ampm = "pm";
+				startHour -= (startHour === 12) ? 0: 12;
+			} else if (startHour === 0) {
+				startHour = 12;
+			}
+			data[i].startTime = startHour + data[i].startTime.substring(2, 5) + ampm;
+
+			let endHour = parseInt(data[i].endTime.substring(0, 2));
+			ampm = "am";
+			if (endHour >= 12) {
+				ampm = "pm";
+				endHour -= (endHour === 12) ? 0: 12;
+			} else if (endHour === 0) {
+				endHour = 12;
+			}
+			data[i].endTime = endHour + data[i].endTime.substring(2, 5) + ampm;
 
 		}
 		console.log(data);
