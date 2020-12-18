@@ -8,6 +8,21 @@ import { getHostbyWebinarID } from "../services/userService";
 function Home() {
 	const [webinars, setWebinars] = useState([]);
 
+	const convertHour = (hour) => {
+		let ampm = "am";
+		if (hour >= 12) {
+			ampm = "pm";
+			hour -= (hour === 12) ? 0: 12;
+		} else if (hour === 0) {
+			hour = 12;
+		}
+
+		return {
+			"hour": hour,
+			"ampm": ampm
+		}
+	}
+
 	const getWebinarsQuery = async () => {
 		let data = await getWebinars();
 		data = data.data;
@@ -24,26 +39,13 @@ function Home() {
 
 			data[i].startTime = "12:02:00"
 
-			let startHour = parseInt(data[i].startTime.substring(0, 2));
-			let ampm = "am";
-			if (startHour >= 12) {
-				ampm = "pm";
-				startHour -= (startHour === 12) ? 0: 12;
-			} else if (startHour === 0) {
-				startHour = 12;
-			}
-			data[i].startTime = startHour + data[i].startTime.substring(2, 5) + ampm;
+			const startTime = parseInt(data[i].startTime.substring(0, 2));
+			const startHour = convertHour(startTime);
+			data[i].startTime = startHour.hour + data[i].startTime.substring(2, 5) + startHour.ampm;
 
-			let endHour = parseInt(data[i].endTime.substring(0, 2));
-			ampm = "am";
-			if (endHour >= 12) {
-				ampm = "pm";
-				endHour -= (endHour === 12) ? 0: 12;
-			} else if (endHour === 0) {
-				endHour = 12;
-			}
-			data[i].endTime = endHour + data[i].endTime.substring(2, 5) + ampm;
-
+			const endTime = parseInt(data[i].endTime.substring(0, 2));
+			const endHour = convertHour(endTime);
+			data[i].endTime = endHour.hour + data[i].endTime.substring(2, 5) + endHour.ampm;
 		}
 		console.log(data);
 		setWebinars(data);
