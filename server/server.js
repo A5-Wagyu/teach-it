@@ -22,8 +22,16 @@ mysql.pool.query("SELECT 1 + 1 AS solution", function (error, results, fields) {
 	}
 });
 
+/////////// change in production
+const homeUrl = "http://localhost:3000";
+
 const app = express();
-app.use(cors());
+app.use(cors({
+	origin: [homeUrl],
+	methods: ["GET", "POST"],
+	credentials: true
+}));
+
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -64,8 +72,7 @@ if (!isDev && cluster.isMaster) {
 
 	app.listen(PORT, function () {
 		console.error(
-			`Node ${
-				isDev ? "dev server" : "cluster worker " + process.pid
+			`Node ${isDev ? "dev server" : "cluster worker " + process.pid
 			}: listening on port ${PORT}`
 		);
 	});

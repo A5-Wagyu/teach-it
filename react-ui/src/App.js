@@ -2,7 +2,6 @@ import React from "react";
 import "./App.css";
 import Header from "./components/Header";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
@@ -12,10 +11,12 @@ import MyLearning from "./pages/MyLearning";
 import MyTeaching from "./pages/MyTeaching";
 
 function App() {
+
+
 	return (
 		<div className="App">
 			<Router>
-				<Header/>
+				<Header />
 				<Switch>
 					<Route path="/login" component={Login}></Route>
 					<Route path="/signup" component={SignUp}></Route>

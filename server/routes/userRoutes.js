@@ -9,7 +9,30 @@ const session = require('express-session');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
+const cors = require("cors");
+const bodyParser = require('body-parser');
 
+//// need to change in production
+
+const skey = 'This is my very ultra secret key';
+
+router.use(express.json());
+
+// create a cookie session
+router.use(cookieParser());
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(session({
+  key: "userID",
+  secret: skey,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    expires: 60 * 60 * 24, // expires in 24 hours
+  }
+}))
+
+
+// serve POST sign up page
 router.post('/signup', async (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
@@ -26,6 +49,22 @@ router.post('/signup', async (req, res) => {
   res.status(201).send("Insert done");
 })
 
+// serve GET log in page
+router.get('/login', async (req, res) => {
+  if (req.session.user) {
+    res.send({
+      loggedIn: true,
+      user: req.session.user
+    })
+  } else {
+    res.send({
+      loggedIn: false
+    })
+  }
+
+})
+
+// serve POST log in page
 router.post('/login', async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -46,7 +85,9 @@ router.post('/login', async (req, res) => {
     const passwordMatch = await bcrypt.compare(password, userInfo[0].password);
     if (passwordMatch) {
       // if found password
-      res.send("Logged In");
+      req.session.user = userInfo[0];
+      console.log(req.session.user);
+      res.send(userInfo[0]);
     } else {
       // if password not correct
       res.send({ message: "Incorrect password or username" });

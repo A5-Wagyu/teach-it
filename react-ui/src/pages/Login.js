@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import { Button, Container } from "react-bootstrap";
 import Axios from 'axios';
@@ -6,6 +6,11 @@ import Axios from 'axios';
 export default function Login() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	Axios.defaults.withCredentials = true;
+	useEffect(async () => {
+		const res = await Axios.get("http://localhost:5000/login");
+		console.log(res);
+	}, [])
 
 	function validateForm() {
 		return email.length > 0 && password.length > 0;
