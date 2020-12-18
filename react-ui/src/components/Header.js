@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { getTopics } from "../services/topicService";
 import {
 	Navbar,
 	Nav,
@@ -11,6 +12,19 @@ import {
 import { DropdownSubmenu, NavDropdownMenu } from "react-bootstrap-submenu";
 
 export default function Header() {
+	const [topics, setTopics] = useState([]);
+
+	const getTopicsQuery = () => {
+		getTopics().then(function(t) {
+			setTopics(t);
+			console.log(t);
+		});
+	}
+
+	useEffect(() => {
+		getTopicsQuery();
+	}, []);
+
 	return (
 		<Navbar bg="light" expand="lg">
 			<Navbar.Brand href="#home">Teach It</Navbar.Brand>
@@ -22,9 +36,15 @@ export default function Header() {
 						id="collasible-nav-dropdown"
 						className="mr-3"
 					>
-						<DropdownSubmenu href="#action/3.7" title="Computer Science">
-							<NavDropdown.Item href="#action/8.1">Sub 1</NavDropdown.Item>
-						</DropdownSubmenu>
+						{
+						topics.map((value, i, array) => {
+							return (
+								<DropdownSubmenu href="#action/3.7" title={value.name}>
+									<NavDropdown.Item href="#action/8.1">Sub 1</NavDropdown.Item>
+								</DropdownSubmenu>
+							)
+						})
+						}
 					</NavDropdownMenu>
 				</Nav>
 
