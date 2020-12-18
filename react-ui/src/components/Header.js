@@ -51,11 +51,11 @@ function Header() {
 					>
 						{topics.map((topic, i, array) => {
 							return (
-								<DropdownSubmenu href="#action/3.7" title={topic.name}>
-									{subtopics.map((subtopic) => {
+								<DropdownSubmenu key={topic.name + i} title={topic.name}>
+									{subtopics.map((subtopic, j, arrayJ) => {
 										if (topic.id === subtopic.topicID) {
 											return (
-												<NavDropdown.Item href="#action/8.1">
+												<NavDropdown.Item key={subtopic.name + i + j}>
 													{subtopic.name}
 												</NavDropdown.Item>
 											);
