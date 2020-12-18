@@ -18,7 +18,7 @@ export const WebinarInfoCard = ({
 				<hr />
 				<span>{date}</span>
 				<span className="float-right">
-					{startTime}-{endTime}
+					{startTime} - {endTime} PT
 				</span>
 			</Card.Body>
 		</Card>
