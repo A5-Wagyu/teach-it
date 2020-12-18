@@ -7,15 +7,19 @@ export default function Login() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [loginName, setLoginName] = useState("");
+	const [loginStatus, setLoginStatus] = useState(false);
 
 	Axios.defaults.withCredentials = true;
-	useEffect(async () => {
-		const res = await Axios.get("http://localhost:5000/login");
-		// console.log("Logged in: ", res.data.loggedIn);
-		if (res.data.loggedIn) {
-			setLoginName(res.data.user.name);
+	useEffect(() => {
+		const getLoginRes = async () => {
+
+			const res = await Axios.get("http://localhost:5000/login");
+			if (res.data.loggedIn) {
+				setLoginName(res.data.user.name);
+				// console.log("result: ", res.data.user.name);
+			}
 		}
-		console.log("login Name: ", loginName);
+		getLoginRes();
 	}, [])
 
 	function validateForm() {
@@ -28,7 +32,13 @@ export default function Login() {
 			email: email,
 			password: password,
 		});
-		console.log(loginName);
+		if (!res.data.auth) {
+			setLoginStatus(false);
+		} else {
+			setLoginStatus(true);
+			localStorage.setItem("token", res.data.token);
+		}
+		console.log(res);
 	}
 
 	return (

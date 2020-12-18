@@ -13,7 +13,9 @@ import { DropdownSubmenu, NavDropdownMenu } from "react-bootstrap-submenu";
 export default function Header() {
 	return (
 		<Navbar bg="light" expand="lg">
-			<Navbar.Brand href="#home">Teach It</Navbar.Brand>
+			<Link to="/">
+				<Navbar.Brand>Teach It</Navbar.Brand>
+			</Link>
 			<Navbar.Toggle aria-controls="basic-navbar-nav" />
 			<Navbar.Collapse id="basic-navbar-nav">
 				<Nav className="mr">

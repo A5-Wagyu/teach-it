@@ -8,6 +8,8 @@ export default function Login() {
 	const [password, setPassword] = useState("");
 	const [name, setName] = useState("");
 
+	console.log(localStorage.getItem("token"));
+
 	function validateForm() {
 		return name.length > 0 && email.length > 0 && password.length > 0;
 	}
