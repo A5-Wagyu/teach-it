@@ -3,10 +3,13 @@ const path = require("path");
 const cluster = require("cluster");
 const numCPUs = require("os").cpus().length;
 const cors = require("cors");
+const mysql = require("./db-config");
 const isDev = process.env.NODE_ENV !== "production";
 const PORT = process.env.PORT || 5000;
 const bodyParser = require("body-parser");
-var mysql = require("./db-config");
+
+// import routes
+const userRoutes = require('./routes/userRoutes');
 
 console.log("Testing Connection");
 mysql.pool.query("SELECT 1 + 1 AS solution", function (error, results, fields) {
@@ -24,7 +27,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Include routes
-
+app.use(userRoutes);
 
 // Multi-process to utilize all CPU cores.
 if (!isDev && cluster.isMaster) {
@@ -59,8 +62,7 @@ if (!isDev && cluster.isMaster) {
 
 	app.listen(PORT, function () {
 		console.error(
-			`Node ${
-				isDev ? "dev server" : "cluster worker " + process.pid
+			`Node ${isDev ? "dev server" : "cluster worker " + process.pid
 			}: listening on port ${PORT}`
 		);
 	});

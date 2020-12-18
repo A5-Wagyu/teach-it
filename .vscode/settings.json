@@ -1,0 +1,17 @@
+{
+  "sqltools.connections": [
+    {
+      "mysqlOptions": {
+        "authProtocol": "default"
+      },
+      "previewLimit": 50,
+      "server": "database-teachit.c2kq3ziu0jcf.us-west-2.rds.amazonaws.com",
+      "port": 3306,
+      "driver": "MySQL",
+      "name": "teach it",
+      "database": "teachit",
+      "username": "admin",
+      "password": "teslamodely"
+    }
+  ]
+}
