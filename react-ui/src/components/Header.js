@@ -34,12 +34,12 @@ export default function Header() {
 				</Form>
 			</Navbar.Collapse>
 			<Link to="/login">
-				<Button variant="outline-primary" className="mr-3">
+				<Button variant="outline-info" className="mr-3">
 					Log In
 				</Button>
 			</Link>
 			<Link to="/signup">
-				<Button variant="primary" className="mr-3">
+				<Button variant="info" className="mr-3">
 					Sign Up
 				</Button>
 			</Link>

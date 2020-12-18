@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import { Button, Container } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import Axios from 'axios';
 
 export default function Login() {
@@ -50,10 +51,13 @@ export default function Login() {
 						onChange={(e) => setPassword(e.target.value)}
 					/>
 				</Form.Group>
-				<Button block size="lg" type="submit" disabled={!validateForm()}>
+				<Button block size="lg" type="submit" variant="danger" disabled={!validateForm()}>
 					Sign Up
 				</Button>
 			</Form>
+			<p className="mt-4">By signing up, you agree to our Terms of Use and Privacy Policy</p>
+			<hr />
+			<p className="mt-4">Already have an account?  <Link to="/login">Log In</Link></p>
 		</Container>
 	);
 }
