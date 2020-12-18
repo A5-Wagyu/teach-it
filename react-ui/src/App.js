@@ -23,7 +23,7 @@ function App() {
 					<Route path="/webinardetail" component={WebinarDetail}></Route>
 					<Route path="/mylearning" component={MyLearning}></Route>
 					<Route path="/myteaching" component={MyTeaching}></Route>
-					<Route path="/" component={Home}></Route>
+					<Route path="/" exact component={Home}></Route>
 				</Switch>
 			</Router>
 		</div>
