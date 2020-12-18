@@ -11,6 +11,8 @@ const bodyParser = require("body-parser");
 // import routes
 const userRoutes = require('./routes/userRoutes');
 
+var topicRoutes = require("../react-ui/routes/topicRoutes");
+
 console.log("Testing Connection");
 mysql.pool.query("SELECT 1 + 1 AS solution", function (error, results, fields) {
 	if (error) throw Error("Could not connect to DB!");
@@ -28,6 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Include routes
 app.use(userRoutes);
+app.use(topicRoutes);
 
 // Multi-process to utilize all CPU cores.
 if (!isDev && cluster.isMaster) {
