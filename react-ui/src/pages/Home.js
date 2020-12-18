@@ -16,7 +16,16 @@ function Home() {
 			let host = await getHostbyWebinarID({ id: data[i].id });
 			data[i].topic = topic;
 			data[i].host = host;
+
+			const year = data[i].date.substring(0, 4);
+			const month = data[i].date.substring(5, 7);
+			const day = data[i].date.substring(8, 10);
+			data[i].date = `${month}/${day}/${year}`;
+			data[i].startTime = data[i].startTime.substring(0, 5);
+			data[i].endTime = data[i].endTime.substring(0, 5);
+
 		}
+		console.log(data);
 		setWebinars(data);
 	};
 
