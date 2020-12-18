@@ -6,10 +6,14 @@ import Axios from 'axios';
 export default function Login() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [loginStatus, setLoginStatus] = useState("");
+
 	Axios.defaults.withCredentials = true;
 	useEffect(async () => {
 		const res = await Axios.get("http://localhost:5000/login");
-		console.log(res);
+		console.log("Logged in name", res.data.name);
+		setLoginStatus(res.data.name);
+		console.log("login status: ", loginStatus);
 	}, [])
 
 	function validateForm() {
@@ -22,11 +26,12 @@ export default function Login() {
 			email: email,
 			password: password,
 		});
-		console.log(res);
+		console.log(loginStatus);
 	}
 
 	return (
 		<Container className="Login w-50">
+			<h3>Status: {loginStatus}</h3>
 			<Form onSubmit={handleSubmit}>
 				<Form.Group className="mt-5" size="lg" controlId="email">
 					<Form.Label>Email</Form.Label>
