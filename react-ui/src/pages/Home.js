@@ -15,58 +15,40 @@ const testData = {
 function Home() {
 	const [webinars, setWebinars] = useState([]);
 
-	const getWebinarsQuery = () => {
-		getWebinars().then(async (data) => {
-			data = data.data;
-			for (let i = 0; i < data.length; i++) {
-				let topic = await getTopicById(data[i].topicID);
-				data[i].topic = topic.data;
-			}
-			setWebinars(data);
-		});
+	const getWebinarsQuery = async () => {
+		let data = await getWebinars();
+		data = data.data;
+		for (let i = 0; i < data.length; i++) {
+			// console.log(data
+			let topic = await getTopicById({ id: data[i].topicID });
+			data[i].topic = topic;
+		}
+		setWebinars(data);
 	};
-
-	// const getTopicByIdQuery = () => {
-	// 	getTopicById(topicID).then(function (data) {
-	// 		setTopic(data.)
-	// 		console.log("topic:", data);
-	// 	});
-	// };
 
 	useEffect(() => {
 		getWebinarsQuery();
 	}, []);
-
 	console.log(webinars);
+
 	return (
 		<Container>
 			<h1 className="mt-5 text-justify">Upcoming Webinars</h1>
 
 			<Container className="d-flex flex-wrap mt-3 p-0">
-				<WebinarInfoCard
-					topic={testData.topic}
-					title={testData.title}
-					host={testData.host}
-					date={testData.date}
-					startTime={testData.startTime}
-					endTime={testData.endTime}
-				/>
-				<WebinarInfoCard
-					topic={testData.topic}
-					title={testData.title}
-					host={testData.host}
-					date={testData.date}
-					startTime={testData.startTime}
-					endTime={testData.endTime}
-				/>
-				<WebinarInfoCard
-					topic={testData.topic}
-					title={testData.title}
-					host={testData.host}
-					date={testData.date}
-					startTime={testData.startTime}
-					endTime={testData.endTime}
-				/>
+				{webinars.map((value, i) => {
+					return (
+						<WebinarInfoCard
+							key={i}
+							topic={webinars[i].topic.name}
+							title={webinars[i].title}
+							host={testData.host}
+							date={webinars[i].date}
+							startTime={webinars[i].startTime}
+							endTime={webinars[i].endTime}
+						/>
+					);
+				})}
 			</Container>
 		</Container>
 	);

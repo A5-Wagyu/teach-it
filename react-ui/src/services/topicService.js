@@ -10,5 +10,6 @@ export const getTopics = async () => {
 export const getTopicById = async ({ id }) => {
 	const url = "/getTopicById";
 	let results = await Axios.post(url, { id: id });
-	return results;
+
+	return results.data[0];
 };
