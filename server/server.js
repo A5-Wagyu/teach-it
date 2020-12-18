@@ -12,6 +12,8 @@ const bodyParser = require("body-parser");
 const userRoutes = require("./routes/userRoutes");
 const topicRoutes = require("./routes/topicRoutes");
 const subtopicsRoutes = require("./routes/subtopicRoutes");
+const webinarRoutes = require("./routes/webinarRoutes");
+
 console.log("Testing Connection");
 mysql.pool.query("SELECT 1 + 1 AS solution", function (error, results, fields) {
 	if (error) throw Error("Could not connect to DB!");
@@ -31,6 +33,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(userRoutes);
 app.use(topicRoutes);
 app.use(subtopicsRoutes);
+app.use(webinarRoutes);
+
 // Multi-process to utilize all CPU cores.
 if (!isDev && cluster.isMaster) {
 	console.error(`Node cluster master ${process.pid} is running`);
