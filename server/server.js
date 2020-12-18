@@ -10,8 +10,7 @@ const bodyParser = require("body-parser");
 
 // import routes
 const userRoutes = require('./routes/userRoutes');
-
-var topicRoutes = require("../react-ui/routes/topicRoutes");
+const topicRoutes = require("./routes/topicRoutes");
 
 console.log("Testing Connection");
 mysql.pool.query("SELECT 1 + 1 AS solution", function (error, results, fields) {
