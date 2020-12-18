@@ -9,9 +9,9 @@ const PORT = process.env.PORT || 5000;
 const bodyParser = require("body-parser");
 
 // import routes
-const userRoutes = require('./routes/userRoutes');
+const userRoutes = require("./routes/userRoutes");
 const topicRoutes = require("./routes/topicRoutes");
-
+const subtopicsRoutes = require("./routes/subtopicRoutes");
 console.log("Testing Connection");
 mysql.pool.query("SELECT 1 + 1 AS solution", function (error, results, fields) {
 	if (error) throw Error("Could not connect to DB!");
@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Include routes
 app.use(userRoutes);
 app.use(topicRoutes);
-
+app.use(subtopicsRoutes);
 // Multi-process to utilize all CPU cores.
 if (!isDev && cluster.isMaster) {
 	console.error(`Node cluster master ${process.pid} is running`);
@@ -64,7 +64,8 @@ if (!isDev && cluster.isMaster) {
 
 	app.listen(PORT, function () {
 		console.error(
-			`Node ${isDev ? "dev server" : "cluster worker " + process.pid
+			`Node ${
+				isDev ? "dev server" : "cluster worker " + process.pid
 			}: listening on port ${PORT}`
 		);
 	});
