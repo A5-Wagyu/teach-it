@@ -74,7 +74,8 @@ CREATE TABLE `UserRoleWebinarAssociations`(
 INSERT INTO `Users` (`name`, `email`, `password`)
 VALUES ('admin', 'admin@gmail.com', 'password'),
     ('Quan', 'quan@gmail.com', '1232456'),
-    ('Josiah', 'jmetz@gmail.com', 'aaaaabbbb');
+    ('Josiah', 'jmetz@gmail.com', 'aaaaabbbb'),
+	 ('Arthur','arthur@gmail.com','123456');
 -- dumbping Roles
 INSERT INTO `Roles` (`name`)
 VALUES ('host'),
@@ -334,3 +335,26 @@ VALUES (
         'N/A',
         FALSE
     );
+-- dump UserRoleWebinarAssociations  
+INSERT INTO `UserRoleWebinarAssociations` (
+        `userID`,
+        `roleID`,
+        `webinarID`
+    )
+VALUES (
+        (
+            SELECT `id`
+            FROM `Users`
+            WHERE `name` = 'Arthur'
+        ),
+        (
+            SELECT `id`
+            FROM `Roles`
+            WHERE `name` = 'host'
+        ),
+        (
+            SELECT `id`
+            FROM `Webinars`
+            WHERE `id` = '1'
+        )
+    	);

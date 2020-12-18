@@ -3,14 +3,7 @@ import { Container } from "react-bootstrap";
 import { WebinarInfoCard } from "../components/WebinarInfoCard";
 import { getWebinars } from "../services/webinarService";
 import { getTopicById } from "../services/topicService";
-const testData = {
-	topic: "Computer Science",
-	title: "How to Design a Relational Database",
-	host: "Arthur Hiew",
-	date: "Sat 12/12/20",
-	startTime: "3:00pm",
-	endTime: "4:00pm",
-};
+import { getHostbyWebinarID } from "../services/userService";
 
 function Home() {
 	const [webinars, setWebinars] = useState([]);
@@ -19,9 +12,10 @@ function Home() {
 		let data = await getWebinars();
 		data = data.data;
 		for (let i = 0; i < data.length; i++) {
-			// console.log(data
 			let topic = await getTopicById({ id: data[i].topicID });
+			let host = await getHostbyWebinarID({ id: data[i].id });
 			data[i].topic = topic;
+			data[i].host = host;
 		}
 		setWebinars(data);
 	};
@@ -29,7 +23,6 @@ function Home() {
 	useEffect(() => {
 		getWebinarsQuery();
 	}, []);
-	console.log(webinars);
 
 	return (
 		<Container>
@@ -42,7 +35,7 @@ function Home() {
 							key={i}
 							topic={webinars[i].topic.name}
 							title={webinars[i].title}
-							host={testData.host}
+							host={webinars[i].host.name}
 							date={webinars[i].date}
 							startTime={webinars[i].startTime}
 							endTime={webinars[i].endTime}
