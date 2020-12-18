@@ -45,6 +45,8 @@ router.use(session({
   //   expires: 60 * 60 * 24, // expires in 24 hours
   // }
 }))
+route.use(passport.initialize());
+route.use(passport.session());
 
 
 // function to verify JWT token
