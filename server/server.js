@@ -10,6 +10,7 @@ const bodyParser = require("body-parser");
 
 // import routes
 const userRoutes = require('./routes/userRoutes');
+const topicRoutes = require("./routes/topicRoutes");
 
 console.log("Testing Connection");
 mysql.pool.query("SELECT 1 + 1 AS solution", function (error, results, fields) {
@@ -28,6 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Include routes
 app.use(userRoutes);
+app.use(topicRoutes);
 
 // Multi-process to utilize all CPU cores.
 if (!isDev && cluster.isMaster) {
