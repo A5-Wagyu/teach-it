@@ -15,18 +15,26 @@ import { DropdownSubmenu, NavDropdownMenu } from "react-bootstrap-submenu";
 function Header() {
 	const [topics, setTopics] = useState([]);
 	const [subtopics, setSubtopics] = useState([]);
+	const [values, setValues] = useState({});
 
 	const getTopicsQuery = () => {
 		getTopics().then(function (t) {
 			setTopics(t.data);
-			// console.log(t);
 		});
 	};
+
+	const countTopic = (data) => {
+		const temp = {};
+		data.map((subtopic) => {
+			temp[subtopic.topicID] = true;
+		});
+		setValues(temp);
+	}
 
 	const getSubtopicsQuery = () => {
 		getSubtopics().then(function (st) {
 			setSubtopics(st.data);
-			// console.log(st);
+			countTopic(st.data);
 		});
 	};
 
@@ -49,22 +57,27 @@ function Header() {
 						id="collasible-nav-dropdown"
 						className="mr-3"
 					>
+
 						{topics.map((topic, i, array) => {
-							return (
-								<DropdownSubmenu key={topic.name + i} title={topic.name}>
-									{subtopics.map((subtopic, j, arrayJ) => {
-										if (topic.id === subtopic.topicID) {
-											return (
-												<NavDropdown.Item key={subtopic.name + i + j}>
-													{subtopic.name}
-												</NavDropdown.Item>
-											);
-										} else {
-											return null;
-										}
-									})}
-								</DropdownSubmenu>
-							);
+							if (topic.id in values) {
+								return (
+									<DropdownSubmenu key={topic.name + i} title={topic.name}>
+										{subtopics.map((subtopic, j, arrayJ) => {
+											if (topic.id === subtopic.topicID) {
+												return (
+													<NavDropdown.Item key={subtopic.name + i + j}>
+														{subtopic.name}
+													</NavDropdown.Item>
+												);
+											} else {
+												return null;
+											}
+										})}
+									</DropdownSubmenu>
+								);
+							} else {
+								return (<NavDropdown.Item title={topic.name}>{topic.name}</NavDropdown.Item>);
+							}
 						})}
 					</NavDropdownMenu>
 				</Nav>
