@@ -1,36 +1,42 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import { Button, Container } from "react-bootstrap";
+import Axios from 'axios';
 
 export default function Login() {
 	const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+	const [password, setPassword] = useState("");
+	const [name, setName] = useState("");
 
 	function validateForm() {
 		return name.length > 0 && email.length > 0 && password.length > 0;
 	}
 
-	function handleSubmit(event) {
+	async function handleSubmit(event) {
 		event.preventDefault();
+		const res = await Axios.post('http://localhost:5000/signup', {
+			email: email,
+			password: password,
+			name: name
+		});
+		console.log(res);
 	}
 
 	return (
 		<Container className="Login w-50">
 			<Form onSubmit={handleSubmit}>
-        <Form.Group className="mt-5" size="lg" controlId="name">
-          <Form.Label>Full Name</Form.Label>
-          <Form.Control
-            autoFocus
-            type="email"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+				<Form.Group className="mt-5" size="lg" controlId="name">
+					<Form.Label>Full Name</Form.Label>
+					<Form.Control
+						autoFocus
+						type="text"
+						value={name}
+						onChange={(e) => setName(e.target.value)}
+					/>
 				</Form.Group>
 				<Form.Group size="lg" controlId="email">
 					<Form.Label>Email</Form.Label>
 					<Form.Control
-						autoFocus
 						type="email"
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
