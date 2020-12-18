@@ -38,9 +38,11 @@ export default function Header() {
 					Log In
 				</Button>
 			</Link>
-			<Button variant="primary" className="mr-3">
-				Sign Up
-			</Button>
+			<Link to="/signup">
+				<Button variant="primary" className="mr-3">
+					Sign Up
+				</Button>
+			</Link>
 		</Navbar>
 	);
 }
