@@ -12,16 +12,16 @@ function Home() {
 		let ampm = "am";
 		if (hour >= 12) {
 			ampm = "pm";
-			hour -= (hour === 12) ? 0: 12;
+			hour -= hour === 12 ? 0 : 12;
 		} else if (hour === 0) {
 			hour = 12;
 		}
 
 		return {
-			"hour": hour,
-			"ampm": ampm
-		}
-	}
+			hour: hour,
+			ampm: ampm,
+		};
+	};
 
 	const getWebinarsQuery = async () => {
 		let data = await getWebinars();
@@ -37,15 +37,15 @@ function Home() {
 			const day = data[i].date.substring(8, 10);
 			data[i].date = `${month}/${day}/${year}`;
 
-			data[i].startTime = "12:02:00"
-
 			const startTime = parseInt(data[i].startTime.substring(0, 2));
 			const startHour = convertHour(startTime);
-			data[i].startTime = startHour.hour + data[i].startTime.substring(2, 5) + startHour.ampm;
+			data[i].startTime =
+				startHour.hour + data[i].startTime.substring(2, 5) + startHour.ampm;
 
 			const endTime = parseInt(data[i].endTime.substring(0, 2));
 			const endHour = convertHour(endTime);
-			data[i].endTime = endHour.hour + data[i].endTime.substring(2, 5) + endHour.ampm;
+			data[i].endTime =
+				endHour.hour + data[i].endTime.substring(2, 5) + endHour.ampm;
 		}
 		console.log(data);
 		setWebinars(data);

@@ -29,7 +29,7 @@ function Header() {
 			temp[subtopic.topicID] = true;
 		});
 		setValues(temp);
-	}
+	};
 
 	const getSubtopicsQuery = () => {
 		getSubtopics().then(function (st) {
@@ -48,7 +48,9 @@ function Header() {
 
 	return (
 		<Navbar bg="light" expand="lg">
-			<Navbar.Brand as={Link} to="/">Teach It</Navbar.Brand>
+			<Navbar.Brand as={Link} to="/">
+				Teach It
+			</Navbar.Brand>
 			<Navbar.Toggle aria-controls="basic-navbar-nav" />
 			<Navbar.Collapse id="basic-navbar-nav">
 				<Nav className="mr">
@@ -57,7 +59,6 @@ function Header() {
 						id="collasible-nav-dropdown"
 						className="mr-3"
 					>
-
 						{topics.map((topic, i, array) => {
 							if (topic.id in values) {
 								return (
@@ -76,7 +77,11 @@ function Header() {
 									</DropdownSubmenu>
 								);
 							} else {
-								return (<NavDropdown.Item title={topic.name}>{topic.name}</NavDropdown.Item>);
+								return (
+									<NavDropdown.Item key={i} title={topic.name}>
+										{topic.name}
+									</NavDropdown.Item>
+								);
 							}
 						})}
 					</NavDropdownMenu>
