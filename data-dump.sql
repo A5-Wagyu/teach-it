@@ -75,7 +75,7 @@ INSERT INTO `Users` (`name`, `email`, `password`)
 VALUES ('admin', 'admin@gmail.com', 'password'),
     ('Quan', 'quan@gmail.com', '1232456'),
     ('Josiah', 'jmetz@gmail.com', 'aaaaabbbb'),
-	 ('Arthur','arthur@gmail.com','123456');
+	 ('Arthur','arthur@gmail.com', '123456');
 -- dumbping Roles
 INSERT INTO `Roles` (`name`)
 VALUES ('host'),
@@ -318,7 +318,7 @@ INSERT INTO `Webinars` (
     )
 VALUES (
         'How to design a relational database',
-        2020 -12 -17,
+        '2020-12-17',
         '14:00:00',
         '15:00:00',
         (
