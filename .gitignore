@@ -5,6 +5,7 @@ npm-debug.log
 # Local development
 *.env
 *.dev
+*.rest
 .DS_Store
 package-lock.json
 .vscode
@@ -13,3 +14,5 @@ package-lock.json
 # Docker
 Dockerfile
 docker-compose.yml
+
+.vscode
