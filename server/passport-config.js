@@ -5,7 +5,7 @@ const mysql = require("./db-config");
 require("dotenv").config({ path: "../.env" });
 mysql.pool.query = util.promisify(mysql.pool.query);
 
-function initialize(passport, getUserByEmail) {
+function initialize(passport) {
 
   // authenticate user on log in
   const authenticateUser = async (email, password, done) => {
@@ -31,13 +31,13 @@ function initialize(passport, getUserByEmail) {
 
   }
 
-  passport.use(new LocalStrategy({ usernameField: 'email' }), authenticateUser);
-  passport.serializeUser((user, done) => done(null, user, id));
+  passport.use(new LocalStrategy({ usernameField: 'email' }, authenticateUser));
+  passport.serializeUser((user, done) => done(null, user.id));
   passport.deserializeUser(async (id, done) => {
     try {
       res = await mysql.pool.query('SELECT * FROM Users WHERE id = ?', [id]);
     } catch (err) { return done(err) }
-    done(res[0]);
+    return done(null, res[0]);
 
   });
 }
