@@ -18,8 +18,13 @@ function Header() {
 	const [subtopics, setSubtopics] = useState([]);
 	const [values, setValues] = useState({});
 
-	const search = () => {
-		router.stateService.go("search", {});
+	const onSubmit = (e) => {
+		e.preventDefault();
+		search(e.target.value);
+	}
+
+	const search = (text) => {
+		router.stateService.go("search", { searchText: text, topic: null });
 	};
 
 	const getTopicsQuery = () => {
@@ -79,10 +84,7 @@ function Header() {
 															to={{
 																pathname: "/search",
 																state: {
-																	topicID: topic.id,
-																	subtopicID: subtopic.id,
-																	topicName: topic.name,
-																	subtopicName: subtopic.name,
+																	subtopic: subtopic,
 																},
 															}}
 														>
@@ -102,7 +104,7 @@ function Header() {
 										<Link
 											to={{
 												pathname: "/search",
-												state: { topicID: topic.id, subtopicID: null },
+												state: { topic: topic },
 											}}
 										>
 											{topic.name}
@@ -114,9 +116,9 @@ function Header() {
 					</NavDropdownMenu>
 				</Nav>
 
-				<Form className="w-75" inline>
-					<FormControl className="w-50 mr-2" type="text" placeholder="Search" />
-					<Button variant="outline-success" onClick={search}>
+				<Form onSubmit={onSubmit} className="w-75" inline>
+					<FormControl onChange={onSubmit} className="w-50 mr-2" type="text" placeholder="Search" />
+					<Button variant="outline-success" onClick={onSubmit}>
 						Search
 					</Button>
 				</Form>

@@ -63,6 +63,18 @@ router.post("/getWebinarsByTitle", async (req, res) => {
 	}
 });
 
+router.post("/getWebinarsByTitleContains", async (req, res) => {
+	const title = req.body.title;
+	const sql = `SELECT * FROM \`Webinars\` WHERE \`title\` LIKE '%${title}%'`;
+
+	try {
+		let results = await mysql.pool.query(sql);
+		res.send(results);
+	} catch (err) {
+		throw err;
+	}
+});
+
 router.post("/getWebinarsByDate", async (req, res) => {
 	const date = req.body.date;
 	const sql = `SELECT * FROM \`Webinars\` WHERE \`date\`='${date}'`;

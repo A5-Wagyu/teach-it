@@ -30,7 +30,6 @@ function App() {
 						<Route path="/createwebinar" component={CreateWebinar}></Route>
 						<Route path="/mylearning" component={MyLearning}></Route>
 						<Route path="/myteaching" component={MyTeaching}></Route>
-						<Route path="/search" component={Search}></Route>
 						<Route path="/" exact component={Home}></Route>
 					</Switch>
 				</AuthProvider>

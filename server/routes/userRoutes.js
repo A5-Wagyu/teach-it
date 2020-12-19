@@ -21,7 +21,9 @@ const session_key = "This is my very ultra secret key";
 
 router.post("/getHostByWebinarID", async (req, res) => {
 	const webinarID = req.body.webinarID;
-	const sql = `SELECT \`name\` FROM \`Users\` WHERE \`id\`=(SELECT \`userID\` FROM \`UserRoleWebinarAssociations\` WHERE \`webinarID\`='${webinarID}')`;
+	const sql = `SELECT * FROM \`Users\` `
+	+ `WHERE \`id\`=(SELECT \`userID\` FROM \`UserRoleWebinarAssociations\` WHERE \`webinarID\`='${webinarID}' ` 
+	+ `AND \`roleID\`=(SELECT \`id\` FROM \`Roles\` WHERE \`name\`='host'))`;
 
 	try {
 		let results = await mysql.pool.query(sql);
