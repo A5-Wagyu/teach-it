@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { WebinarInfoCard } from "../components/WebinarInfoCard";
-import { getWebinarsByTopic, getWebinarsBySubtopic } from "../services/webinarService";
-import { getHostbyWebinarID } from "../services/userService";
+import {
+	getWebinarsByTopic,
+	getWebinarsBySubtopic,
+} from "../services/webinarService";
+import { getHostByWebinarID } from "../services/userService";
 
 const Search = (props) => {
 	const [webinars, setWebinars] = useState([]);
@@ -21,7 +24,7 @@ const Search = (props) => {
 			ampm: ampm,
 		};
 	};
-	console.log(props.history.location.state.topicID)
+	console.log(props.history.location.state.topicID);
 	const getWebinarsByTopicQuery = async () => {
 		let data;
 		const topicID = props.history.location.state.topicID;
@@ -31,16 +34,13 @@ const Search = (props) => {
 
 		if (subtopicID == null) {
 			data = await getWebinarsByTopic({ topicID });
-		}
-		else {
+		} else {
 			data = await getWebinarsBySubtopic({ subtopicID });
 		}
 
-
 		data = data.data;
 		for (let i = 0; i < data.length; i++) {
-
-			let host = await getHostbyWebinarID({ id: data[i].id });
+			let host = await getHostByWebinarID({ id: data[i].id });
 			data[i].topic = topic;
 			data[i].host = host;
 
@@ -88,6 +88,6 @@ const Search = (props) => {
 			</Container>
 		</Container>
 	);
-}
+};
 
 export default Search;

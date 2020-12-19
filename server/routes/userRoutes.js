@@ -5,31 +5,30 @@ const mysql = require("../db-config");
 require("dotenv").config({ path: "../../.env" });
 mysql.pool.query = util.promisify(mysql.pool.query);
 // for authentication
-const session = require('express-session');
-const flash = require('express-flash');
-const bcrypt = require('bcrypt');
+const session = require("express-session");
+const flash = require("express-flash");
+const bcrypt = require("bcrypt");
 const saltRounds = 10;
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const cors = require("cors");
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 // const initializePassport = require("./passport-config");
-const passport = require('passport');
-const initializePassport = require('../passport-config');
-
+const passport = require("passport");
+const initializePassport = require("../passport-config");
 
 //// need to change in production
-const session_key = 'This is my very ultra secret key';
+const session_key = "This is my very ultra secret key";
 
-router.post("/getHostbyWebinarID", async (req, res) => {
-  const id = req.body.id;
-  const sql = `SELECT \`name\` FROM \`Users\` WHERE \`id\`=(SELECT \`userID\` FROM \`UserRoleWebinarAssociations\` WHERE \`id\`='${id}');`;
+router.post("/getHostByWebinarID", async (req, res) => {
+	const webinarID = req.body.webinarID;
+	const sql = `SELECT \`name\` FROM \`Users\` WHERE \`id\`=(SELECT \`userID\` FROM \`UserRoleWebinarAssociations\` WHERE \`webinarID\`='${webinarID}')`;
 
-  try {
-    let results = await mysql.pool.query(sql);
-    res.send(results);
-  } catch (err) {
-    throw err;
-  }
+	try {
+		let results = await mysql.pool.query(sql);
+		res.send(results);
+	} catch (err) {
+		throw err;
+	}
 });
 
 // initializePassport(passport, async email => {
@@ -40,7 +39,6 @@ router.post("/getHostbyWebinarID", async (req, res) => {
 //   } catch (err) { throw err; }
 //   return userInfo;
 // })
-
 
 // router.use(express.json());
 // // create a cookie session
@@ -59,7 +57,6 @@ router.post("/getHostbyWebinarID", async (req, res) => {
 // route.use(passport.initialize());
 // route.use(passport.session());
 
-
 // // function to verify JWT token
 // const verifyJWT = (req, res, next) => {
 //   const token = req.headers["x-access-token"];
@@ -77,7 +74,6 @@ router.post("/getHostbyWebinarID", async (req, res) => {
 //     })
 //   }
 // }
-
 
 // // serve POST sign up page
 // router.post('/signup', async (req, res) => {
@@ -155,7 +151,5 @@ router.post("/getHostbyWebinarID", async (req, res) => {
 //     throw err;
 //   }
 // })
-
-
 
 module.exports = router;
