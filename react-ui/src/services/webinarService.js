@@ -38,6 +38,8 @@ export const createWebinar = async ({
 	isComplete,
 	topicID,
 	subTopicID,
+	userID,
+	webinarID,
 }) => {
 	const url = "/createWebinar";
 	let results = await Axios.post(url, {
@@ -54,6 +56,8 @@ export const createWebinar = async ({
 		isComplete: isComplete,
 		topicID: topicID,
 		subTopicID: subTopicID,
+		userID: userID,
+		webinarID: webinarID,
 	});
 	return results;
 };
