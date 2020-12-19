@@ -6,32 +6,6 @@ export const getWebinars = async () => {
 	return results;
 };
 
-export const createWebinar = async ({
-	title,
-	description,
-	topic,
-	topicID,
-	attendantLearn,
-	attendantTool,
-	startTime,
-	endTime,
-	zoomLink,
-	zoomPassword,
-}) => {
-	const url = "/createWebinar";
-	let results = await Axios.post(url, {
-		title: title,
-		description: description,
-		topic: topic,
-		topicID: topicID,
-		attendantLearn: attendantLearn,
-		attendantTool: attendantTool,
-		startTime: startTime,
-		endTime: endTime,
-		zoomLink: zoomLink,
-		zoomPassword: zoomPassword,
-	})};
-
 export const getWebinarsByTopic = async ({ topicID }) => {
 	const url = "/getWebinarsByTopicId";
 	let results = await Axios.post(url, { topicID: topicID });
@@ -41,5 +15,39 @@ export const getWebinarsByTopic = async ({ topicID }) => {
 export const getWebinarsBySubtopic = async ({ subtopicID }) => {
 	const url = "/getWebinarsBySubtopicId";
 	let results = await Axios.post(url, { subTopicID: subtopicID });
+	return results;
+};
+
+export const createWebinar = async ({
+	title,
+	date,
+	startTime,
+	endTime,
+	description,
+	learn,
+	know,
+	need,
+	zoomLink,
+	zoomPasscode,
+	isComplete,
+	topicID,
+	subTopicID,
+}) => {
+	const url = "/createWebinar";
+	let results = await Axios.post(url, {
+		title: title,
+		date: date,
+		startTime: startTime,
+		endTime: endTime,
+		description: description,
+		learn: learn,
+		know: know,
+		need: need,
+		zoomLink: zoomLink,
+		zoomPasscode,
+		isComplete: isComplete,
+		topicID: topicID,
+		subTopicID: subTopicID,
+	});
 	return results;
 };
