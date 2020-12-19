@@ -25,7 +25,17 @@ function CreateWebinar() {
 	});
 
 	const onChange = (event) => {
-		setValues({ ...values, [event.target.name]: event.target.value });
+    setValues({ ...values, [event.target.name]: event.target.value });
+  };
+  
+  const onTopicChange = (event) => {
+    let currentId = 0;
+    topics.map(topic => {
+      if (topic.name === event.target.value) {
+        currentId = topic.id;
+      }
+    })
+    setValues({ ...values, [event.target.name]: event.target.value, topicID: currentId});
 	};
 
 	// What to do for onSubmit?
@@ -65,8 +75,8 @@ function CreateWebinar() {
 		getTopicsQuery();
 		getSubtopicsQuery();
 	}, []);
-	console.log(topics);
-	console.log(values);
+
+  
 	return (
 		<div>
 			<Container className="mt-5 w-50">
@@ -98,14 +108,7 @@ function CreateWebinar() {
 							name="topic"
 							as="select"
 							defaultValue=""
-							// onChange={onChange}
-							onChange={(event) => {
-								setValues({
-									...values,
-									[event.target.name]: event.target.value,
-								});
-								console.log(event.target);
-							}}
+							onChange={onTopicChange}
 						>
 							<option value="">Select a Topic</option>
 							{topics.map((topic) => {
@@ -126,7 +129,7 @@ function CreateWebinar() {
 									name="startTime"
 									value={values.startTime}
 									type="time"
-									onChange={onChange}
+									onChange={(onChange)}
 								/>
 							</Col>
 							<Col>
