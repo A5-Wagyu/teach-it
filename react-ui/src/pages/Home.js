@@ -98,6 +98,7 @@ function Home() {
         title={webinar.title}
         description={webinar.description}
         // host={webinar.host}
+        host="admin"
         startTime={webinar.startTime}
         endTime={webinar.endTime}
         learn={webinar.learn}
