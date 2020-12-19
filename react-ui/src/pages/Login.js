@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import { Button, Container, Alert } from "react-bootstrap";
-import { submitLogin } from "../services/authService";
 import { useAuth } from "../contexts/authContext";
 import Axios from 'axios';
 

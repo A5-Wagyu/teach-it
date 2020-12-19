@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { submitLogin, submitSignup } from "../services/authService";
+import Axios from "axios";
 
 const AuthContext = React.createContext();
 
@@ -11,27 +11,45 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
 
-  const [currentUser, setCurrentUser] = useState()
+  const [currentUserID, setCurrentUserID] = useState()
+  const [currentUserName, setCurrentUserName] = useState('')
 
-  function signup({ name, email, password }) {
-    return submitSignup({
-      email: email,
-      password: password,
-      name: name
-    })
+  const signup = async ({ name, email, password }) => {
+    const url = '/signup';
+    let res;
+    try {
+      res = await Axios.post(url, {
+        name: name,
+        email: email,
+        password: password
+      });
+    } catch (err) { throw err }
+    return res.data
   }
 
-  function login({ email, password }) {
-    return submitLogin({
-      email: email,
-      password: password
-    })
+  const login = async ({ email, password }) => {
+    const url = '/login';
+    let res;
+    try {
+      res = await Axios.post(url, {
+        email: email,
+        password: password
+      });
+    } catch (err) { throw err }
+    setCurrentUserID(res.data.userID);
+    setCurrentUserName(res.data.userName);
+    return res.data
   }
+
+  const logout = () => Axios.get('url');
+
 
   const value = {
-    currentUser,
+    currentUserID,
+    currentUserName,
     signup,
-    login
+    login,
+    logout
   }
 
   return (
