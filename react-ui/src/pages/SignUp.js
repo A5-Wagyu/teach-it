@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 // import { Redirect } from "react-router";
 import Form from "react-bootstrap/Form";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Axios from 'axios';
+import { useAuth } from "../contexts/authContext";
 
 export default function Login(props) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [name, setName] = useState("");
-	const [emailError, setEmailError] = useState("");
+	const [error, setError] = useState("");
 	const [passwordError, setPasswordError] = useState("");
+	const [loading, setLoading] = useState(false);
+	const { signup } = useAuth();
 
 	// console.log(localStorage.getItem("token"));
 
@@ -22,18 +25,20 @@ export default function Login(props) {
 		event.preventDefault();
 
 		// clear error messages
-		setEmailError("");
+		setError("");
 		setPasswordError("");
 		// TODO: Verify password before post
-
-		const res = await Axios.post('http://localhost:5000/signup', {
+		setLoading(true);
+		const res = await signup({
 			email: email,
 			password: password,
 			name: name
-		});
+		})
+		setLoading(false);
+
 		// if there's an error
-		if (res.data.error) {
-			setEmailError(res.data.error);
+		if (res.error) {
+			setError(res.error);
 		} else {
 			props.history.push("/login");
 		}
@@ -41,6 +46,9 @@ export default function Login(props) {
 
 	return (
 		<Container className="Login w-50">
+			<h1 className="mt-5">Sign up</h1>
+			{ error && <Alert variant="danger" className="mt-3">{error}</Alert>}
+
 			{/* <h1>{window.reactApp.user}</h1> */}
 			<Form onSubmit={handleSubmit}>
 				<Form.Group className="mt-5" size="lg" controlId="name">
@@ -59,7 +67,6 @@ export default function Login(props) {
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 					/>
-					{emailError != "" && <h4>{emailError}</h4>}
 				</Form.Group>
 				<Form.Group size="lg" controlId="password">
 					<Form.Label>Password</Form.Label>
@@ -69,10 +76,11 @@ export default function Login(props) {
 						onChange={(e) => setPassword(e.target.value)}
 					/>
 				</Form.Group>
-				<Button block size="lg" type="submit" variant="danger" disabled={!validateForm()}>
+				<Button disabled={loading} block size="lg" type="submit" variant="danger" disabled={!validateForm()}>
 					Sign Up
 				</Button>
 			</Form>
+
 			<p className="mt-4">By signing up, you agree to our Terms of Use and Privacy Policy</p>
 			<hr />
 			<p className="mt-4">Already have an account?  <Link to="/login">Log In</Link></p>

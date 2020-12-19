@@ -1,27 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Alert } from "react-bootstrap";
+import { submitLogin } from "../services/authService";
+import { useAuth } from "../contexts/authContext";
 import Axios from 'axios';
 
 export default function Login(props) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [loginName, setLoginName] = useState("");
-	const [loginStatus, setLoginStatus] = useState(false);
 	const [error, setError] = useState("");
+	const { login } = useAuth();
 
 	Axios.defaults.withCredentials = true;
-	useEffect(() => {
-		const getLoginRes = async () => {
-
-			const res = await Axios.get("http://localhost:5000/login");
-			if (res.data.loggedIn) {
-				setLoginName(res.data.user.name);
-				// console.log("result: ", res.data.user.name);
-			}
-		}
-		getLoginRes();
-	}, [])
 
 	function validateForm() {
 		return email.length > 0 && password.length > 0;
@@ -29,20 +19,12 @@ export default function Login(props) {
 
 	async function handleSubmit(event) {
 		event.preventDefault();
-		const res = await Axios.post('http://localhost:5000/login', {
-			email: email,
-			password: password,
-		});
+		const res = await login({ email, password })
 		console.log(res);
-		if (!res.data.auth) {
-			setLoginStatus(false);
-		} else {
-			setLoginStatus(true);
-			// localStorage.setItem("token", res.data.token);
-		}
+
 		// if there's an error
-		if (res.data.error) {
-			setError(res.data.error);
+		if (res.error) {
+			setError(res.error);
 		} else {
 			props.history.push("/");
 		}
@@ -50,7 +32,8 @@ export default function Login(props) {
 
 	return (
 		<Container className="Login w-50">
-			<h3>Weclome back, {loginName}</h3>
+			<h1 className="mt-5">Log in</h1>
+
 			<Form onSubmit={handleSubmit}>
 				<Form.Group className="mt-5" size="lg" controlId="email">
 					<Form.Label>Email</Form.Label>
@@ -73,6 +56,7 @@ export default function Login(props) {
 					Login
 				</Button>
 			</Form>
-		</Container>
+			{ error && <Alert variant="danger" className="mt-3">{error}</Alert>}
+		</Container >
 	);
 }
