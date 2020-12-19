@@ -2,13 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { WebinarInfoCard } from "../components/WebinarInfoCard";
 import { getWebinarsByTopic, getWebinarsBySubtopic } from "../services/webinarService";
-import { getTopicById } from "../services/topicService";
 import { getHostbyWebinarID } from "../services/userService";
-import { getSubtopicById } from "../services/subtopicService";
 
 const Search = (props) => {
-  const [topicID, setTopicID] = useState(props.history.location.state.topicID);
-  const [subtopicID, setSubtopicID] = useState(props.history.location.state.subtopicID);
 	const [webinars, setWebinars] = useState([]);
 
 	const convertHour = (hour) => {
@@ -25,26 +21,25 @@ const Search = (props) => {
 			ampm: ampm,
 		};
 	};
-
+	console.log(props.history.location.state.topicID)
 	const getWebinarsByTopicQuery = async () => {
-    let data;
-    if(subtopicID == null) {
-      data = await getWebinarsByTopic({ topicID });
-    }
-    else {
-      data = await getWebinarsBySubtopic({ subtopicID });
-    }
-		
+		let data;
+		const topicID = props.history.location.state.topicID;
+		const subtopicID = props.history.location.state.subtopicID;
+		const topic = props.history.location.state.topicName;
+		const subtopic = props.history.location.state.subtopicName;
+
+		if (subtopicID == null) {
+			data = await getWebinarsByTopic({ topicID });
+		}
+		else {
+			data = await getWebinarsBySubtopic({ subtopicID });
+		}
+
+
 		data = data.data;
 		for (let i = 0; i < data.length; i++) {
-      let topic;
-      if(subtopicID == null) {
-        topic = await getTopicById({ id: topicID });
-      }
-      else {
-        topic = await getSubtopicById({ id: subtopicID });
-      }
-       
+
 			let host = await getHostbyWebinarID({ id: data[i].id });
 			data[i].topic = topic;
 			data[i].host = host;
@@ -68,9 +63,9 @@ const Search = (props) => {
 		setWebinars(data);
 	};
 
-	useEffect(() => { 
+	useEffect(() => {
 		getWebinarsByTopicQuery();
-	}, []);
+	}, [props.history.location.key]);
 
 	return (
 		<Container>
