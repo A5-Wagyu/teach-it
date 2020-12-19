@@ -18,6 +18,7 @@ function Header() {
 	const [subtopics, setSubtopics] = useState([]);
 	const [values, setValues] = useState({});
 	const { currentUserID, currentUserName } = useAuth();
+
 	const getTopicsQuery = () => {
 		getTopics().then(function (t) {
 			setTopics(t.data);
