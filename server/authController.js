@@ -17,22 +17,22 @@ const createToken = (id) => {
 
 
 
-module.exports.signup_get = (req, res) => {
-  // if (req.session.user) {
-  //   res.send({
-  //     loggedIn: true,
-  //     user: req.session.user
-  //   })
-  // } else {
-  //   res.send({
-  //     loggedIn: false
-  //   })
-  // }
-  res.send("Sign up page");
-}
-module.exports.login_get = (req, res) => {
-  res.send('login page');
-}
+// module.exports.signup_get = (req, res) => {
+//   // if (req.session.user) {
+//   //   res.send({
+//   //     loggedIn: true,
+//   //     user: req.session.user
+//   //   })
+//   // } else {
+//   //   res.send({
+//   //     loggedIn: false
+//   //   })
+//   // }
+//   res.send("Sign up page");
+// }
+// module.exports.login_get = (req, res) => {
+//   res.send('login page');
+// }
 
 /////////////////////////////////////////
 // POST Sign Up
@@ -81,7 +81,7 @@ module.exports.login_post = async (req, res) => {
   // if email is not correct
   if (userInfo.length == 0) {
     res.status(201).json({
-      auth: false,
+      isLoggedIn: false,
       error: "email or password is incorrect"
     })
   } else {
@@ -102,7 +102,7 @@ module.exports.login_post = async (req, res) => {
 
         // req.session.user = userInfo[0];
         res.status(201).json({
-          // auth: true,
+          isLoggedIn: true,
           token: token,
           userID: userInfo[0].id,
           userName: userInfo[0].name
@@ -110,7 +110,7 @@ module.exports.login_post = async (req, res) => {
       } else {
         // if password not correct
         res.json({
-          auth: false,
+          isLoggedIn: false,
           error: "email or password is incorrect"
         })
       }
@@ -121,14 +121,13 @@ module.exports.login_post = async (req, res) => {
 }
 
 ///////////////////
-// GET log out
-module.exports.logout_get = (req, res) => {
+// POST log out
+module.exports.logout_post = (req, res) => {
   console.log("serving log out");
   res.cookie('jwt', '', { maxAge: 1 });
   res.json({
-    // auth: false,
+    isLoggedIn: false,
     userID: '',
     userName: ''
   })
-  res.redirect('/');
 }

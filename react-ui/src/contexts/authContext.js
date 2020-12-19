@@ -11,8 +11,9 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
 
-  const [currentUserID, setCurrentUserID] = useState()
-  const [currentUserName, setCurrentUserName] = useState('')
+  const [currentUserID, setCurrentUserID] = useState();
+  const [currentUserName, setCurrentUserName] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const signup = async ({ name, email, password }) => {
     const url = '/signup';
@@ -38,15 +39,21 @@ export function AuthProvider({ children }) {
     } catch (err) { throw err }
     setCurrentUserID(res.data.userID);
     setCurrentUserName(res.data.userName);
+    setIsLoggedIn(res.data.isLoggedIn);
     return res.data
   }
 
-  const logout = () => Axios.get('url');
+  const logout = async () => {
+    const res = await Axios.post('url');
+    setIsLoggedIn(res.data.isLoggedIn);
+  }
+
 
 
   const value = {
     currentUserID,
     currentUserName,
+    isLoggedIn,
     signup,
     login,
     logout
