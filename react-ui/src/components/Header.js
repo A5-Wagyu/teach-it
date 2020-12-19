@@ -17,7 +17,7 @@ function Header() {
 	const [topics, setTopics] = useState([]);
 	const [subtopics, setSubtopics] = useState([]);
 	const [values, setValues] = useState({});
-	const { currentUserID, currentUserName } = useAuth();
+	const { currentUserID, currentUserName, isLoggedIn } = useAuth();
 
 	const getTopicsQuery = () => {
 		getTopics().then(function (t) {
@@ -101,29 +101,42 @@ function Header() {
 					<Button variant="outline-success">Search</Button>
 				</Form>
 			</Navbar.Collapse>
-			{currentUserID && <p> Welcome back, {currentUserName}</p>}
-			<Nav.Item>
-				<Nav.Link href="/mylearning">My Learning</Nav.Link>
-			</Nav.Item>
-			<Nav.Item>
-				<Nav.Link href="/myteaching">My Teaching</Nav.Link>
-			</Nav.Item>
+			{isLoggedIn &&
 
-			<Link to="/login">
-				<Button variant="outline-info" className="mr-3">
-					Log In
+				<div className="loggedIn d-flex align-items-center">
+					<p className="mb-0"> Welcome back, {currentUserName}</p>
+					<Nav.Item>
+						<Nav.Link href="/mylearning">My Learning</Nav.Link>
+					</Nav.Item>
+					<Nav.Item>
+						<Nav.Link href="/myteaching">My Teaching</Nav.Link>
+					</Nav.Item>
+					<Link to="/createwebinar">
+						<Button variant="outline-info" className="mr-3">
+							Create Webinar
         </Button>
-			</Link>
-			<Link to="/signup">
-				<Button variant="info" className="mr-3">
-					Sign Up
+					</Link>
+					<Link to="/logout">
+						<Button variant="info" className="mr-3">
+							Log Out
         </Button>
-			</Link>
-			<Link to="/logout">
-				<Button variant="info" className="mr-3">
-					Log Out
+					</Link>
+				</div>
+			}
+			{!isLoggedIn &&
+				<div className="notLoggedIn">
+					<Link to="/login">
+						<Button variant="outline-info" className="mr-3">
+							Log In
         </Button>
-			</Link>
+					</Link>
+					<Link to="/signup">
+						<Button variant="info" className="mr-3">
+							Sign Up
+        </Button>
+					</Link>
+				</div>
+			}
 		</Navbar>
 	);
 }
