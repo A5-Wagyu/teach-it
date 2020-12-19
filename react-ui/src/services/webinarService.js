@@ -31,5 +31,14 @@ export const createWebinar = async ({
 		zoomLink: zoomLink,
 		zoomPassword: zoomPassword,
 	});
+export const getWebinarsByTopic = async ({ topicID }) => {
+	const url = "/getWebinarsByTopicId";
+	let results = await Axios.post(url, { topicID: topicID });
+	return results;
+};
+
+export const getWebinarsBySubtopic = async ({ subtopicID }) => {
+	const url = "/getWebinarsBySubtopicId";
+	let results = await Axios.post(url, { subTopicID: subtopicID });
 	return results;
 };
