@@ -25,8 +25,8 @@ function CreateWebinar(props) {
   const [values, setValues] = useState({
     title: "",
     date: "",
-    startTime: "",
-    endTime: "",
+    startTime: "00:00:00",
+    endTime: "00:00:00",
     description: "",
     learn: "",
     know: "",
@@ -143,6 +143,9 @@ function CreateWebinar(props) {
   // What to do for onSubmit?
   const onSubmit = (event) => {
     console.log(values);
+    console.log(values.subTopicID);
+    console.log(values.subTopicID == "");
+    console.log(values.subTopicID == undefined);
     if (
       !(values.topicID in hasSubtopics) &&
       (values.title === "" ||
@@ -167,8 +170,7 @@ function CreateWebinar(props) {
       values.know === "" ||
       values.need === "" ||
       values.topicID === "" ||
-      values.subtopicID === "" ||
-      values.subtopicID === undefined ||
+      values.subTopicID === "" ||
       values.zoomLink === ""
     ) {
       alert("Please fill in all the required field");
