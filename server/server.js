@@ -52,7 +52,7 @@ app.get('/test', requireAuth, (req, res) => {
 // check authorization of current user for all get requests
 // app.get('*', checkUser);
 app.use(authRoutes);
-// app.use(userRoutes);
+app.use(userRoutes);
 app.use(topicRoutes);
 app.use(subtopicsRoutes);
 app.use(webinarRoutes);
