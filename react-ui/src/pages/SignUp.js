@@ -17,7 +17,7 @@ export default function Login(props) {
 	function validateForm() {
 		return name.length > 0 && email.length > 0 && password.length > 0;
 	}
-
+	console.log(window);
 	async function handleSubmit(event) {
 		event.preventDefault();
 
@@ -41,6 +41,7 @@ export default function Login(props) {
 
 	return (
 		<Container className="Login w-50">
+			{/* <h1>{window.reactApp.user}</h1> */}
 			<Form onSubmit={handleSubmit}>
 				<Form.Group className="mt-5" size="lg" controlId="name">
 					<Form.Label>Full Name</Form.Label>

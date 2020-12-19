@@ -15,6 +15,8 @@ const createToken = (id) => {
   })
 }
 
+
+
 module.exports.signup_get = (req, res) => {
   // if (req.session.user) {
   //   res.send({
@@ -44,23 +46,22 @@ module.exports.signup_post = async (req, res) => {
   } catch (err) {
     throw err;
   }
-  console.log(checkEmailRes);
   // if email already exists
   if (checkEmailRes.length > 0) {
     res.status(201).json({ error: "This email is not available" });
+  } else {
+    const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+    const query = `INSERT INTO Users (name, email, password) VALUES ` +
+      `('${name}', '${email}', '${hashedPassword}')`;
+    try {
+      // insert user to db
+      const result = await mysql.pool.query(query);
+      console.log(result);
+    } catch (err) {
+      console.log(err.message);
+    }
+    res.status(201).send("Insert done");
   }
-
-  const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
-  const query = `INSERT INTO Users (name, email, password) VALUES ` +
-    `('${name}', '${email}', '${hashedPassword}')`;
-  try {
-    // insert user to db
-    const result = await mysql.pool.query(query);
-    console.log(result);
-  } catch (err) {
-    throw err;
-  }
-  res.status(201).send("Insert done");
 }
 
 ///////////////////////////////////////////
@@ -79,39 +80,50 @@ module.exports.login_post = async (req, res) => {
   }
   // if email is not correct
   if (userInfo.length == 0) {
-    res.json({
+    res.status(201).json({
       auth: false,
-      message: "email or password is incorrect"
+      error: "email or password is incorrect"
     })
-  }
-  // if found email, check password
-  try {
-    const passwordMatch = await bcrypt.compare(password, userInfo[0].password);
-    if (passwordMatch) {
+  } else {
 
-      // if found password, log user in
-      const id = userInfo[0].id;
-      const token = createToken(id);
+    // if found email, check password
+    try {
+      const passwordMatch = await bcrypt.compare(password, userInfo[0].password);
+      if (passwordMatch) {
 
-      res.cookie('jwt', token, {
-        httpOnly: true,
-        maxAge: maxAge * 1000
-      });
+        // if found password, log user in
+        const id = userInfo[0].id;
+        const token = createToken(id);
 
-      // req.session.user = userInfo[0];
-      res.status(201).json({
-        // auth: true,
-        token: token,
-        userID: userInfo[0].id
-      })
-    } else {
-      // if password not correct
-      res.json({
-        auth: false,
-        message: "email or password is incorrect"
-      })
+        res.cookie('jwt', token, {
+          httpOnly: true,
+          maxAge: maxAge * 1000
+        });
+
+        // req.session.user = userInfo[0];
+        res.status(201).json({
+          // auth: true,
+          token: token,
+          userID: userInfo[0].id
+        })
+      } else {
+        // if password not correct
+        res.json({
+          auth: false,
+          error: "email or password is incorrect"
+        })
+      }
+    } catch (err) {
+      throw err;
     }
-  } catch (err) {
-    throw err;
   }
+}
+
+///////////////////
+// GET log out
+module.exports.logout_get = async (req, res) => {
+  console.log("serving log out");
+  res.cookie('jwt', '', { maxAge: 1 });
+  res.send("Logging you out");
+  res.redirect('/');
 }

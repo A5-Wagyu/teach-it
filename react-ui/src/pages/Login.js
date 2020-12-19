@@ -3,11 +3,12 @@ import Form from "react-bootstrap/Form";
 import { Button, Container } from "react-bootstrap";
 import Axios from 'axios';
 
-export default function Login() {
+export default function Login(props) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [loginName, setLoginName] = useState("");
 	const [loginStatus, setLoginStatus] = useState(false);
+	const [error, setError] = useState("");
 
 	Axios.defaults.withCredentials = true;
 	useEffect(() => {
@@ -32,13 +33,19 @@ export default function Login() {
 			email: email,
 			password: password,
 		});
+		console.log(res);
 		if (!res.data.auth) {
 			setLoginStatus(false);
 		} else {
 			setLoginStatus(true);
-			localStorage.setItem("token", res.data.token);
+			// localStorage.setItem("token", res.data.token);
 		}
-		console.log(res);
+		// if there's an error
+		if (res.data.error) {
+			setError(res.data.error);
+		} else {
+			props.history.push("/");
+		}
 	}
 
 	return (

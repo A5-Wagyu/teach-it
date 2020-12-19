@@ -16,6 +16,8 @@ const topicRoutes = require("./routes/topicRoutes");
 const subtopicsRoutes = require("./routes/subtopicRoutes");
 const webinarRoutes = require("./routes/webinarRoutes");
 
+const { requireAuth, checkUser } = require('./authMiddleware');
+
 console.log("Testing Connection");
 mysql.pool.query("SELECT 1 + 1 AS solution", function (error, results, fields) {
 	if (error) throw Error("Could not connect to DB!");
@@ -40,8 +42,15 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// testing some routes
+app.get('/test', requireAuth, (req, res) => {
+	res.send("OK You're logged in");
+})
+
 
 // Include routes
+// check authorization of current user for all get requests
+// app.get('*', checkUser);
 app.use(authRoutes);
 // app.use(userRoutes);
 app.use(topicRoutes);

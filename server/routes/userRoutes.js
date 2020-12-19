@@ -20,6 +20,18 @@ const initializePassport = require('../passport-config');
 //// need to change in production
 const session_key = 'This is my very ultra secret key';
 
+router.post("/getHostbyWebinarID", async (req, res) => {
+  const id = req.body.id;
+  const sql = `SELECT \`name\` FROM \`Users\` WHERE \`id\`=(SELECT \`userID\` FROM \`UserRoleWebinarAssociations\` WHERE \`id\`='${id}');`;
+
+  try {
+    let results = await mysql.pool.query(sql);
+    res.send(results);
+  } catch (err) {
+    throw err;
+  }
+});
+
 // initializePassport(passport, async email => {
 //   const getEmailQuery = `SELECT * FROM Users WHERE email = '${email}'`;
 //   let userInfo;
@@ -144,16 +156,6 @@ const session_key = 'This is my very ultra secret key';
 //   }
 // })
 
-router.post("/getHostbyWebinarID", async (req, res) => {
-  const id = req.body.id;
-  const sql = `SELECT \`name\` FROM \`Users\` WHERE \`id\`=(SELECT \`userID\` FROM \`UserRoleWebinarAssociations\` WHERE \`id\`='${id}');`;
 
-  try {
-    let results = await mysql.pool.query(sql);
-    res.send(results);
-  } catch (err) {
-    throw err;
-  }
-});
 
 module.exports = router;
