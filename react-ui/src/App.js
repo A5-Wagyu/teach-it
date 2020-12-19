@@ -2,7 +2,6 @@ import React from "react";
 import "./App.css";
 import Header from "./components/Header";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
@@ -12,6 +11,7 @@ import MyTeaching from "./pages/MyTeaching";
 import Search from "./pages/Search";
 
 function App() {
+
   return (
     <div className="App">
       <Router>
