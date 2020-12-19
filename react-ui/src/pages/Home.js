@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { WebinarInfoCard } from "../components/WebinarInfoCard";
-import { getWebinars } from "../services/webinarService";
+import { getWebinars, getWebinarsById } from "../services/webinarService";
 import { getTopicById } from "../services/topicService";
 import { getHostbyWebinarID } from "../services/userService";
+import { WebinarDetail } from "../components/WebinarDetail";
 
 function Home() {
   const [webinars, setWebinars] = useState([]);
+  const [show, setShow] = useState(false);
+  const [webinar, setWebinar] = useState("");
+
+  const handleClose = () => setShow(false);
 
   const convertHour = (hour) => {
     let ampm = "am";
@@ -47,13 +52,12 @@ function Home() {
       data[i].endTime =
         endHour.hour + data[i].endTime.substring(2, 5) + endHour.ampm;
     }
-    console.log(data);
     setWebinars(data);
   };
 
   useEffect(() => {
     getWebinarsQuery();
-  }, []);
+  });
 
   return (
     <Container>
@@ -63,6 +67,7 @@ function Home() {
         {webinars.map((value, i) => {
           return (
             <WebinarInfoCard
+              name={webinars[i].id}
               key={i}
               topic={webinars[i].topic.name}
               title={webinars[i].title}
@@ -71,10 +76,36 @@ function Home() {
               date={webinars[i].date}
               startTime={webinars[i].startTime}
               endTime={webinars[i].endTime}
+              onClick={(e) => {
+                setShow(true);
+                webinars.map((value, j) => {
+                  if (value.id === webinars[i].id) {
+                    setWebinar(value);
+                  }
+                });
+              }}
             />
           );
         })}
       </Container>
+
+      <WebinarDetail
+        show={show}
+        handleClose={(e) => {
+          setShow(false);
+        }}
+        title={webinar.title}
+        description={webinar.description}
+        // host={webinar.host}
+        startTime={webinar.startTime}
+        endTime={webinar.endTime}
+        learn={webinar.learn}
+        know={webinar.know}
+        need={webinar.need}
+        date={webinar.date}
+        zoomLink={webinar.zoomLink}
+        zoomPasscode={webinar.zoomPasscode}
+      />
     </Container>
   );
 }

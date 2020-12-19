@@ -26,6 +26,21 @@
   width: 100%;
 }
 
+.modal-dialog {
+  position: absolute !important;
+  left: 40% !important;
+  top: 48% !important;
+  transform: translate(-50%, -50%) !important;
+  /* width: 150% !important;
+  justify-content: center !important; */
+}
+
+.modal-content {
+  width: 150% !important;
+  border-radius: 15px !important;
+  margin-bottom: 5% !important;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
