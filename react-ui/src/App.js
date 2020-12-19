@@ -6,32 +6,28 @@ import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import CreateWebinar from "./pages/CreateWebinar";
-import WebinarDetail from "./pages/WebinarDetail";
 import MyLearning from "./pages/MyLearning";
 import MyTeaching from "./pages/MyTeaching";
 import Search from "./pages/Search";
 
 function App() {
 
-
-	return (
-		<div className="App">
-			<Router>
-				<Header />
-				<Switch>
-					<Route exact path="/" exact component={Home}></Route>
-					<Route path="/login" component={Login}></Route>
-					<Route path="/signup" component={SignUp}></Route>
-					<Route path="/createwebinar" component={CreateWebinar}></Route>
-					<Route path="/webinardetail" component={WebinarDetail}></Route>
-					<Route path="/mylearning" component={MyLearning}></Route>
-					<Route path="/myteaching" component={MyTeaching}></Route>
-					<Route path="/search" component={Search}></Route>
-				</Switch>
-			</Router>
-		</div>
-	);
-
+  return (
+    <div className="App">
+      <Router>
+        <Header />
+        <Switch>
+          <Route path="/login" component={Login}></Route>
+          <Route path="/signup" component={SignUp}></Route>
+          <Route path="/createwebinar" component={CreateWebinar}></Route>
+          <Route path="/mylearning" component={MyLearning}></Route>
+          <Route path="/myteaching" component={MyTeaching}></Route>
+          <Route path="/search" component={Search}></Route>
+          <Route path="/" exact component={Home}></Route>
+        </Switch>
+      </Router>
+    </div>
+  );
 }
 
 export default App;

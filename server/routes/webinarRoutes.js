@@ -87,4 +87,29 @@ router.post("/getWebinarsByIsComplete", async (req, res) => {
 	}
 });
 
+router.post("/createWebinar", async (req, res) => {
+	const id = req.body.id;
+	const title = req.body.title;
+	const date = req.body.date;
+	const startTime = req.body.startTime;
+	const endTime = req.body.endTime;
+	const description = req.body.description;
+	const learn = req.body.learn;
+	const know = req.body.know;
+	const need = req.body.need;
+	const zoomLink = req.body.zoomLink;
+	const zoomPasscode = req.body.zoomPasscode;
+	const isComplete = req.body.isComplete;
+	const topicID = req.body.topicID;
+	const subTopicID = req.body.subTopicID;
+	let sql = `INSERT INTO \`Webinars\` (\`title\`, \`date\`, \`startTime\`, \`endTime\`, \`topicID\`, \`subTopicID\`,\`description\`,\`learn\`, \`know\`, \`need\`, \`zoomLink\`,\`zoomPasscode\`, \`isComplete\`) VALUES  ('${title}', '${date}',  '${startTime}', '${endTime}', '${topicID}', '${subTopicID}', '${description}', '${learn}', '${know}', '${need}', '${zoomLink}', '${zoomPasscode}', '${isComplete}')`;
+
+	try {
+		let results = await mysql.pool.query(sql);
+		res.send(results);
+	} catch (err) {
+		throw err;
+	}
+});
+
 module.exports = router;

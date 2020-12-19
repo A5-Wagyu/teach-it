@@ -40,4 +40,15 @@ router.post("/getTopicById", async (req, res) => {
 	}
 });
 
+router.post("/getTopicIdByName", async (req, res) => {
+	const name = req.body.name;
+	const sql = `SELECT \`id\` FROM \`Topics\` WHERE \`name\`='${name}'`;
+
+	try {
+		let results = await mysql.pool.query(sql);
+		res.send(results);
+	} catch (err) {
+		throw err;
+	}
+});
 module.exports = router;
