@@ -111,5 +111,16 @@ router.post("/createWebinar", async (req, res) => {
 		throw err;
 	}
 });
+// router.post("/getWebinarsByIsComplete", async (req, res) => {
+// 	const isComplete = req.body.isComplete;
+// 	const sql = `SELECT * FROM \`Webinars\` WHERE \`isComplete\`='${isComplete}'`;
+
+// 	try {
+// 		let results = await mysql.pool.query(sql);
+// 		res.send(results);
+// 	} catch (err) {
+// 		throw err;
+// 	}
+// });
 
 module.exports = router;

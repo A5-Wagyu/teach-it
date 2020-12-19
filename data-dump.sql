@@ -22,7 +22,7 @@ CREATE TABLE `Roles`(
 );
 CREATE TABLE `Topics`(
     `id` int NOT NULL AUTO_INCREMENT,
-    `name` varchar(255) NOT NULL,
+    `name` varchar(255) NOT NULL UNIQUE,
     PRIMARY KEY (`id`)
 );
 CREATE TABLE `Subtopics`(
@@ -335,6 +335,41 @@ VALUES (
         'N/A',
         FALSE
     );
+    
+    INSERT INTO `Webinars` (
+        `title`,
+        `date`,
+        `startTime`,
+        `endTime`,
+        `topicID`,
+        `subTopicID`,
+        `description`,
+        `learn`,
+        `know`,
+        `need`,
+        `zoomLink`,
+        `zoomPasscode`,
+        `isComplete`
+    )
+VALUES (
+        'Economic Cycle',
+        '2020-12-13',
+        '16:30:00',
+        '17:00:00',
+        (
+            SELECT `id`
+            FROM `Topics`
+            WHERE `name` = 'Business'
+        ),
+        (SELECT `id` FROM `Subtopics` WHERE `name` ='Macroeconomics'),
+        'Test',
+        'Test',
+        'N/A',
+        'Computer',
+        'zoom.us',
+        'N/A',
+        FALSE
+    );
 -- dump UserRoleWebinarAssociations  
 INSERT INTO `UserRoleWebinarAssociations` (
         `userID`,
@@ -355,6 +390,28 @@ VALUES (
         (
             SELECT `id`
             FROM `Webinars`
-            WHERE `id` = '1'
+            WHERE `id` = 1
+        )
+    	);
+INSERT INTO `UserRoleWebinarAssociations` (
+        `userID`,
+        `roleID`,
+        `webinarID`
+    )
+VALUES (
+        (
+            SELECT `id`
+            FROM `Users`
+            WHERE `name` = 'Arthur'
+        ),
+        (
+            SELECT `id`
+            FROM `Roles`
+            WHERE `name` = 'host'
+        ),
+        (
+            SELECT `id`
+            FROM `Webinars`
+            WHERE `id` = 2
         )
     	);

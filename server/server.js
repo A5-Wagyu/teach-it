@@ -7,16 +7,16 @@ const mysql = require("./db-config");
 const isDev = process.env.NODE_ENV !== "production";
 const PORT = process.env.PORT || 5000;
 const bodyParser = require("body-parser");
-const cookieParser = require('cookie-parser');
+const cookieParser = require("cookie-parser");
 
 // import routes
-const authRoutes = require('./routes/authRoutes');
+const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const topicRoutes = require("./routes/topicRoutes");
 const subtopicsRoutes = require("./routes/subtopicRoutes");
 const webinarRoutes = require("./routes/webinarRoutes");
 
-const { requireAuth, checkUser } = require('./authMiddleware');
+const { requireAuth, checkUser } = require("./authMiddleware");
 
 console.log("Testing Connection");
 mysql.pool.query("SELECT 1 + 1 AS solution", function (error, results, fields) {
@@ -32,27 +32,28 @@ mysql.pool.query("SELECT 1 + 1 AS solution", function (error, results, fields) {
 const homeUrl = "http://localhost:3000";
 
 const app = express();
-app.use(cors({
-	origin: [homeUrl],
-	methods: ["GET", "POST"],
-	credentials: true
-}));
+app.use(
+	cors({
+		origin: [homeUrl],
+		methods: ["GET", "POST"],
+		credentials: true,
+	})
+);
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // testing some routes
-app.get('/test', requireAuth, (req, res) => {
+app.get("/test", requireAuth, (req, res) => {
 	res.send("OK You're logged in");
-})
-
+});
 
 // Include routes
 // check authorization of current user for all get requests
 // app.get('*', checkUser);
 app.use(authRoutes);
-// app.use(userRoutes);
+app.use(userRoutes);
 app.use(topicRoutes);
 app.use(subtopicsRoutes);
 app.use(webinarRoutes);
@@ -90,7 +91,8 @@ if (!isDev && cluster.isMaster) {
 
 	app.listen(PORT, function () {
 		console.error(
-			`Node ${isDev ? "dev server" : "cluster worker " + process.pid
+			`Node ${
+				isDev ? "dev server" : "cluster worker " + process.pid
 			}: listening on port ${PORT}`
 		);
 	});
