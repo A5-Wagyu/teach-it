@@ -3,6 +3,10 @@ import { Form, Container, Button, Row, Col } from "react-bootstrap";
 import { getTopics } from "../services/topicService";
 import { getSubtopics } from "../services/subtopicService";
 import { getTopicIdByName } from "../services/topicService";
+import TimePicker from "react-bootstrap-time-picker";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "../App.css";
 
 function CreateWebinar() {
   const [topics, setTopics] = useState([]);
@@ -10,19 +14,26 @@ function CreateWebinar() {
   const [hasSubtopics, setHasSubtopics] = useState([]);
   const [curTopic, setCurTopic] = useState([]);
   const [sendData, setSendData] = useState([]);
+  const [startDate, setStartDate] = useState(new Date());
+  const [zoomTime, setZoomTime] = useState({
+    startTime: "",
+    endTime: "",
+  });
 
   const [values, setValues] = useState({
     title: "",
-    description: "",
-    topic: "",
-    topicID: "",
-    attendantLearn: "",
-    attendantKnow: "",
-    attendantTool: "",
+    date: "",
     startTime: "",
     endTime: "",
+    description: "",
+    learn: "",
+    know: "",
+    need: "",
     zoomLink: "",
-    zoomPassword: "",
+    zoomPasscode: "",
+    isComplete: false,
+    topicID: "",
+    subTopicID: "",
   });
 
   const sendFormCreate = () => {
@@ -41,13 +52,85 @@ function CreateWebinar() {
     });
     setValues({
       ...values,
-      [event.target.name]: event.target.value,
       topicID: currentId,
     });
   };
 
+  const onSubtopicChange = (event) => {
+    let currentId = 0;
+    subtopics.map((subtopic) => {
+      if (subtopic.name === event.target.value) {
+        currentId = subtopic.id;
+      }
+    });
+    setValues({
+      ...values,
+      subTopicID: currentId,
+    });
+  };
+
+  const onDateChange = (userDate) => {
+    let month = userDate.toString().substring(4, 7);
+    const day = userDate.toString().substring(8, 10);
+    const year = userDate.toString().substring(11, 15);
+
+    switch (month) {
+      case "Jan":
+        month = 1;
+        break;
+
+      case "Feb":
+        month = 2;
+        break;
+
+      case "Mar":
+        month = 3;
+        break;
+
+      case "Apr":
+        month = 4;
+        break;
+
+      case "May":
+        month = 5;
+        break;
+
+      case "Jun":
+        month = 6;
+        break;
+
+      case "Jul":
+        month = 7;
+        break;
+
+      case "Aug":
+        month = 8;
+        break;
+
+      case "Sep":
+        month = 9;
+        break;
+
+      case "Oct":
+        month = 10;
+        break;
+
+      case "Nov":
+        month = 11;
+        break;
+
+      case "Dec":
+        month = 12;
+        break;
+    }
+    setStartDate(userDate);
+    userDate = `${year}-${month}-${day}`;
+    setValues({ ...values, date: `${year}-${month}-${day}` });
+  };
+
   // What to do for onSubmit?
   const onSubmit = (event) => {
+    console.log(values);
     if (
       values.title ||
       values.description ||
@@ -115,16 +198,15 @@ function CreateWebinar() {
               placeholder="Title"
               onChange={onChange}
             />
-
             <Form.Label className="mt-4 h5">Description</Form.Label>
             <Form.Control
               name="description"
               as="textarea"
               rows={3}
               placeholder="Description"
+              value={values.description}
               onChange={onChange}
             />
-
             {/* Topic */}
             <Form.Label className="mt-4 h5">Topic</Form.Label>
             <Form.Control
@@ -142,7 +224,6 @@ function CreateWebinar() {
                 );
               })}
             </Form.Control>
-
             {values.topicID in hasSubtopics ? (
               <div>
                 <Form.Label className="mt-4 h5">Subtopic</Form.Label>
@@ -150,7 +231,7 @@ function CreateWebinar() {
                   name="subtopic"
                   as="select"
                   defaultValue=""
-                  onChange={onChange}
+                  onChange={onSubtopicChange}
                 >
                   <option value="">Select a Subtopic</option>
                   {subtopics.map((subtopic) => {
@@ -168,23 +249,49 @@ function CreateWebinar() {
               <></>
             )}
 
+            <Form.Label className="mt-4 h5">Start Date</Form.Label>
+            <br />
+            <DatePicker
+              className="rounded border w-50 p-2"
+              selected={startDate}
+              onChange={onDateChange}
+            />
+
             <Row>
               <Col>
                 <Form.Label className="mt-4 h5">Start Time</Form.Label>
-                <Form.Control
-                  name="startTime"
-                  value={values.startTime}
-                  type="time"
-                  onChange={onChange}
+                <TimePicker
+                  start="00:00"
+                  step={30}
+                  value={zoomTime.startTime}
+                  onChange={(value) => {
+                    setZoomTime({ ...zoomTime, startTime: value });
+                    let hour = Math.floor(value / 3600);
+                    if (hour < 10) hour = `0${hour}`;
+                    const minutes = Number.isInteger(value / 3600)
+                      ? "00"
+                      : "30";
+                    const time = `${hour}:${minutes}:00`;
+                    setValues({ ...values, startTime: time });
+                  }}
                 />
               </Col>
               <Col>
                 <Form.Label className="mt-4 h5">End Time</Form.Label>
-                <Form.Control
-                  name="endTime"
-                  value={values.endTime}
-                  type="time"
-                  onChange={onChange}
+                <TimePicker
+                  start="00:00"
+                  step={30}
+                  value={zoomTime.endTime}
+                  onChange={(value) => {
+                    setZoomTime({ ...zoomTime, endTime: value });
+                    let hour = Math.floor(value / 3600);
+                    if (hour < 10) hour = `0${hour}`;
+                    const minutes = Number.isInteger(value / 3600)
+                      ? "00"
+                      : "30";
+                    const time = `${hour}:${minutes}:00`;
+                    setValues({ ...values, endTime: time });
+                  }}
                 />
               </Col>
             </Row>
@@ -192,38 +299,35 @@ function CreateWebinar() {
               What attendants will learn
             </Form.Label>
             <Form.Control
-              name="attendantLearn"
-              value={values.attendantLearn}
+              name="learn"
+              value={values.learn}
               as="textarea"
               rows={3}
               placeholder="What attendants will learn"
               onChange={onChange}
             />
-
             <Form.Label className="mt-4 h5">
               What attendants will need to know
             </Form.Label>
             <Form.Control
-              name="attendantKnow"
-              value={values.attendantKnow}
+              name="know"
+              value={values.know}
               as="textarea"
               rows={3}
               placeholder="What attendants will need to know"
               onChange={onChange}
             />
-
             <Form.Label className="mt-4 h5">
               Tool attendants will need
             </Form.Label>
             <Form.Control
-              name="attendantTool"
-              value={values.attendantTool}
+              name="need"
+              value={values.need}
               as="textarea"
               rows={3}
               placeholder="Tool attendants will need"
               onChange={onChange}
             />
-
             <Form.Label className="mt-4 h5">Zoom Link</Form.Label>
             <Form.Control
               name="zoomLink"
@@ -232,11 +336,11 @@ function CreateWebinar() {
               placeholder="Zoom Link"
               onChange={onChange}
             />
-            <Form.Label className="mt-4 h5">Zoom Password</Form.Label>
+            <Form.Label className="mt-4 h5">Zoom Passcode</Form.Label>
             <Form.Control
-              name="zoomPassword"
-              value={values.zoomPassword}
-              type="password"
+              name="zoomPasscode"
+              value={values.zoomPasscode}
+              type="text"
               placeholder="Zoom Passcode"
               onChange={onChange}
             />
