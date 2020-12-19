@@ -1,4 +1,5 @@
 import Axios from "axios";
+import { async } from "q";
 
 export const getTopics = async () => {
 	const url = "/topics";

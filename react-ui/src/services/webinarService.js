@@ -30,9 +30,7 @@ export const createWebinar = async ({
 		endTime: endTime,
 		zoomLink: zoomLink,
 		zoomPassword: zoomPassword,
-	});
-	return results;
-};
+	})};
 
 export const getWebinarsByTopic = async ({ topicID }) => {
 	const url = "/getWebinarsByTopicId";
