@@ -99,6 +99,14 @@ function Header() {
 					<Button variant="outline-success">Search</Button>
 				</Form>
 			</Navbar.Collapse>
+
+			<Nav.Item>
+				<Nav.Link href="/mylearning">My Learning</Nav.Link>
+			</Nav.Item>
+			<Nav.Item>
+				<Nav.Link href="/myteaching">My Teaching</Nav.Link>
+			</Nav.Item>
+
 			<Link to="/login">
 				<Button variant="outline-info" className="mr-3">
 					Log In
@@ -107,6 +115,11 @@ function Header() {
 			<Link to="/signup">
 				<Button variant="info" className="mr-3">
 					Sign Up
+        </Button>
+			</Link>
+			<Link to="/logout">
+				<Button variant="info" className="mr-3">
+					Log Out
         </Button>
 			</Link>
 		</Navbar>
