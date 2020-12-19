@@ -104,7 +104,8 @@ module.exports.login_post = async (req, res) => {
         res.status(201).json({
           // auth: true,
           token: token,
-          userID: userInfo[0].id
+          userID: userInfo[0].id,
+          userName: userInfo[0].name
         })
       } else {
         // if password not correct
@@ -121,9 +122,13 @@ module.exports.login_post = async (req, res) => {
 
 ///////////////////
 // GET log out
-module.exports.logout_get = async (req, res) => {
+module.exports.logout_get = (req, res) => {
   console.log("serving log out");
   res.cookie('jwt', '', { maxAge: 1 });
-  res.send("Logging you out");
+  res.json({
+    // auth: false,
+    userID: '',
+    userName: ''
+  })
   res.redirect('/');
 }

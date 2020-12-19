@@ -11,7 +11,8 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
 
-  const [currentUser, setCurrentUser] = useState()
+  const [currentUserID, setCurrentUserID] = useState()
+  const [currentUserName, setCurrentUserName] = useState('')
 
   const signup = async ({ name, email, password }) => {
     const url = '/signup';
@@ -35,6 +36,8 @@ export function AuthProvider({ children }) {
         password: password
       });
     } catch (err) { throw err }
+    setCurrentUserID(res.data.userID);
+    setCurrentUserName(res.data.userName);
     return res.data
   }
 
@@ -42,7 +45,8 @@ export function AuthProvider({ children }) {
 
 
   const value = {
-    currentUser,
+    currentUserID,
+    currentUserName,
     signup,
     login,
     logout

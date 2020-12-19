@@ -11,12 +11,13 @@ import {
 	Button,
 } from "react-bootstrap";
 import { DropdownSubmenu, NavDropdownMenu } from "react-bootstrap-submenu";
+import { useAuth } from "../contexts/authContext";
 
 function Header() {
 	const [topics, setTopics] = useState([]);
 	const [subtopics, setSubtopics] = useState([]);
 	const [values, setValues] = useState({});
-
+	const { currentUserID, currentUserName } = useAuth();
 	const getTopicsQuery = () => {
 		getTopics().then(function (t) {
 			setTopics(t.data);
@@ -99,7 +100,7 @@ function Header() {
 					<Button variant="outline-success">Search</Button>
 				</Form>
 			</Navbar.Collapse>
-
+			{currentUserID && <p> Welcome back, {currentUserName}</p>}
 			<Nav.Item>
 				<Nav.Link href="/mylearning">My Learning</Nav.Link>
 			</Nav.Item>
