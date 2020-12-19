@@ -13,7 +13,9 @@ export const WebinarInfoCard = ({
     <Card className="rounded mr-3 mb-3 text-justify" style={{ width: "20rem" }}>
       <Card.Header>{topic}</Card.Header>
       <Card.Body>
-        <Card.Title className="mb-4 h-25">{title}</Card.Title>
+        <Card.Title className="mb-4" style={{ height: "35%" }}>
+          {title}
+        </Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{host}</Card.Subtitle>
         <hr />
         <span>{date}</span>
