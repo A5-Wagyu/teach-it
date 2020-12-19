@@ -7,11 +7,15 @@ const mysql = require("./db-config");
 const isDev = process.env.NODE_ENV !== "production";
 const PORT = process.env.PORT || 5000;
 const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser');
 
 // import routes
+const authRoutes = require('./routes/authRoutes');
 const userRoutes = require("./routes/userRoutes");
 const topicRoutes = require("./routes/topicRoutes");
 const subtopicsRoutes = require("./routes/subtopicRoutes");
+const webinarRoutes = require("./routes/webinarRoutes");
+
 console.log("Testing Connection");
 mysql.pool.query("SELECT 1 + 1 AS solution", function (error, results, fields) {
 	if (error) throw Error("Could not connect to DB!");
@@ -33,12 +37,17 @@ app.use(cors({
 }));
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
 // Include routes
-app.use(userRoutes);
+app.use(authRoutes);
+// app.use(userRoutes);
 app.use(topicRoutes);
 app.use(subtopicsRoutes);
+app.use(webinarRoutes);
+
 // Multi-process to utilize all CPU cores.
 if (!isDev && cluster.isMaster) {
 	console.error(`Node cluster master ${process.pid} is running`);

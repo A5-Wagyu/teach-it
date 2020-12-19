@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { WebinarInfoCard } from "../components/WebinarInfoCard";
-import { getWebinars } from "../services/webinarService";
-import { getTopicById } from "../services/topicService";
+import { getWebinarsByTopic, getWebinarsBySubtopic } from "../services/webinarService";
 import { getHostbyWebinarID } from "../services/userService";
 
-function Home() {
+const Search = (props) => {
 	const [webinars, setWebinars] = useState([]);
 
 	const convertHour = (hour) => {
@@ -22,13 +21,25 @@ function Home() {
 			ampm: ampm,
 		};
 	};
+	console.log(props.history.location.state.topicID)
+	const getWebinarsByTopicQuery = async () => {
+		let data;
+		const topicID = props.history.location.state.topicID;
+		const subtopicID = props.history.location.state.subtopicID;
+		const topic = props.history.location.state.topicName;
+		const subtopic = props.history.location.state.subtopicName;
 
-	const getWebinarsQuery = async () => {
-		let data = await getWebinars();
+		if (subtopicID == null) {
+			data = await getWebinarsByTopic({ topicID });
+		}
+		else {
+			data = await getWebinarsBySubtopic({ subtopicID });
+		}
+
+
 		data = data.data;
-		console.log(data);
 		for (let i = 0; i < data.length; i++) {
-			let topic = await getTopicById({ id: data[i].topicID });
+
 			let host = await getHostbyWebinarID({ id: data[i].id });
 			data[i].topic = topic;
 			data[i].host = host;
@@ -53,8 +64,8 @@ function Home() {
 	};
 
 	useEffect(() => {
-		getWebinarsQuery();
-	}, []);
+		getWebinarsByTopicQuery();
+	}, [props.history.location.key]);
 
 	return (
 		<Container>
@@ -67,7 +78,7 @@ function Home() {
 							key={i}
 							topic={webinars[i].topic.name}
 							title={webinars[i].title}
-							// host={webinars[i].host.name}
+							host={webinars[i].host.name}
 							date={webinars[i].date}
 							startTime={webinars[i].startTime}
 							endTime={webinars[i].endTime}
@@ -79,4 +90,4 @@ function Home() {
 	);
 }
 
-export default Home;
+export default Search;

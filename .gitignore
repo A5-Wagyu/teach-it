@@ -16,3 +16,4 @@ Dockerfile
 docker-compose.yml
 
 .vscode
+/react-ui/*.log

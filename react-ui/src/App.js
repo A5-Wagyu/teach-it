@@ -9,6 +9,7 @@ import CreateWebinar from "./pages/CreateWebinar";
 import WebinarDetail from "./pages/WebinarDetail";
 import MyLearning from "./pages/MyLearning";
 import MyTeaching from "./pages/MyTeaching";
+import Search from "./pages/Search";
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
 					<Route path="/webinardetail" component={WebinarDetail}></Route>
 					<Route path="/mylearning" component={MyLearning}></Route>
 					<Route path="/myteaching" component={MyTeaching}></Route>
+					<Route path="/search" component={Search}></Route>
 				</Switch>
 			</Router>
 		</div>
