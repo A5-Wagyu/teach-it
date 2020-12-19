@@ -87,4 +87,17 @@ router.post("/getWebinarsByIsComplete", async (req, res) => {
 	}
 });
 
+router.post("/createWebinar", async (req, res) => {
+	const id = req.body.id;
+	let sql =
+		"INSERT INTO `Webinars` (`title`, `date`, `startTime`, `endTime`, `topicID`, `subTopicID`,`description`,`learn`, `know`, `need`, `zoomLink`,`zoomPasscode`) VALUES  (?);";
+
+	try {
+		let results = await mysql.pool.query(sql);
+		res.send(results);
+	} catch (err) {
+		throw err;
+	}
+});
+
 module.exports = router;

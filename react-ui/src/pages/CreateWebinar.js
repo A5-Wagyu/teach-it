@@ -9,6 +9,7 @@ function CreateWebinar() {
 	const [subtopics, setSubtopics] = useState([]);
 	const [topicID, setTopicID] = useState([]);
 	const [curTopic, setCurTopic] = useState([]);
+	const [sendData, setSendData] = useState([]);
 
 	const [values, setValues] = useState({
 		title: "",
@@ -24,13 +25,27 @@ function CreateWebinar() {
 		zoomPassword: "",
 	});
 
+	const sendFormCreate = () => {
+		console.log(values);
+	};
 	const onChange = (event) => {
 		setValues({ ...values, [event.target.name]: event.target.value });
 	};
 
 	// What to do for onSubmit?
 	const onSubmit = (event) => {
-		console.log(values);
+		if (
+			values.title ||
+			values.description ||
+			values.startTime ||
+			values.endTime ||
+			values.attendantKnow ||
+			values.attendantTool ||
+			values.zoomLink === ""
+		) {
+			alert("Please fill in all the required field");
+		} else {
+		}
 		event.preventDefault();
 	};
 
@@ -47,13 +62,6 @@ function CreateWebinar() {
 			setCurTopic(values.topic);
 		}
 	};
-	const countTopic = (data) => {
-		const temp = {};
-		data.map((subtopic) => {
-			temp[subtopic.topicID] = true;
-		});
-		setTopicID(temp);
-	};
 
 	const getSubtopicsQuery = () => {
 		getSubtopics().then(function (st) {
@@ -65,8 +73,10 @@ function CreateWebinar() {
 		getTopicsQuery();
 		getSubtopicsQuery();
 	}, []);
-	console.log(topics);
-	console.log(values);
+
+	// console.log(topics);
+	// console.log(values);
+
 	return (
 		<div>
 			<Container className="mt-5 w-50">
@@ -98,14 +108,14 @@ function CreateWebinar() {
 							name="topic"
 							as="select"
 							defaultValue=""
-							// onChange={onChange}
-							onChange={(event) => {
-								setValues({
-									...values,
-									[event.target.name]: event.target.value,
-								});
-								console.log(event.target);
-							}}
+							onChange={onChange}
+							// onChange={(event) => {
+							// 	setValues({
+							// 		...values,
+							// 		[event.target.name]: event.target.value,
+							// 	});
+							// 	console.log(event.target);
+							// }}
 						>
 							<option value="">Select a Topic</option>
 							{topics.map((topic) => {
@@ -198,6 +208,7 @@ function CreateWebinar() {
 						as="input"
 						type="submit"
 						value="Submit"
+						onSubmit={sendFormCreate}
 					></Button>
 				</Form>
 			</Container>
