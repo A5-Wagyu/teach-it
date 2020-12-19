@@ -11,11 +11,16 @@ import {
 	Button,
 } from "react-bootstrap";
 import { DropdownSubmenu, NavDropdownMenu } from "react-bootstrap-submenu";
+import { router } from "../router";
 
 function Header() {
 	const [topics, setTopics] = useState([]);
 	const [subtopics, setSubtopics] = useState([]);
 	const [values, setValues] = useState({});
+
+	const search = () => {
+		router.stateService.go("search", {});
+	};
 
 	const getTopicsQuery = () => {
 		getTopics().then(function (t) {
@@ -50,7 +55,7 @@ function Header() {
 		<Navbar bg="light" expand="lg">
 			<Navbar.Brand as={Link} to="/">
 				Teach It
-      </Navbar.Brand>
+			</Navbar.Brand>
 			<Navbar.Toggle aria-controls="basic-navbar-nav" />
 			<Navbar.Collapse id="basic-navbar-nav">
 				<Nav className="mr">
@@ -66,15 +71,23 @@ function Header() {
 										{subtopics.map((subtopic, j, arrayJ) => {
 											if (topic.id === subtopic.topicID) {
 												return (
-													<NavDropdown.Item as="div" key={subtopic.name + i + j}>
-														<Link to={{
-															pathname: "/search", state: {
-																topicID: topic.id,
-																subtopicID: subtopic.id,
-																topicName: topic.name,
-																subtopicName: subtopic.name
-															}
-														}}>{subtopic.name}</Link>
+													<NavDropdown.Item
+														as="div"
+														key={subtopic.name + i + j}
+													>
+														<Link
+															to={{
+																pathname: "/search",
+																state: {
+																	topicID: topic.id,
+																	subtopicID: subtopic.id,
+																	topicName: topic.name,
+																	subtopicName: subtopic.name,
+																},
+															}}
+														>
+															{subtopic.name}
+														</Link>
 													</NavDropdown.Item>
 												);
 											} else {
@@ -86,7 +99,14 @@ function Header() {
 							} else {
 								return (
 									<NavDropdown.Item as="div" key={i} title={topic.name}>
-										<Link to={{ pathname: "/search", state: { topicID: topic.id, subtopicID: null } }}>{topic.name}</Link>
+										<Link
+											to={{
+												pathname: "/search",
+												state: { topicID: topic.id, subtopicID: null },
+											}}
+										>
+											{topic.name}
+										</Link>
 									</NavDropdown.Item>
 								);
 							}
@@ -96,18 +116,20 @@ function Header() {
 
 				<Form className="w-75" inline>
 					<FormControl className="w-50 mr-2" type="text" placeholder="Search" />
-					<Button variant="outline-success">Search</Button>
+					<Button variant="outline-success" onClick={search}>
+						Search
+					</Button>
 				</Form>
 			</Navbar.Collapse>
 			<Link to="/login">
 				<Button variant="outline-info" className="mr-3">
 					Log In
-        </Button>
+				</Button>
 			</Link>
 			<Link to="/signup">
 				<Button variant="info" className="mr-3">
 					Sign Up
-        </Button>
+				</Button>
 			</Link>
 		</Navbar>
 	);
