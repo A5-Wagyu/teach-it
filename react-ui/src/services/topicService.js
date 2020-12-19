@@ -12,3 +12,10 @@ export const getTopicById = async ({ id }) => {
 
 	return results.data[0];
 };
+
+export const getTopicIdByName = async ({ name }) => {
+	const url = "/getTopicIdByName";
+	let results = await Axios.post(url, { name: name });
+
+	return results;
+};
