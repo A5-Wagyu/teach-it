@@ -26,6 +26,7 @@ function Home() {
 	const getWebinarsQuery = async () => {
 		let data = await getWebinars();
 		data = data.data;
+		console.log(data);
 		for (let i = 0; i < data.length; i++) {
 			let topic = await getTopicById({ id: data[i].topicID });
 			let host = await getHostbyWebinarID({ id: data[i].id });
@@ -66,7 +67,7 @@ function Home() {
 							key={i}
 							topic={webinars[i].topic.name}
 							title={webinars[i].title}
-							host={webinars[i].host.name}
+							// host={webinars[i].host.name}
 							date={webinars[i].date}
 							startTime={webinars[i].startTime}
 							endTime={webinars[i].endTime}
