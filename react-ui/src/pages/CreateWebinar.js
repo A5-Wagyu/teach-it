@@ -7,8 +7,9 @@ import { getTopicIdByName } from "../services/topicService";
 function CreateWebinar() {
 	const [topics, setTopics] = useState([]);
 	const [subtopics, setSubtopics] = useState([]);
-	const [topicID, setTopicID] = useState([]);
+	const [hasSubtopics, sethasSubtopics] = useState([]);
 	const [curTopic, setCurTopic] = useState([]);
+	const [sendData, setSendData] = useState([]);
 
 	const [values, setValues] = useState({
 		title: "",
@@ -24,6 +25,9 @@ function CreateWebinar() {
 		zoomPassword: "",
 	});
 
+	const sendFormCreate = () => {
+		console.log(values);
+	};
 	const onChange = (event) => {
     setValues({ ...values, [event.target.name]: event.target.value });
   };
@@ -40,7 +44,18 @@ function CreateWebinar() {
 
 	// What to do for onSubmit?
 	const onSubmit = (event) => {
-		console.log(values);
+		if (
+			values.title ||
+			values.description ||
+			values.startTime ||
+			values.endTime ||
+			values.attendantKnow ||
+			values.attendantTool ||
+			values.zoomLink === ""
+		) {
+			alert("Please fill in all the required field");
+		} else {
+		}
 		event.preventDefault();
 	};
 
@@ -56,18 +71,20 @@ function CreateWebinar() {
 		if (values.topicID != null) {
 			setCurTopic(values.topic);
 		}
-	};
-	const countTopic = (data) => {
-		const temp = {};
-		data.map((subtopic) => {
-			temp[subtopic.topicID] = true;
-		});
-		setTopicID(temp);
-	};
+  };
+  
+  const countTopic = (data) => {
+    const temp = {};
+    data.map((subtopic) => {
+      return (temp[subtopic.topicID] = true);
+    });
+    setHasSubtopics(temp);
+  };
 
 	const getSubtopicsQuery = () => {
 		getSubtopics().then(function (st) {
-			setSubtopics(st.data);
+      setSubtopics(st.data);
+      countTopic(st.data);
 		});
 	};
 
@@ -76,7 +93,9 @@ function CreateWebinar() {
 		getSubtopicsQuery();
 	}, []);
 
-  
+	// console.log(topics);
+	// console.log(values);
+
 	return (
 		<div>
 			<Container className="mt-5 w-50">
@@ -119,9 +138,12 @@ function CreateWebinar() {
 								);
 							})}
 						</Form.Control>
-						{/* {subtopics.map((subtopic, j, arrayJ) => {
+            {
+              (values.topicID in hasSubtopics)
+            /* {subtopics.map((subtopic, j, arrayJ) => {
                   if(va=== su)
-              }}  */}
+              }}  */
+            }
 						<Row>
 							<Col>
 								<Form.Label className="mt-4 h5">Start Time</Form.Label>
@@ -201,6 +223,7 @@ function CreateWebinar() {
 						as="input"
 						type="submit"
 						value="Submit"
+						onSubmit={sendFormCreate}
 					></Button>
 				</Form>
 			</Container>
