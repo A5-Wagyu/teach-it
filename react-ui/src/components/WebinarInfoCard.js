@@ -18,14 +18,13 @@ export const WebinarInfoCard = ({
 		<>
 			<style type={"text/css"}>
 				{`
-          #webinar-card:hover{
+          .webinar-card:hover{
             cursor:pointer;
           }
         `}
 			</style>
 			<Card
-				className="rounded mr-3 mb-3 text-justify shadow "
-				id="webinar-card"
+				className="rounded mr-3 mb-3 text-left shadow webinar-card"
 				style={{ width: "22rem", height: "16rem" }}
 				onClick={onClick}
 			>

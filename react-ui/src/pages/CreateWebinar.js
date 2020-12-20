@@ -199,7 +199,7 @@ function CreateWebinar(props) {
 				subTopicID: values.subTopicID,
 				userID: values.userID,
 			};
-
+			console.log(sendData);
 			createWebinar(sendData);
 			props.history.push("/");
 		}
