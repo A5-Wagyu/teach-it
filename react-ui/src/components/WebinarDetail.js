@@ -2,35 +2,6 @@ import React from "react";
 import { Container, Button, Modal } from "react-bootstrap";
 import "../App.css";
 
-const dummyData = {
-  title: "How to Design a relational database",
-  description:
-    "Learn to design and create a relational database using MySQL. You’ll learn about designing database entities, relationships, and some basic SQL commands to get you started",
-  host: "Arthur Hiew",
-  date: "Sat 12/13/2020",
-  startTime: "2:00 PM",
-  endTime: "3:00 PM",
-  zoomLink: "https://www.google.com",
-  zoomPassword: "someRandomPassword",
-  learn: "Designing a relational database",
-  know: "Basic of web development",
-  need: "Computer: Mac/Linux/Windows",
-};
-
-// const {
-//   title,
-//   description,
-//   host,
-//   date,
-//   startTime,
-//   endTime,
-//   zoomLink,
-//   zoomPassword,
-//   learn,
-//   know,
-//   need,
-// } = dummyData;
-
 export const WebinarDetail = ({
   show,
   handleClose,
