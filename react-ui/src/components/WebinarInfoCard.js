@@ -13,28 +13,29 @@ export const WebinarInfoCard = ({
   endTime,
   onClick,
 }) => {
-  const header = subtopic ? `${subtopic.name}` : `${topic}`;
-  return (
-    <>
-      <style type={"text/css"}>
-        {`
-          #webinar-card:hover{
+
+	const header = subtopic ? `${topic} > ${subtopic.name}` : `${topic}`;
+	return (
+		<>
+			<style type={"text/css"}>
+				{`
+          .webinar-card:hover{
             cursor:pointer;
           }
         `}
-      </style>
-      <Card
-        className="rounded mr-3 mb-3 text-left shadow "
-        id="webinar-card"
-        style={{ width: "22rem", height: "16rem" }}
-        onClick={onClick}
-      >
-        <Card.Header
-          className="text-light"
-          style={{ backgroundColor: "#414a50" }}
-        >
-          {header}
-        </Card.Header>
+			</style>
+			<Card
+				className="rounded mr-3 mb-3 text-left shadow webinar-card"
+				style={{ width: "22rem", height: "16rem" }}
+				onClick={onClick}
+			>
+				<Card.Header
+					className="text-light"
+					style={{ backgroundColor: "#414a50" }}
+				>
+					{header}
+				</Card.Header>
+
 
         <Card.Body>
           <Card.Title name={name} className="mb-4" style={{ height: "40%" }}>

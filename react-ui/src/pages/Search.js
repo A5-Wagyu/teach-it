@@ -91,6 +91,7 @@ const Search = (props) => {
       data[i].topic = topic ? topic : subtopic;
       data[i].host = host;
 
+
       const year = data[i].date.substring(0, 4);
       const month = data[i].date.substring(5, 7);
       const day = data[i].date.substring(8, 10);
@@ -123,28 +124,42 @@ const Search = (props) => {
     }
   }, [props.history.location.key]);
 
+
+
   return (
     <Container>
-      <h3 className="text-justify mt-4">Search Webinars</h3>
-      <Form className="w-75" onSubmit={onSubmit} inline>
+      <Form
+        onSubmit={onSubmit}
+        inline
+        style={{
+          width: "1050px",
+          position: "fixed",
+          top: "0.6rem",
+          left: "16rem",
+        }}
+      >
         <FormControl
           onChange={search}
-          className="w-75 mr-2"
           type="text"
-          size="lg"
           placeholder="Search"
           inline
+          style={{
+            width: "900px",
+            marginRight: "1rem",
+          }}
+
         />
         <FormControl
           type="submit"
           onClick={onSubmit}
-          size="lg"
+
           type="submit"
           placeholder="Search"
         />
       </Form>
 
-      <h1 className="mt-4 text-justify">Upcoming Webinars</h1>
+
+      <h1 className="mt-5 text-justify">Upcoming Webinars</h1>
 
       <Container className="d-flex flex-wrap mt-3 p-0">
         {webinars.map((value, i) => {
