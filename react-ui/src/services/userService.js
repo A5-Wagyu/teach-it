@@ -9,3 +9,23 @@ export const getHostByWebinarID = async ({ id }) => {
 		throw e;
 	}
 };
+
+export const addUserGuest = async ({ userID, webinarID }) => {
+	const url = "/addUserGuest";
+	try {
+		let results = await Axios.post(url, { userID: userID, webinarID: webinarID });
+		return results;
+	} catch (e) {
+		throw e;
+	}
+}
+
+export const getUserGuest = async ({ userID, webinarID }) => {
+	const url = "/getUserGuest";
+	try {
+		let results = await Axios.post(url, { userID: userID, webinarID: webinarID });
+		return results.data;
+	} catch (e) {
+		throw e;
+	}
+}
