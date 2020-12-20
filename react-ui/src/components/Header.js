@@ -118,11 +118,6 @@ function Header({ isAuthenticated, setIsAuthenticated, history }) {
 			</Navbar.Collapse>
 			{isAuthenticated && (
 				<div className="loggedIn d-flex align-items-center">
-					{/* <Link to="/mylearning">
-						<Button variant="outline-info" className="mr-3">
-							My Learning
-            </Button>
-					</Link> */}
 					<Link to="/mylearning">
 						<span className="mr-3">My Learning</span>
 					</Link>

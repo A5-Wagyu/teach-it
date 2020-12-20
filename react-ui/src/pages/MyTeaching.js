@@ -5,8 +5,7 @@ import { getWebinarsByUserID } from "../services/webinarService";
 import { getTopicById } from "../services/topicService";
 import { getHostByWebinarID } from "../services/userService";
 import { getSubtopicById } from "../services/subtopicService";
-import { useAuth } from "../contexts/authContext";
-
+import { verifyLocalToken } from "../services/authService";
 import { Container } from "react-bootstrap";
 
 export default function MyTeaching() {
@@ -16,7 +15,6 @@ export default function MyTeaching() {
   const [show, setShow] = useState(false);
   const [date, setDate] = useState("");
   // Need to handle Login
-  const { currentUserID, currentUserName, isLoggedIn } = useAuth();
 
   const convertHour = (hour) => {
     let ampm = "am";
@@ -32,9 +30,10 @@ export default function MyTeaching() {
       ampm: ampm,
     };
   };
+  const id = verifyLocalToken().userID;
 
   const getWebinarsQuery = async () => {
-    const sendData = { id: 4, role: "host" };
+    const sendData = { id: id, role: "host" };
     let data = await getWebinarsByUserID(sendData);
     data = data.data;
     for (let i = 0; i < data.length; i++) {

@@ -130,10 +130,10 @@ const Search = (props) => {
     <Container>
       <Form
         onSubmit={onSubmit}
-        className="w-75"
         inline
         style={
           {
+            width: "1050px",
             position: "fixed",
             top: "0.6rem",
             left: "15.5rem",
@@ -142,9 +142,13 @@ const Search = (props) => {
       >
         <FormControl
           onChange={search}
-          className={window.innerWidth <= 580 ? "w-100" : "w-50 mr-2"}
           type="text"
           placeholder="Search"
+          inline style={{
+            width: "900px",
+            marginRight: "1rem"
+          }
+          }
         />
         <FormControl
           type="submit"
@@ -200,7 +204,7 @@ const Search = (props) => {
         zoomLink={webinar.zoomLink}
         zoomPasscode={webinar.zoomPasscode}
       />
-    </Container>
+    </Container >
   );
 };
 
