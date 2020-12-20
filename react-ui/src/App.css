@@ -1,60 +1,65 @@
 .App {
-  text-align: center;
+	text-align: center;
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+	animation: App-logo-spin infinite 20s linear;
+	height: 40vmin;
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+	background-color: #282c34;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: calc(10px + 2vmin);
+	color: white;
 }
 
 .App-link {
-  color: #61dafb;
+	color: #61dafb;
 }
 
 .react-datepicker-wrapper {
-  width: 100%;
+	width: 100%;
 }
 
 .modal-dialog {
-  position: absolute !important;
-  left: 40% !important;
-  top: 48% !important;
-  transform: translate(-50%, -50%) !important;
-  /* width: 150% !important;
+	position: absolute !important;
+	left: 40% !important;
+	top: 48% !important;
+	transform: translate(-50%, -50%) !important;
+	/* width: 150% !important;
   justify-content: center !important; */
 }
 
 .modal-content {
-  width: 150% !important;
-  border-radius: 15px !important;
-  margin-bottom: 5% !important;
+	width: 150% !important;
+	border-radius: 15px !important;
+	margin-bottom: 5% !important;
 }
 
 .card-title {
-  font-size: 1.45rem !important;
+	font-size: 1.45rem !important;
 }
 
 .card-header,
 .card-subtitle {
-  font-size: 1.08rem !important;
+	font-size: 1.08rem !important;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+.btn-info {
+	background-color: #7fdad1;
+	border-color: #7fdad1;
+	font-weight: 500;
 }
