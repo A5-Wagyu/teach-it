@@ -1,37 +1,11 @@
-import React from "react";
-import { Container, Button, Modal } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Button, Modal } from "react-bootstrap";
 import "../App.css";
-
-const dummyData = {
-  title: "How to Design a relational database",
-  description:
-    "Learn to design and create a relational database using MySQL. You’ll learn about designing database entities, relationships, and some basic SQL commands to get you started",
-  host: "Arthur Hiew",
-  date: "Sat 12/13/2020",
-  startTime: "2:00 PM",
-  endTime: "3:00 PM",
-  zoomLink: "https://www.google.com",
-  zoomPassword: "someRandomPassword",
-  learn: "Designing a relational database",
-  know: "Basic of web development",
-  need: "Computer: Mac/Linux/Windows",
-};
-
-// const {
-//   title,
-//   description,
-//   host,
-//   date,
-//   startTime,
-//   endTime,
-//   zoomLink,
-//   zoomPassword,
-//   learn,
-//   know,
-//   need,
-// } = dummyData;
-
+import { useAuth } from "../contexts/authContext";
+import { addUserGuest, getUserGuest } from "../services/userService";
+	
 export const WebinarDetail = ({
+  id,
   show,
   handleClose,
   title,
@@ -46,9 +20,24 @@ export const WebinarDetail = ({
   know,
   need,
 }) => {
-  const onClick = () => {
-    window.open(zoomLink);
-  };
+
+  const { currentUserID, currentUserName, isLoggedIn } = useAuth();
+  const [ isGoing, setIsGoing ] = useState(false);
+
+  const addUserGuestQuery = async () => {
+    let res = await addUserGuest({userID: currentUserID, webinarID: id});
+    if(res.status == 200) {
+      setIsGoing(true);
+    }
+  }
+
+  useEffect(() => {
+    getUserGuest({userID: currentUserID, webinarID: id }).then(function(res) {
+      if(res.length > 0) {
+        setIsGoing(true);
+      }
+    });
+  }, []);
 
   return (
     <Modal show={show} onHide={handleClose} keyboard={false}>
@@ -56,7 +45,7 @@ export const WebinarDetail = ({
         <h1 className="mt-5">{title}</h1>
         <p className="mt-4">{description}</p>
         <p>
-          Hosted by <strong>{host}</strong>
+          Hosted by <strong>{host ? host.name : null}</strong>
         </p>
 
         <span className="mr-3">{date}</span>
@@ -66,13 +55,13 @@ export const WebinarDetail = ({
 
         <br />
         <div className="mt-3">
-          <Button className="mr-3" variant="info">
+          <Button onClick={addUserGuestQuery} className="mr-3" variant="info">
             I'm Going
-          </Button>
+          </Button> 
           <Button className="mr-3" variant="outline-primary">
             Share
           </Button>
-          <Button className="mr-3" variant="outline-primary" onClick={onClick}>
+          <Button target="_blank" href={`//` + zoomLink} className="mr-3" variant="outline-primary">
             Zoom Link
           </Button>
           <span>Passcode: {zoomPasscode}</span>

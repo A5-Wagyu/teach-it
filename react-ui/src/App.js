@@ -26,7 +26,7 @@ function App() {
             <PrivateRoute path="/mylearning" component={MyLearning}></PrivateRoute>
             <Route path="/myteaching" component={MyTeaching}></Route>
             <Route path="/search" component={Search}></Route>
-            <Route path="/" exact component={Home}></Route>
+            <Route path="/" exact component={Search}></Route>
           </Switch>
         </AuthProvider>
       </Router>

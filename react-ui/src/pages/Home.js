@@ -3,7 +3,7 @@ import { Container } from "react-bootstrap";
 import { WebinarInfoCard } from "../components/WebinarInfoCard";
 import { getWebinars } from "../services/webinarService";
 import { getTopicById } from "../services/topicService";
-import { getHostbyWebinarID } from "../services/userService";
+import { getHostByWebinarID } from "../services/userService";
 import { WebinarDetail } from "../components/WebinarDetail";
 import { getSubtopicById } from "../services/subtopicService";
 
@@ -33,7 +33,7 @@ function Home() {
     for (let i = 0; i < data.length; i++) {
       let topic = await getTopicById({ id: data[i].topicID });
       let subtopic = await getSubtopicById({ id: data[i].subTopicID });
-      let host = await getHostbyWebinarID({ id: data[i].id });
+      let host = await getHostByWebinarID({ id: data[i].id });
       data[i].topic = topic;
       data[i].host = host;
       data[i].subtopic = subtopic;
@@ -52,12 +52,14 @@ function Home() {
       data[i].endTime =
         endHour.hour + data[i].endTime.substring(2, 5) + endHour.ampm;
     }
+    console.log(data);
     setWebinars(data);
   };
 
   useEffect(() => {
     getWebinarsQuery();
   }, []);
+
   return (
     <Container>
       <h1 className="mt-5 text-justify">Upcoming Webinars</h1>
@@ -71,8 +73,7 @@ function Home() {
               topic={webinars[i].topic.name}
               subtopic={webinars[i].subtopic}
               title={webinars[i].title}
-              // host={webinars[i].host.name}
-              host="admin"
+              host={webinars[i].host.name}
               date={webinars[i].date}
               startTime={webinars[i].startTime}
               endTime={webinars[i].endTime}
@@ -96,8 +97,7 @@ function Home() {
         }}
         title={webinar.title}
         description={webinar.description}
-        // host={webinar.host}
-        host="admin"
+        host={webinar.host}
         startTime={webinar.startTime}
         endTime={webinar.endTime}
         learn={webinar.learn}

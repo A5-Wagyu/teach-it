@@ -24,6 +24,12 @@ export const getWebinarsById = async ({ id }) => {
   return results;
 };
 
+export const getWebinarsByTitleContains = async ({ title }) => {
+  const url = "/getWebinarsByTitleContains";
+  let results = await Axios.post(url, { title: title });
+  return results;
+};
+
 export const createWebinar = async ({
   title,
   date,
@@ -38,6 +44,8 @@ export const createWebinar = async ({
   isComplete,
   topicID,
   subTopicID,
+  userID,
+  // webinarID,
 }) => {
   const url = "/createWebinar";
   let results = await Axios.post(url, {
@@ -54,6 +62,14 @@ export const createWebinar = async ({
     isComplete: isComplete,
     topicID: topicID,
     subTopicID: subTopicID,
+    userID: userID,
+    // webinarID: webinarID,
   });
+  return results;
+};
+
+export const getWebinarsByUserID = async ({ id, role }) => {
+  const url = "/getWebinarsByUserID";
+  let results = await Axios.post(url, { id: id, role: role });
   return results;
 };

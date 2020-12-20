@@ -1,15 +1,18 @@
 require("dotenv").config({ path: "../.env" });
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const mysql = require("./db-config");
 const util = require("util");
 const cookieParser = require("cookie-parser");
 mysql.pool.query = util.promisify(mysql.pool.query);
+
 const bcrypt = require('bcrypt');
+
 /// Utility const
 const saltRounds = 10;
 const maxAge = 60 * 60 * 24; // 24 hours
 
 const createToken = (id) => {
+
   return jwt.sign({ id }, process.env.TOKEN_SECRET, {
     expiresIn: maxAge
   })
@@ -49,6 +52,7 @@ module.exports.verifyToken = async (req, res, next) => {
 // POST Sign Up
 
 module.exports.signup_post = async (req, res) => {
+
   const name = req.body.name;
   const email = req.body.email;
   let checkEmailRes;
@@ -75,10 +79,12 @@ module.exports.signup_post = async (req, res) => {
   }
 }
 
+
 ///////////////////////////////////////////
 // POST Log In
 
 module.exports.login_post = async (req, res) => {
+
   const email = req.body.email;
   const password = req.body.password;
   const getEmailQuery = `SELECT * FROM Users WHERE email = '${email}'`;
@@ -106,10 +112,12 @@ module.exports.login_post = async (req, res) => {
         const id = userInfo[0].id;
         const token = createToken(id);
 
-        res.cookie('jwt', token, {
-          httpOnly: true,
-          maxAge: maxAge * 1000
-        });
+
+				res.cookie("jwt", token, {
+					httpOnly: true,
+					maxAge: maxAge * 1000,
+				});
+
 
         // req.session.user = userInfo[0];
         // res.status(201).json({
@@ -136,9 +144,11 @@ module.exports.login_post = async (req, res) => {
   }
 }
 
+
 ///////////////////
 // POST log out
 module.exports.logout_post = (req, res) => {
+
   console.log("serving log out");
   res.cookie('jwt', '', { maxAge: 1 });
   res.json({
@@ -147,3 +157,4 @@ module.exports.logout_post = (req, res) => {
     userName: ''
   })
 }
+
