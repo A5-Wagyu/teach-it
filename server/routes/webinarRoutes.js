@@ -103,21 +103,27 @@ router.post("/createWebinar", async (req, res) => {
 	const isComplete = req.body.isComplete;
 	const topicID = req.body.topicID;
 	const subTopicID = req.body.subTopicID;
-	let createWebinarQuery = `INSERT INTO \`Webinars\` (\`title\`, \`date\`, \`startTime\`, 
-						\`endTime\`, \`topicID\`, \`subTopicID\`,\`description\`,\`learn\`, 
-						\`know\`, \`need\`, \`zoomLink\`,\`zoomPasscode\`, \`isComplete\`) VALUES  
-						('${title}', '${date}',  '${startTime}', '${endTime}', '${topicID}', 
-						'${subTopicID}', '${description}', '${learn}', '${know}', '${need}', '${zoomLink}', '${zoomPasscode}', '${isComplete}')`;
 
-	let associacionQuery = `INSERT INTO \`UserRoleWebinarAssociations\` (\`userID\`, \`roleID\`, \`webinarID\`) 
-						VALUES ('${userID}', 
-						(SELECT \`id\` FROM \`Roles\` WHERE \`name\` = 'host'),
-						(SELECT \`id\` FROM \`Webinars\` WHERE \`id\` = '${webinarID}'))`;
+	let createWebinarQuery = `INSERT INTO \`Webinars\` (\`title\`, \`date\`, \`startTime\`, 
+														\`endTime\`, \`topicID\`, \`subTopicID\`,\`description\`,\`learn\`, 
+														\`know\`, \`need\`, \`zoomLink\`,\`zoomPasscode\`, \`isComplete\`) 
+														VALUES ('${title}', '${date}',  '${startTime}', '${endTime}', '${topicID}', 
+														'${subTopicID}', '${description}', '${learn}', '${know}', '${need}', 
+														'${zoomLink}', '${zoomPasscode}', '${isComplete}') `;
+
 	try {
 		let creteWebinar = await mysql.pool.query(createWebinarQuery);
+
+		let associacionQuery = `INSERT INTO \`UserRoleWebinarAssociations\` 
+													(\`userID\`, \`roleID\`, \`webinarID\`) 
+													VALUES ('${userID}', 1, 
+													(SELECT \`id\` FROM \`Webinars\` WHERE \`id\`=LAST_INSERT_ID()))`;
+
 		let assocation = await mysql.pool.query(associacionQuery);
+
 		res.send({
 			creteWebinar: creteWebinar,
+			lastInsertID: lastInsertID,
 			assocation: assocation,
 		});
 	} catch (err) {

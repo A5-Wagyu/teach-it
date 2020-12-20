@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
 import { Form, Container, Button, Row, Col } from "react-bootstrap";
 import { getTopics } from "../services/topicService";
 import { getSubtopics } from "../services/subtopicService";
@@ -38,7 +37,7 @@ function CreateWebinar(props) {
 		topicID: "",
 		subTopicID: "",
 		userID: "",
-		webinarID: "",
+		// webinarID: "",
 	});
 
 	const getDate = () => {
@@ -145,6 +144,8 @@ function CreateWebinar(props) {
 
 	// What to do for onSubmit?
 	const onSubmit = (event) => {
+		console.log(currentUserID);
+		console.log(values);
 		if (
 			!(values.topicID in hasSubtopics) &&
 			(values.title === "" ||
@@ -174,11 +175,6 @@ function CreateWebinar(props) {
 		) {
 			alert("Please fill in all the required field");
 		} else {
-			setValues({
-				...values,
-				userID: `${currentUserID}`,
-			});
-
 			let sendData = {
 				title: values.title,
 				date: values.date,
@@ -195,6 +191,7 @@ function CreateWebinar(props) {
 				subTopicID: values.subTopicID,
 				userID: values.userID,
 			};
+
 			createWebinar(sendData);
 			props.history.push("/");
 		}
@@ -210,6 +207,10 @@ function CreateWebinar(props) {
 			data[i].topicID = id;
 		}
 		setTopics(data.data);
+		setValues({
+			...values,
+			userID: `${currentUserID}`,
+		});
 	};
 
 	const countTopic = (data) => {

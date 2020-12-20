@@ -20,8 +20,11 @@ const initializePassport = require("../passport-config");
 const session_key = "This is my very ultra secret key";
 
 router.post("/getHostByWebinarID", async (req, res) => {
-	const webinarID = req.body.webinarID;
-	const sql = `SELECT \`name\` FROM \`Users\` WHERE \`id\`=(SELECT \`userID\` FROM \`UserRoleWebinarAssociations\` WHERE \`webinarID\`='${webinarID}')`;
+	const id = req.body.id;
+	// const sql = `SELECT \`name\` FROM \`Users\` WHERE \`id\`=(SELECT \`userID\` FROM \`UserRoleWebinarAssociations\` WHERE \`webinarID\`='${webinarID}')`;
+	const sql = `SELECT * FROM \`Users\` WHERE \`id\`=(SELECT \`userID\` FROM \`UserRoleWebinarAssociations\`
+							WHERE \`webinarID\`='${id}' AND \`roleID\`=(SELECT \`id\` 
+							FROM \`Roles\` WHERE \`name\`='host'))`;
 
 	try {
 		let results = await mysql.pool.query(sql);

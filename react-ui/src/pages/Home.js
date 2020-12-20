@@ -52,13 +52,14 @@ function Home() {
 			data[i].endTime =
 				endHour.hour + data[i].endTime.substring(2, 5) + endHour.ampm;
 		}
+		console.log(data);
 		setWebinars(data);
 	};
 
 	useEffect(() => {
 		getWebinarsQuery();
 	}, []);
-	console.log(webinars);
+	console.log(webinar);
 	return (
 		<Container>
 			<h1 className="mt-5 text-justify">Upcoming Webinars</h1>
@@ -72,8 +73,7 @@ function Home() {
 							topic={webinars[i].topic.name}
 							subtopic={webinars[i].subtopic}
 							title={webinars[i].title}
-							// host={webinars[i].host.name}
-							host="admin"
+							host={webinars[i].host.name}
 							date={webinars[i].date}
 							startTime={webinars[i].startTime}
 							endTime={webinars[i].endTime}
@@ -83,6 +83,7 @@ function Home() {
 									if (value.id === webinars[i].id) {
 										setWebinar(value);
 									}
+									console.log(webinar);
 								});
 							}}
 						/>
@@ -98,7 +99,6 @@ function Home() {
 				title={webinar.title}
 				description={webinar.description}
 				// host={webinar.host}
-				host="admin"
 				startTime={webinar.startTime}
 				endTime={webinar.endTime}
 				learn={webinar.learn}
