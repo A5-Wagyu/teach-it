@@ -28,12 +28,13 @@ const requireAuth = (req, res, next) => {
 
 
 // check current user 
-const checkUser = (req, res, next) => {
+const checkAuth = (req, res, next) => {
   const token = req.cookies.jwt;
+  console.log("Verifying token for user status");
+
   let user;
   if (token) {
     jwt.verify(token, process.env.TOKEN_SECRET, async (err, decodedToken) => {
-      console.log("Verifying token for user status");
       if (err) {
 
         console.log("Verifying error", err.message);
@@ -57,4 +58,4 @@ const checkUser = (req, res, next) => {
   }
 }
 
-module.exports = { requireAuth, checkUser }
+module.exports = { requireAuth, checkAuth }

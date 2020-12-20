@@ -2,9 +2,10 @@ require("dotenv").config({ path: "../.env" });
 const jwt = require('jsonwebtoken');
 const mysql = require("./db-config");
 const util = require("util");
+const cookieParser = require("cookie-parser");
 mysql.pool.query = util.promisify(mysql.pool.query);
 const bcrypt = require('bcrypt');
-
+const { requireAuth, checkAuth } = require('./authMiddleware');
 /// Utility const
 const saltRounds = 10;
 const maxAge = 60 * 60 * 24; // 24 hours
@@ -16,23 +17,34 @@ const createToken = (id) => {
 }
 
 
+module.exports.verifyToken = async (req, res, next) => {
+  const token = req.cookies.jwt;
+  console.log(req.body);
+  console.log("Verifying token");
+  if (token) {
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, decodedToken) => {
+      if (err) {
+        console.log(err.message);
+        res.json({
+          error: "user is not logged in",
+          isAuthenticated: false
+        });
+      } else {
+        console.log(decodedToken);
+        res.json({
+          isAuthenticated: true,
+          userID: decodedToken.id,
+        })
+      }
+    })
+  } else {
+    res.json({
+      error: "user is not logged in",
+      isAuthenticated: false
+    })
+  }
+}
 
-// module.exports.signup_get = (req, res) => {
-//   // if (req.session.user) {
-//   //   res.send({
-//   //     loggedIn: true,
-//   //     user: req.session.user
-//   //   })
-//   // } else {
-//   //   res.send({
-//   //     loggedIn: false
-//   //   })
-//   // }
-//   res.send("Sign up page");
-// }
-// module.exports.login_get = (req, res) => {
-//   res.send('login page');
-// }
 
 /////////////////////////////////////////
 // POST Sign Up
@@ -48,7 +60,7 @@ module.exports.signup_post = async (req, res) => {
   }
   // if email already exists
   if (checkEmailRes.length > 0) {
-    res.status(201).json({ error: "This email is not available" });
+    res.json({ error: "This email is not available" });
   } else {
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
     const query = `INSERT INTO Users (name, email, password) VALUES ` +
@@ -60,7 +72,7 @@ module.exports.signup_post = async (req, res) => {
     } catch (err) {
       console.log(err.message);
     }
-    res.status(201).send("Insert done");
+    res.status(201).send();
   }
 }
 
@@ -81,7 +93,7 @@ module.exports.login_post = async (req, res) => {
   // if email is not correct
   if (userInfo.length == 0) {
     res.status(201).json({
-      isLoggedIn: false,
+      // isAuthenticated: false,
       error: "email or password is incorrect"
     })
   } else {
@@ -101,16 +113,17 @@ module.exports.login_post = async (req, res) => {
         });
 
         // req.session.user = userInfo[0];
-        res.status(201).json({
-          isLoggedIn: true,
-          token: token,
-          userID: userInfo[0].id,
-          userName: userInfo[0].name
-        })
+        // res.status(201).json({
+        //   isAuthenticated: true,
+        //   token: token,
+        //   userID: userInfo[0].id,
+        //   userName: userInfo[0].name
+        // })
+        res.status(201).send();
       } else {
         // if password not correct
         res.json({
-          isLoggedIn: false,
+          // isAuthenticated: false,
           error: "email or password is incorrect"
         })
       }
@@ -126,7 +139,7 @@ module.exports.logout_post = (req, res) => {
   console.log("serving log out");
   res.cookie('jwt', '', { maxAge: 1 });
   res.json({
-    isLoggedIn: false,
+    isAuthenticated: false,
     userID: '',
     userName: ''
   })

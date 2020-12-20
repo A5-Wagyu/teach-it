@@ -9,7 +9,8 @@ import CreateWebinar from "./pages/CreateWebinar";
 import MyLearning from "./pages/MyLearning";
 import MyTeaching from "./pages/MyTeaching";
 import Search from "./pages/Search";
-import { AuthProvider } from "./contexts/authContext"
+import { AuthProvider } from "./contexts/authContext";
+import PrivateRoute from "./components/PrivateRoutes";
 
 function App() {
 
@@ -22,7 +23,7 @@ function App() {
             <Route path="/login" component={Login}></Route>
             <Route path="/signup" component={SignUp}></Route>
             <Route path="/createwebinar" component={CreateWebinar}></Route>
-            <Route path="/mylearning" component={MyLearning}></Route>
+            <PrivateRoute path="/mylearning" component={MyLearning}></PrivateRoute>
             <Route path="/myteaching" component={MyTeaching}></Route>
             <Route path="/search" component={Search}></Route>
             <Route path="/" exact component={Home}></Route>

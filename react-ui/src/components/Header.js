@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { getTopics } from "../services/topicService";
 import { getSubtopics } from "../services/subtopicService";
 import {
@@ -13,17 +13,26 @@ import {
 import { DropdownSubmenu, NavDropdownMenu } from "react-bootstrap-submenu";
 import { useAuth } from "../contexts/authContext";
 
-function Header() {
+function Header(props) {
 	const [topics, setTopics] = useState([]);
 	const [subtopics, setSubtopics] = useState([]);
 	const [values, setValues] = useState({});
-	const { currentUserID, currentUserName, isLoggedIn } = useAuth();
+	const { currentUserID, currentUserName, isAuthenticated, logout } = useAuth();
 
 	const getTopicsQuery = () => {
 		getTopics().then(function (t) {
 			setTopics(t.data);
 		});
 	};
+
+	const handleLogout = async () => {
+		await logout();
+		console.log(props);
+		// props.history.push("/");
+		return (
+			<Redirect to="/" />
+		);
+	}
 
 	const countTopic = (data) => {
 		const temp = {};
@@ -101,42 +110,39 @@ function Header() {
 					<Button variant="outline-success">Search</Button>
 				</Form>
 			</Navbar.Collapse>
-			{isLoggedIn &&
 
-				<div className="loggedIn d-flex align-items-center">
-					<p className="mb-0"> Welcome back, {currentUserName}</p>
-					<Nav.Item>
-						<Nav.Link href="/mylearning">My Learning</Nav.Link>
-					</Nav.Item>
-					<Nav.Item>
-						<Nav.Link href="/myteaching">My Teaching</Nav.Link>
-					</Nav.Item>
-					<Link to="/createwebinar">
-						<Button variant="outline-info" className="mr-3">
-							Create Webinar
+
+			<div className="loggedIn d-flex align-items-center">
+				<p className="mb-0"> Welcome back, {currentUserName}</p>
+				<Nav.Item>
+					<Nav.Link href="/mylearning">My Learning</Nav.Link>
+				</Nav.Item>
+				<Nav.Item>
+					<Nav.Link href="/myteaching">My Teaching</Nav.Link>
+				</Nav.Item>
+				<Link to="/createwebinar">
+					<Button variant="outline-info" className="mr-3">
+						Create Webinar
         </Button>
-					</Link>
-					<Link to="/logout">
-						<Button variant="info" className="mr-3">
-							Log Out
+				</Link>
+				<Button variant="info" className="mr-3" onClick={handleLogout}>
+					Log Out
         </Button>
-					</Link>
-				</div>
-			}
-			{!isLoggedIn &&
-				<div className="notLoggedIn">
-					<Link to="/login">
-						<Button variant="outline-info" className="mr-3">
-							Log In
+			</div>
+
+			<div className="notLoggedIn">
+				<Link to="/login">
+					<Button variant="outline-info" className="mr-3">
+						Log In
         </Button>
-					</Link>
-					<Link to="/signup">
-						<Button variant="info" className="mr-3">
-							Sign Up
+				</Link>
+				<Link to="/signup">
+					<Button variant="info" className="mr-3">
+						Sign Up
         </Button>
-					</Link>
-				</div>
-			}
+				</Link>
+			</div>
+
 		</Navbar>
 	);
 }

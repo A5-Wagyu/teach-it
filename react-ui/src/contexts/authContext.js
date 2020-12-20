@@ -13,7 +13,17 @@ export function AuthProvider({ children }) {
 
   const [currentUserID, setCurrentUserID] = useState();
   const [currentUserName, setCurrentUserName] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const verifyToken = async () => {
+    let res;
+    try {
+      res = await Axios.get('/verifyToken');
+    } catch (err) {
+      throw err;
+    }
+    return res.data;
+  }
 
   const signup = async ({ name, email, password }) => {
     const url = '/signup';
@@ -37,15 +47,15 @@ export function AuthProvider({ children }) {
         password: password
       });
     } catch (err) { throw err }
-    setCurrentUserID(res.data.userID);
-    setCurrentUserName(res.data.userName);
-    setIsLoggedIn(res.data.isLoggedIn);
+
+    setIsAuthenticated(res.data.isAuthenticated);
     return res.data
   }
 
   const logout = async () => {
-    const res = await Axios.post('url');
-    setIsLoggedIn(res.data.isLoggedIn);
+    const url = '/logout'
+    const res = await Axios.post(url);
+    setIsAuthenticated(res.data.isAuthenticated);
   }
 
 
@@ -53,10 +63,11 @@ export function AuthProvider({ children }) {
   const value = {
     currentUserID,
     currentUserName,
-    isLoggedIn,
+    isAuthenticated,
     signup,
     login,
-    logout
+    logout,
+    verifyToken
   }
 
   return (
