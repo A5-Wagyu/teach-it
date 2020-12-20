@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { WebinarDetail } from "../components/WebinarDetail";
 import { WebinarInfoCard } from "../components/WebinarInfoCard";
@@ -30,7 +29,6 @@ export default function MyTeaching() {
       ampm: ampm,
     };
   };
-
 
   const id = verifyLocalToken().userID;
 
@@ -70,9 +68,9 @@ export default function MyTeaching() {
   const checkTime = (webinarDate, endTime) => {
     let today = new Date();
 
-    const year = parseInt(webinarDate.substring(0, 2));
-    const month = parseInt(webinarDate.substring(4, 6));
-    const day = parseInt(webinarDate.substring(7, 11));
+    const day = parseInt(webinarDate.substring(3, 5));
+    const month = parseInt(webinarDate.substring(0, 2)) - 1;
+    const year = parseInt(webinarDate.substring(6, 10));
     endTime = endTime.padStart(7, "0");
     let hour = parseInt(endTime.substring(0, 2));
 
@@ -174,7 +172,6 @@ export default function MyTeaching() {
         zoomLink={clickWebinar.zoomLink}
         zoomPasscode={clickWebinar.zoomPasscode}
       />
-
     </Container>
   );
 }
