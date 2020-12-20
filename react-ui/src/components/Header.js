@@ -2,14 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getTopics } from "../services/topicService";
 import { getSubtopics } from "../services/subtopicService";
-import {
-  Navbar,
-  Nav,
-  NavDropdown,
-  Form,
-  FormControl,
-  Button,
-} from "react-bootstrap";
+import { Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
 import { DropdownSubmenu, NavDropdownMenu } from "react-bootstrap-submenu";
 import { useAuth } from "../contexts/authContext";
 
@@ -73,14 +66,10 @@ function Header() {
                             key={subtopic.name + i + j}
                           >
                             <Link
-                              className="text-reset"
                               to={{
                                 pathname: "/search",
                                 state: {
-                                  topicID: topic.id,
-                                  subtopicID: subtopic.id,
-                                  topicName: topic.name,
-                                  subtopicName: subtopic.name,
+                                  subtopic: subtopic,
                                 },
                               }}
                             >
@@ -97,13 +86,7 @@ function Header() {
               } else {
                 return (
                   <NavDropdown.Item as="div" key={i} title={topic.name}>
-                    <Link
-                      className="text-reset"
-                      to={{
-                        pathname: "/search",
-                        state: { topicID: topic.id, subtopicID: null },
-                      }}
-                    >
+                    <Link to={{ pathname: "/search", state: { topic: topic } }}>
                       {topic.name}
                     </Link>
                   </NavDropdown.Item>
@@ -112,11 +95,6 @@ function Header() {
             })}
           </NavDropdownMenu>
         </Nav>
-
-        <Form className="w-75" inline>
-          <FormControl className="w-50 mr-2" type="text" placeholder="Search" />
-          <Button variant="outline-success">Search</Button>
-        </Form>
       </Navbar.Collapse>
       {isLoggedIn && (
         <div className="loggedIn d-flex align-items-center">
@@ -126,6 +104,16 @@ function Header() {
           </Nav.Item>
           <Nav.Item>
             <Nav.Link href="/myteaching">My Teaching</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Link
+								to={{
+									pathname: "/search",
+									state: {},
+								}}
+              >
+                Search
+            </Link>
           </Nav.Item>
           <Link to="/createwebinar">
             <Button variant="outline-info" className="mr-3">
