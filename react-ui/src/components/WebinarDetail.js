@@ -17,9 +17,6 @@ export const WebinarDetail = ({
   know,
   need,
 }) => {
-  const onClick = () => {
-    window.open(zoomLink);
-  };
 
   return (
     <Modal show={show} onHide={handleClose} keyboard={false}>
@@ -43,7 +40,7 @@ export const WebinarDetail = ({
           <Button className="mr-3" variant="outline-primary">
             Share
           </Button>
-          <Button className="mr-3" variant="outline-primary" onClick={onClick}>
+          <Button target="_blank" href={`//` + zoomLink} className="mr-3" variant="outline-primary">
             Zoom Link
           </Button>
           <span>Passcode: {zoomPasscode}</span>
