@@ -144,16 +144,16 @@ const Search = (props) => {
         style={
           searchbar
             ? {
-                position: "relative",
-                top: "2rem",
-                left: "0",
-                minWidth: "20%",
-              }
+              position: "relative",
+              top: "2rem",
+              left: "0",
+              minWidth: "20%",
+            }
             : {
-                position: "fixed",
-                top: "0.6rem",
-                left: "15.5rem",
-              }
+              position: "fixed",
+              top: "0.6rem",
+              left: "15.5rem",
+            }
         }
       >
         <FormControl

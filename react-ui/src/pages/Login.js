@@ -4,7 +4,7 @@ import { Button, Container, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/authContext";
 import Axios from 'axios';
 
-export default function Login(props) {
+export default function Login({ setIsAuthenticated, history }) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
@@ -24,7 +24,8 @@ export default function Login(props) {
 		if (res.error) {
 			setError(res.error);
 		} else {
-			props.history.push("/");
+			setIsAuthenticated(true);
+			history.push("/");
 		}
 	}
 

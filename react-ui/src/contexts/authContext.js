@@ -10,7 +10,7 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const history = useHistory();
   const verifyToken = async () => {
     let res;
@@ -26,14 +26,14 @@ export function AuthProvider({ children }) {
     if (localStorage.getItem("jwt")) {
       const userID = localStorage.getItem("userID");
       const userName = localStorage.getItem("userName");
-      setIsAuthenticated(true);
+      // setIsAuthenticated(true);
       return {
         isAuthenticated: true,
         userID: userID,
         userName: userName,
       }
     } else {
-      setIsAuthenticated(true);
+      // setIsAuthenticated(true);
       return {
         isAuthenticated: false
       }
@@ -64,11 +64,10 @@ export function AuthProvider({ children }) {
     } catch (err) { throw err }
     if (res.data.jwt) {
       console.log(res.data.jwt);
-      setIsAuthenticated(true);
+      // setIsAuthenticated(true);
       localStorage.setItem("jwt", res.data.jwt);
       localStorage.setItem("userID", res.data.userID);
       localStorage.setItem("userName", res.data.userName);
-      window.location.reload();
     }
 
     return res.data
@@ -80,7 +79,7 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("jwt");
     localStorage.removeItem("userName");
     localStorage.removeItem("userID");
-    setIsAuthenticated(false);
+    // setIsAuthenticated(false);
     history.push("/");
   }
 
@@ -90,7 +89,7 @@ export function AuthProvider({ children }) {
     logout,
     verifyToken,
     verifyLocalToken,
-    isAuthenticated
+    // isAuthenticated
   }
 
   return (
