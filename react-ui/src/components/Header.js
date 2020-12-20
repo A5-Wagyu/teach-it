@@ -105,16 +105,6 @@ function Header() {
           <Nav.Item>
             <Nav.Link href="/myteaching">My Teaching</Nav.Link>
           </Nav.Item>
-          <Nav.Item>
-            <Link
-								to={{
-									pathname: "/search",
-									state: {},
-								}}
-              >
-                Search
-            </Link>
-          </Nav.Item>
           <Link to="/createwebinar">
             <Button variant="outline-info" className="mr-3">
               Create Webinar
