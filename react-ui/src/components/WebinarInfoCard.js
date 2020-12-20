@@ -14,7 +14,7 @@ export const WebinarInfoCard = ({
   onClick,
 }) => {
 
-	const header = subtopic ? `${topic} > ${subtopic.name}` : `${topic}`;
+	const header = subtopic ? `${subtopic.name}` : `${topic}`;
 	return (
 		<>
 			<style type={"text/css"}>
