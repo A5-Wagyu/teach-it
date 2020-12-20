@@ -24,7 +24,7 @@ export const WebinarInfoCard = ({
         `}
       </style>
       <Card
-        className="rounded mr-3 mb-3 text-justify shadow "
+        className="rounded mr-3 mb-3 text-left shadow "
         id="webinar-card"
         style={{ width: "22rem", height: "16rem" }}
         onClick={onClick}
