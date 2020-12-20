@@ -114,6 +114,9 @@ function Header({ isAuthenticated, setIsAuthenticated, ...props }) {
 						text-decoration: none !important;
 						
 					}
+					.dropdown-item{
+						color:black !important;
+					}
 				`}
 			</style>
 			<Navbar expand="lg">
@@ -141,7 +144,7 @@ function Header({ isAuthenticated, setIsAuthenticated, ...props }) {
 																key={subtopic.name + i + j}
 															>
 																<Link
-																	className="text-reset"
+																	className="text-reset dropdown-item"
 																	to={{
 																		pathname: "/search",
 																		state: {
