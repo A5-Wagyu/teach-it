@@ -69,14 +69,14 @@ function Header({ isAuthenticated, setIsAuthenticated, ...props }) {
 						color:white !important;
 						font-weight:470;
 					}
-					.btn-info{
+					.custom-btn-info{
 							background-color: #7fdad1;
 							border-color:#7fdad1;
 							color:#4e4a51;
 							font-weight:500;
 							width:85px;
 					}
-					.btn-info:hover{
+					.custom-btn-info:hover{
 							background-color: #8ef8ed;
 							border-color:#89f3e8;
 							font-weight:500;
@@ -85,13 +85,13 @@ function Header({ isAuthenticated, setIsAuthenticated, ...props }) {
 							
 							
 					}
-					.btn-outline-info{
+					.custom-outline-info{
 						color:#7fdad1;
 						border-color:#7fdad1;
 						font-weight:500;
 						width:85px;
 					}
-					.btn-outline-info:hover{
+					.custom-outline-info:hover{
 						color:#4e4a51;
 						background-color: #8ef8ed;
 						border-color:#89f3e8;
@@ -100,10 +100,17 @@ function Header({ isAuthenticated, setIsAuthenticated, ...props }) {
 					
 
 					}
-					#btn-create-webinar{
+					.btn-create-webinar{
+						color:#7fdad1;
+						border-color:#7fdad1;
+						font-weight:500;
 						width: 140px;	
 					}
-					#btn-create-webinar:hover{
+					.btn-create-webinar:hover{
+						background-color: #8ef8ed;
+						border-color:#89f3e8;
+						font-weight:500;
+						color:#4e4a51;
 						width: 140px;
 					}
 					.navbar-link{
@@ -192,13 +199,16 @@ function Header({ isAuthenticated, setIsAuthenticated, ...props }) {
 						<Link to="/createwebinar">
 							<Button
 								variant="outline-info"
-								id="btn-create-webinar"
-								className="mr-3"
+								className="mr-3 btn-create-webinar"
 							>
 								Create Webinar
 							</Button>
 						</Link>
-						<Button variant="info" className="mr-3" onClick={handleLogout}>
+						<Button
+							variant="info"
+							className="mr-3 custom-btn-info"
+							onClick={handleLogout}
+						>
 							Log Out
 						</Button>
 					</div>
@@ -206,13 +216,16 @@ function Header({ isAuthenticated, setIsAuthenticated, ...props }) {
 				{!isAuthenticated && (
 					<div className="notLoggedIn">
 						<Link to="/login">
-							<Button variant="outline-info" className="mr-3">
+							<Button
+								variant="outline-info"
+								className="mr-3 custom-outline-info"
+							>
 								Log In
 							</Button>
 						</Link>
 
 						<Link to="/signup">
-							<Button variant="info" className="mr-3">
+							<Button variant="info" className="mr-3 custom-btn-info">
 								Sign Up
 							</Button>
 						</Link>
