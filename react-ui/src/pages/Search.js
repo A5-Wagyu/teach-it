@@ -16,6 +16,8 @@ const Search = (props) => {
   const [webinars, setWebinars] = useState([]);
   const [show, setShow] = useState(false);
   const [webinar, setWebinar] = useState("");
+
+
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -44,9 +46,7 @@ const Search = (props) => {
 
   const getWebinarsByTitleQuery = async (text) => {
     let data;
-
     data = await getWebinarsByTitleContains({ title: text });
-
     data = data.data;
     for (let i = 0; i < data.length; i++) {
       let host = await getHostByWebinarID({ id: data[i].id });
@@ -123,73 +123,77 @@ const Search = (props) => {
     }
   }, [props.history.location.key]);
 
-  return (
-    <Container>
-      <h3 className="text-justify mt-4">Search Webinars</h3>
-      <Form onSubmit={onSubmit} className="w-75" inline>
-        <FormControl
-          onChange={search}
-          className="w-75 mr-2"
-          type="text"
-          placeholder="Search"
-          inline
-        />
-        <FormControl
-          type="submit"
-          onClick={onSubmit}
-          type="submit"
-          placeholder="Search"
-        />
-      </Form>
+  if (!webinars.length) {
+    return (<Container className="mt-3"><h3>Loading, please wait...</h3></Container>);
+  } else {
+    return (
+      <Container>
+        <h3 className="text-justify mt-4">Search Webinars</h3>
+        <Form onSubmit={onSubmit} className="w-75" inline>
+          <FormControl
+            onChange={search}
+            className="w-75 mr-2"
+            type="text"
+            placeholder="Search"
+            inline
+          />
+          <FormControl
+            type="submit"
+            onClick={onSubmit}
+            type="submit"
+            placeholder="Search"
+          />
+        </Form>
 
-      <h1 className="mt-5 text-justify">Upcoming Webinars</h1>
+        <h1 className="mt-5 text-justify">Upcoming Webinars</h1>
 
-      <Container className="d-flex flex-wrap mt-3 p-0">
-        {webinars.map((value, i) => {
-          return (
-            <WebinarInfoCard
-              name={webinars[i].id}
-              key={i}
-              topic={webinars[i].topic.name}
-              subtopic={webinars[i].subtopic}
-              title={webinars[i].title}
-              host={webinars[i].host.name}
-              date={webinars[i].date}
-              startTime={webinars[i].startTime}
-              endTime={webinars[i].endTime}
-              onClick={(e) => {
-                setShow(true);
-                webinars.map((value, j) => {
-                  if (value.id === webinars[i].id) {
-                    setWebinar(value);
-                  }
-                });
-              }}
-            />
-          );
-        })}
+        <Container className="d-flex flex-wrap mt-3 p-0">
+          {webinars.map((value, i) => {
+            return (
+              <WebinarInfoCard
+                name={webinars[i].id}
+                key={i}
+                topic={webinars[i].topic.name}
+                subtopic={webinars[i].subtopic}
+                title={webinars[i].title}
+                host={webinars[i].host.name}
+                date={webinars[i].date}
+                startTime={webinars[i].startTime}
+                endTime={webinars[i].endTime}
+                onClick={(e) => {
+                  setShow(true);
+                  webinars.map((value, j) => {
+                    if (value.id === webinars[i].id) {
+                      setWebinar(value);
+                    }
+                  });
+                }}
+              />
+            );
+          })}
+        </Container>
+
+        <WebinarDetail
+          show={show}
+          handleClose={(e) => {
+            setShow(false);
+          }}
+          id={webinar.id}
+          title={webinar.title}
+          description={webinar.description}
+          host={webinar.host}
+          startTime={webinar.startTime}
+          endTime={webinar.endTime}
+          learn={webinar.learn}
+          know={webinar.know}
+          need={webinar.need}
+          date={webinar.date}
+          zoomLink={webinar.zoomLink}
+          zoomPasscode={webinar.zoomPasscode}
+        />
       </Container>
-
-      <WebinarDetail
-        show={show}
-        handleClose={(e) => {
-          setShow(false);
-        }}
-        id={webinar.id}
-        title={webinar.title}
-        description={webinar.description}
-        host={webinar.host}
-        startTime={webinar.startTime}
-        endTime={webinar.endTime}
-        learn={webinar.learn}
-        know={webinar.know}
-        need={webinar.need}
-        date={webinar.date}
-        zoomLink={webinar.zoomLink}
-        zoomPasscode={webinar.zoomPasscode}
-      />
-    </Container>
-  );
+    );
+  }
 };
 
 export default Search;
