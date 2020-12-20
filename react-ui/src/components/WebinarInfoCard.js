@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, Container } from "react-bootstrap";
+import "../App.css";
 
 export const WebinarInfoCard = ({
   name,
@@ -15,11 +16,16 @@ export const WebinarInfoCard = ({
   const header = subtopic ? `${topic} > ${subtopic.name}` : `${topic}`;
   return (
     <Card
-      className="rounded mr-3 mb-3 text-justify"
+      className="rounded mr-3 mb-3 text-justify shadow "
       style={{ width: "22rem", height: "16rem" }}
       onClick={onClick}
     >
-      <Card.Header>{header}</Card.Header>
+      <Card.Header
+        className="text-light"
+        style={{ backgroundColor: "#484c53" }}
+      >
+        {header}
+      </Card.Header>
 
       <Card.Body>
         <Card.Title name={name} className="mb-4" style={{ height: "40%" }}>

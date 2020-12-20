@@ -41,6 +41,15 @@
   margin-bottom: 5% !important;
 }
 
+.card-title {
+  font-size: 1.45rem !important;
+}
+
+.card-header,
+.card-subtitle {
+  font-size: 1.08rem !important;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
