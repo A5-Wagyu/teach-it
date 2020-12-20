@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, NavLink, Redirect } from "react-router-dom";
 import { getTopics } from "../services/topicService";
 import { getSubtopics } from "../services/subtopicService";
 import { Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
@@ -118,15 +118,17 @@ function Header({ isAuthenticated, setIsAuthenticated, history }) {
 			</Navbar.Collapse>
 			{isAuthenticated && (
 				<div className="loggedIn d-flex align-items-center">
+					{/* <Link to="/mylearning">
+						<Button variant="outline-info" className="mr-3">
+							My Learning
+            </Button>
+					</Link> */}
 					<Link to="/mylearning">
-						<Nav.Item>
-							<Nav.Link >My Learning</Nav.Link>
-						</Nav.Item>
+						<span className="mr-3">My Learning</span>
 					</Link>
-
-					<Nav.Item>
-						<Nav.Link >My Teaching</Nav.Link>
-					</Nav.Item>
+					<Link to="/myteaching">
+						<span className="mr-3">My Teaching</span>
+					</Link>
 					<Link to="/createwebinar">
 						<Button variant="outline-info" className="mr-3">
 							Create Webinar

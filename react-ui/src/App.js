@@ -13,7 +13,11 @@ import { AuthProvider } from "./contexts/authContext";
 import PrivateRoute from "./components/PrivateRoutes";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  let auth;
+  if (localStorage.getItem("jwt")) {
+    auth = true;
+  } else auth = false;
+  const [isAuthenticated, setIsAuthenticated] = useState(auth);
   return (
     <div className="App">
       <Router>
