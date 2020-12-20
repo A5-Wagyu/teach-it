@@ -7,39 +7,39 @@ import { DropdownSubmenu, NavDropdownMenu } from "react-bootstrap-submenu";
 import { useAuth } from "../contexts/authContext";
 
 function Header() {
-	const [topics, setTopics] = useState([]);
-	const [subtopics, setSubtopics] = useState([]);
-	const [values, setValues] = useState({});
-	const { currentUserID, currentUserName, isLoggedIn } = useAuth();
+  const [topics, setTopics] = useState([]);
+  const [subtopics, setSubtopics] = useState([]);
+  const [values, setValues] = useState({});
+  const { currentUserID, currentUserName, isLoggedIn } = useAuth();
 
-	const getTopicsQuery = () => {
-		getTopics().then(function (t) {
-			setTopics(t.data);
-		});
-	};
+  const getTopicsQuery = () => {
+    getTopics().then(function (t) {
+      setTopics(t.data);
+    });
+  };
 
-	const countTopic = (data) => {
-		const temp = {};
-		data.map((subtopic) => {
-			return (temp[subtopic.topicID] = true);
-		});
-		setValues(temp);
-	};
+  const countTopic = (data) => {
+    const temp = {};
+    data.map((subtopic) => {
+      return (temp[subtopic.topicID] = true);
+    });
+    setValues(temp);
+  };
 
-	const getSubtopicsQuery = () => {
-		getSubtopics().then(function (st) {
-			setSubtopics(st.data);
-			countTopic(st.data);
-		});
-	};
+  const getSubtopicsQuery = () => {
+    getSubtopics().then(function (st) {
+      setSubtopics(st.data);
+      countTopic(st.data);
+    });
+  };
 
-	useEffect(() => {
-		getTopicsQuery();
-	}, []);
+  useEffect(() => {
+    getTopicsQuery();
+  }, []);
 
-	useEffect(() => {
-		getSubtopicsQuery();
-	}, []);
+  useEffect(() => {
+    getSubtopicsQuery();
+  }, []);
 
   return (
     <Navbar bg="light" expand="lg">
@@ -66,6 +66,7 @@ function Header() {
                             key={subtopic.name + i + j}
                           >
                             <Link
+                              className="text-reset"
                               to={{
                                 pathname: "/search",
                                 state: {
@@ -86,7 +87,10 @@ function Header() {
               } else {
                 return (
                   <NavDropdown.Item as="div" key={i} title={topic.name}>
-                    <Link to={{ pathname: "/search", state: { topic: topic } }}>
+                    <Link
+                      className="text-reset"
+                      to={{ pathname: "/search", state: { topic: topic } }}
+                    >
                       {topic.name}
                     </Link>
                   </NavDropdown.Item>

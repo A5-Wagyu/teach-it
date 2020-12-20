@@ -51,9 +51,9 @@ const Search = (props) => {
     data = data.data;
     for (let i = 0; i < data.length; i++) {
       let host = await getHostByWebinarID({ id: data[i].id });
-			data[i].topic = data[i].subTopicID ? 
-				await getSubtopicById({ id: data[i].subTopicID }) 
-				: await getTopicById({ id: data[i].topicID });
+      data[i].topic = data[i].subTopicID
+        ? await getSubtopicById({ id: data[i].subTopicID })
+        : await getTopicById({ id: data[i].topicID });
       data[i].host = host;
 
       const year = data[i].date.substring(0, 4);
@@ -126,7 +126,16 @@ const Search = (props) => {
 
   return (
     <Container>
-      <Form onSubmit={onSubmit} className="w-75" inline>
+      <Form
+        onSubmit={onSubmit}
+        className="w-75"
+        inline
+        style={{
+          position: "fixed",
+          top: "1.28%",
+          left: "16.4%",
+        }}
+      >
         <FormControl
           onChange={search}
           className="w-50 mr-2"
