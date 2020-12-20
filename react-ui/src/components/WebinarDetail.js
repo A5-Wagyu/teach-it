@@ -24,15 +24,22 @@ export const WebinarDetail = ({
   need,
 }) => {
   const [isGoing, setIsGoing] = useState(false);
-  const [imGoing, setImGoing] = useState(`I'm Going`);
   const userID = verifyLocalToken().userID;
   const addUserGuestQuery = async () => {
     let res = await addUserGuest({ userID: userID, webinarID: id });
     if (res.status == 200) {
       setIsGoing(true);
-      setImGoing(<FontAwesomeIcon icon={faCheck} />)
     }
   };
+
+
+  // event listener
+  const goingBtns = document.getElementsByClassName('btn-going');
+  for (let i = 0; i < goingBtns.length; i++) {
+    goingBtns[i].addEventListener('click', e => {
+      console.log(e.target);
+    });
+  }
 
   useEffect(() => {
     getUserGuest({ userID: userID, webinarID: id }).then(function (res) {
@@ -46,13 +53,16 @@ export const WebinarDetail = ({
     <>
       <style type="text/css">
         {`
-          #btn-going{
-            width: 100px;
+          .btn-going{
+            width: 110px;
+          },
+          .btn-going:hover {
+            width: 110px !important;
           }
-          `}
+        `}
       </style>
       <Modal show={show} onHide={handleClose} keyboard={false}>
-        <FontAwesomeIcon icon={faCheck} />
+        {/* <FontAwesomeIcon icon={faCheck} /> */}
         <div className="pl-5 pr-5 pb-4">
           <h1 className="mt-5">{title}</h1>
           <p className="mt-4">{description}</p>
@@ -69,11 +79,10 @@ export const WebinarDetail = ({
           <div className="mt-3">
             <Button
               onClick={addUserGuestQuery}
-              className="mr-3"
+              className="mr-3 btn-going"
               variant="info"
-              id="btn-going"
             >
-              {imGoing}
+              I'm Going
             </Button>
             <Button className="mr-3" variant="outline-primary">
               Share
