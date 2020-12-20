@@ -59,7 +59,7 @@ function Header({ isAuthenticated, setIsAuthenticated, ...props }) {
 			<style type="text/css">
 				{`
 					.navbar{
-						background-color:#202020;
+						background-color:#414A50;
 					}
 					.navbar-brand{
 						color:white !important;
@@ -80,23 +80,41 @@ function Header({ isAuthenticated, setIsAuthenticated, ...props }) {
 							border-color:#89f3e8;
 							font-weight:500;
 							color:#4e4a51;
-							width:83px;
+							width:87px;
+							height:42px;
+							
 					}
 					.btn-outline-info{
 						color:#7fdad1;
 						border-color:#7fdad1;
 						font-weight:500;
-						width:83px;
+						width:85px;
 					}
 					.btn-outline-info:hover{
 						color:#4e4a51;
 						background-color: #8ef8ed;
 						border-color:#89f3e8;
 						font-weight:500;
-						width:83px;
+						width:87px;
+						height:42px;
 
 					}
-
+					#btn-create-webinar{
+						width: 140px;
+						
+					}
+					#btn-create-webinar:hover{
+						width: 142px;
+						height: 42px;
+					}
+					.navbar-link{
+							text-decoration: none !important;
+							color:white !important;
+					}
+					.navbar-link:hover{
+						text-decoration: none !important;
+						font-size:1.2rem;
+					}
 				`}
 			</style>
 			<Navbar expand="lg">
@@ -159,14 +177,20 @@ function Header({ isAuthenticated, setIsAuthenticated, ...props }) {
 				</Navbar.Collapse>
 				{isAuthenticated && (
 					<div className="loggedIn d-flex align-items-center">
-						<Link to="/mylearning">
-							<span className="mr-3">My Learning</span>
-						</Link>
-						<Link to="/myteaching">
-							<span className="mr-3">My Teaching</span>
-						</Link>
+						<span id="navbar-links">
+							<Link to="/mylearning" className="navbar-link">
+								<span className="mr-3">My Learning</span>
+							</Link>
+							<Link to="/myteaching" className="navbar-link">
+								<span className="mr-3">My Teaching</span>
+							</Link>
+						</span>
 						<Link to="/createwebinar">
-							<Button variant="outline-info" className="mr-3">
+							<Button
+								variant="outline-info"
+								id="btn-create-webinar"
+								className="mr-3"
+							>
 								Create Webinar
 							</Button>
 						</Link>
@@ -177,13 +201,12 @@ function Header({ isAuthenticated, setIsAuthenticated, ...props }) {
 				)}
 				{!isAuthenticated && (
 					<div className="notLoggedIn">
-						<span className="btn-login">
-							<Link to="/login">
-								<Button variant="outline-info" className="mr-3">
-									Log In
-								</Button>
-							</Link>
-						</span>
+						<Link to="/login">
+							<Button variant="outline-info" className="mr-3">
+								Log In
+							</Button>
+						</Link>
+
 						<Link to="/signup">
 							<Button variant="info" className="mr-3">
 								Sign Up
