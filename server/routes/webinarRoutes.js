@@ -103,28 +103,44 @@ router.post("/createWebinar", async (req, res) => {
 	const isComplete = req.body.isComplete;
 	const topicID = req.body.topicID;
 	const subTopicID = req.body.subTopicID;
+	let createWebinarQuery;
 
-	let createWebinarQuery = `INSERT INTO \`Webinars\` (\`title\`, \`date\`, \`startTime\`, 
+	if (subTopicID == "") {
+		createWebinarQuery = `INSERT INTO \`Webinars\` (\`title\`, \`date\`, \`startTime\`, 
 														\`endTime\`, \`topicID\`, \`subTopicID\`,\`description\`,\`learn\`, 
 														\`know\`, \`need\`, \`zoomLink\`,\`zoomPasscode\`, \`isComplete\`) 
 														VALUES ('${title}', '${date}',  '${startTime}', '${endTime}', '${topicID}', 
-														'${subTopicID}', '${description}', '${learn}', '${know}', '${need}', 
+														NULL, '${description}', '${learn}', '${know}', '${need}', 
 														'${zoomLink}', '${zoomPasscode}', '${isComplete}') `;
+	} else {
+		createWebinarQuery = `INSERT INTO \`Webinars\` (\`title\`, \`date\`, \`startTime\`, 
+															\`endTime\`, \`topicID\`, \`subTopicID\`,\`description\`,\`learn\`, 
+															\`know\`, \`need\`, \`zoomLink\`,\`zoomPasscode\`, \`isComplete\`) 
+															VALUES ('${title}', '${date}',  '${startTime}', '${endTime}', '${topicID}', 
+															'${subTopicID}', '${description}', '${learn}', '${know}', '${need}', 
+															'${zoomLink}', '${zoomPasscode}', '${isComplete}') `;
+	}
+	let createWebinar;
 
+	// console.log(subTopicID);
 	try {
-		let createWebinar = await mysql.pool.query(createWebinarQuery);
-
-		let associacionQuery = `INSERT INTO \`UserRoleWebinarAssociations\` 
-													(\`userID\`, \`roleID\`, \`webinarID\`) 
-													VALUES ('${userID}', 1, 
-													(SELECT \`id\` FROM \`Webinars\` WHERE \`id\`=LAST_INSERT_ID()))`;
-
-		let assocation = await mysql.pool.query(associacionQuery);
-
-		res.send({ createWebinar: createWebinar, assocation: assocation });
+		createWebinar = await mysql.pool.query(createWebinarQuery);
+		console.log(createWebinar);
 	} catch (err) {
 		throw err;
 	}
+
+	let associacionQuery = `INSERT INTO \`UserRoleWebinarAssociations\` 
+												(\`userID\`, \`roleID\`, \`webinarID\`) 
+												VALUES ('${userID}', 1, 
+												(SELECT \`id\` FROM \`Webinars\` WHERE \`id\`=LAST_INSERT_ID()))`;
+	let association;
+	try {
+		association = await mysql.pool.query(associacionQuery);
+	} catch (err) {
+		throw err;
+	}
+	res.send({ createWebinar: createWebinar, association: association });
 });
 
 router.post("/getWebinarsByIsUserID", async (req, res) => {

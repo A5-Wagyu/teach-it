@@ -33,7 +33,7 @@ CREATE TABLE `Subtopics`(
     FOREIGN KEY (`topicID`) REFERENCES `Topics` (`id`)
 );
 CREATE TABLE `Webinars`(
-    `id` int NOT NULL AUTO_INCREMENT,
+    `id` INT NOT NULL AUTO_INCREMENT,
     `title` varchar(255) NOT NULL,
     `date` DATETIME,
     `startTime` TIME,
@@ -45,7 +45,7 @@ CREATE TABLE `Webinars`(
     `zoomLink` varchar(255) NOT NULL,
     `zoomPasscode` varchar(255),
     `isComplete` BOOLEAN,
-    `topicID` int NOT NULL,
+    `topicID` INT NOT NULL,
     `subTopicID` INT,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`subTopicID`) REFERENCES `Subtopics` (`id`),
