@@ -90,7 +90,7 @@ const Search = (props) => {
       let host = await getHostByWebinarID({ id: data[i].id });
       data[i].topic = topic ? topic : subtopic;
       data[i].host = host;
-      console.log(data[i]);
+
 
       const year = data[i].date.substring(0, 4);
       const month = data[i].date.substring(5, 7);
@@ -125,6 +125,7 @@ const Search = (props) => {
   }, [props.history.location.key]);
 
 
+
   return (
     <Container>
       <Form
@@ -146,14 +147,17 @@ const Search = (props) => {
             width: "900px",
             marginRight: "1rem",
           }}
+
         />
         <FormControl
           type="submit"
           onClick={onSubmit}
+
           type="submit"
           placeholder="Search"
         />
       </Form>
+
 
       <h1 className="mt-5 text-justify">Upcoming Webinars</h1>
 
