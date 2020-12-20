@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react'
+import { useHistory } from "react-router-dom";
 import Axios from "axios";
 
 const AuthContext = React.createContext();
-
 
 // custom hook
 export function useAuth() {
@@ -10,10 +10,35 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const history = useHistory();
+  const verifyToken = async () => {
+    let res;
+    try {
+      res = await Axios.get('/verifyToken');
+    } catch (err) {
+      throw err;
+    }
+    return res.data;
+  }
 
-  const [currentUserID, setCurrentUserID] = useState();
-  const [currentUserName, setCurrentUserName] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const verifyLocalToken = () => {
+    if (localStorage.getItem("jwt")) {
+      const userID = localStorage.getItem("userID");
+      const userName = localStorage.getItem("userName");
+      setIsAuthenticated(true);
+      return {
+        isAuthenticated: true,
+        userID: userID,
+        userName: userName,
+      }
+    } else {
+      setIsAuthenticated(true);
+      return {
+        isAuthenticated: false
+      }
+    }
+  }
 
   const signup = async ({ name, email, password }) => {
     const url = '/signup';
@@ -37,26 +62,35 @@ export function AuthProvider({ children }) {
         password: password
       });
     } catch (err) { throw err }
-    setCurrentUserID(res.data.userID);
-    setCurrentUserName(res.data.userName);
-    setIsLoggedIn(res.data.isLoggedIn);
+    if (res.data.jwt) {
+      console.log(res.data.jwt);
+      setIsAuthenticated(true);
+      localStorage.setItem("jwt", res.data.jwt);
+      localStorage.setItem("userID", res.data.userID);
+      localStorage.setItem("userName", res.data.userName);
+      window.location.reload();
+    }
+
     return res.data
   }
 
   const logout = async () => {
-    const res = await Axios.post('url');
-    setIsLoggedIn(res.data.isLoggedIn);
+    const url = '/logout'
+    const res = await Axios.post(url);
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userID");
+    setIsAuthenticated(false);
+    history.push("/");
   }
 
-
-
   const value = {
-    currentUserID,
-    currentUserName,
-    isLoggedIn,
     signup,
     login,
-    logout
+    logout,
+    verifyToken,
+    verifyLocalToken,
+    isAuthenticated
   }
 
   return (

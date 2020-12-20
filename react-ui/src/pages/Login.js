@@ -19,7 +19,6 @@ export default function Login(props) {
 	async function handleSubmit(event) {
 		event.preventDefault();
 		const res = await login({ email, password })
-		console.log(res);
 
 		// if there's an error
 		if (res.error) {

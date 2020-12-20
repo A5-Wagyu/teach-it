@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { getTopics } from "../services/topicService";
 import { getSubtopics } from "../services/subtopicService";
 import { Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
 import { DropdownSubmenu, NavDropdownMenu } from "react-bootstrap-submenu";
 import { useAuth } from "../contexts/authContext";
 
-function Header() {
-  const [topics, setTopics] = useState([]);
-  const [subtopics, setSubtopics] = useState([]);
-  const [values, setValues] = useState({});
-  const { currentUserID, currentUserName, isLoggedIn } = useAuth();
+
+function Header(props) {
+	const [topics, setTopics] = useState([]);
+	const [subtopics, setSubtopics] = useState([]);
+	const [values, setValues] = useState({});
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	const { verifyLocalToken, logout } = useAuth();
+
+	const res = verifyLocalToken();
+
 
   const getTopicsQuery = () => {
     getTopics().then(function (t) {
@@ -18,13 +23,25 @@ function Header() {
     });
   };
 
-  const countTopic = (data) => {
-    const temp = {};
-    data.map((subtopic) => {
-      return (temp[subtopic.topicID] = true);
-    });
-    setValues(temp);
-  };
+
+	const handleLogout = async () => {
+		await logout();
+		setIsAuthenticated(false);
+		console.log(props);
+		// props.history.push("/");
+		return (
+			<Redirect to="/" />
+		);
+	}
+
+	const countTopic = (data) => {
+		const temp = {};
+		data.map((subtopic) => {
+			return (temp[subtopic.topicID] = true);
+		});
+		setValues(temp);
+	};
+
 
   const getSubtopicsQuery = () => {
     getSubtopics().then(function (st) {
@@ -40,6 +57,7 @@ function Header() {
   useEffect(() => {
     getSubtopicsQuery();
   }, []);
+
 
   return (
     <Navbar bg="light" expand="lg">
@@ -137,6 +155,7 @@ function Header() {
       )}
     </Navbar>
   );
+
 }
 
 export default Header;

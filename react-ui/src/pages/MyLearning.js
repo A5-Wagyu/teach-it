@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { WebinarDetail } from "../components/WebinarDetail";
 import { WebinarInfoCard } from "../components/WebinarInfoCard";
@@ -170,6 +171,7 @@ export default function MyTeaching() {
         zoomLink={clickWebinar.zoomLink}
         zoomPasscode={clickWebinar.zoomPasscode}
       />
+
     </Container>
   );
 }

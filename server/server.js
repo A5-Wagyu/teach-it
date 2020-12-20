@@ -51,7 +51,6 @@ app.get("/test", requireAuth, (req, res) => {
 
 // Include routes
 // check authorization of current user for all get requests
-// app.get('*', checkUser);
 app.use(authRoutes);
 app.use(userRoutes);
 app.use(topicRoutes);
