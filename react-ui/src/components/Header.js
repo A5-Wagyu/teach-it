@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Link, NavLink, Redirect } from "react-router-dom";
+import Axios from "axios";
 import { getTopics } from "../services/topicService";
 import { getSubtopics } from "../services/subtopicService";
 import { Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
 import { DropdownSubmenu, NavDropdownMenu } from "react-bootstrap-submenu";
-import { useAuth } from "../contexts/authContext";
+import { verifyLocalToken, logout } from "../services/authService";
+import { useHistory } from "react-router-dom";
 
-
-function Header({ isAuthenticated, setIsAuthenticated, history }) {
+function Header({ isAuthenticated, setIsAuthenticated, ...props }) {
 	const [topics, setTopics] = useState([]);
 	const [subtopics, setSubtopics] = useState([]);
 	const [values, setValues] = useState({});
-	const { verifyLocalToken, logout } = useAuth();
 
-	const res = verifyLocalToken();
+	const history = useHistory();
 
 
 	const getTopicsQuery = () => {
@@ -24,12 +24,14 @@ function Header({ isAuthenticated, setIsAuthenticated, history }) {
 
 
 	const handleLogout = async () => {
-		await logout();
+		const url = '/logout'
+		const res = await Axios.post(url);
+		localStorage.removeItem("jwt");
+		localStorage.removeItem("userName");
+		localStorage.removeItem("userID");
+
 		setIsAuthenticated(false);
-		// props.history.push("/");
-		return (
-			<Redirect to="/" />
-		);
+		history.push("/");
 	}
 
 	const countTopic = (data) => {

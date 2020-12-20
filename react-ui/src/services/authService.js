@@ -1,6 +1,7 @@
 import Axios from 'axios';
-import { useHistory } from "react-router-dom";
-
+import React from "react";
+import { useHistory, Redirect } from "react-router-dom";
+import { withRouter } from 'react-router';
 
 export const verifyLocalToken = () => {
 
@@ -56,14 +57,12 @@ export const login = async ({ email, password }) => {
 }
 
 
-export const logout = async () => {
-  const history = useHistory;
+export const logout = async (props) => {
+  // const history = useHistory;
+  // const history = props;
   const url = '/logout'
   const res = await Axios.post(url);
   localStorage.removeItem("jwt");
   localStorage.removeItem("userName");
   localStorage.removeItem("userID");
-  history.push("/");
 }
-
-

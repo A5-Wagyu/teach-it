@@ -8,19 +8,20 @@ import TimePicker from "react-bootstrap-time-picker";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../App.css";
-import { useAuth } from "../contexts/authContext";
+import { verifyLocalToken } from "../services/authService";
+
 
 function CreateWebinar(props) {
 	const [topics, setTopics] = useState([]);
 	const [subtopics, setSubtopics] = useState([]);
 	const [hasSubtopics, setHasSubtopics] = useState([]);
-	const { currentUserID, currentUserName, isLoggedIn } = useAuth();
-
 	const [startDate, setStartDate] = useState(new Date());
 	const [zoomTime, setZoomTime] = useState({
 		startTime: "",
 		endTime: "",
 	});
+
+	const userID = verifyLocalToken().userID;
 
 	const [values, setValues] = useState({
 		title: "",
@@ -214,7 +215,7 @@ function CreateWebinar(props) {
 		setTopics(data.data);
 		setValues({
 			...values,
-			userID: `${currentUserID}`,
+			userID: `${userID}`,
 		});
 	};
 
