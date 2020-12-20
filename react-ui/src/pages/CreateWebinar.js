@@ -46,11 +46,11 @@ function CreateWebinar(props) {
 
     let dd = parseInt(today.substring(3, 5)) + 1;
     dd = dd.toString().padStart(2, "0");
-    let mm = today.substring(0, 2).padStart(2, "0"); //January is 0!
+    let mm = today.substring(0, 2).padStart(2, "0");
     let yyyy = today.substring(6, 10);
 
     today = yyyy + "-" + mm + "-" + dd;
-    setValues({ ...values, date: today });
+    return today;
   };
 
   const onChange = (event) => {
@@ -142,14 +142,16 @@ function CreateWebinar(props) {
     setValues({ ...values, date: `${year}-${month}-${day}` });
   };
 
-  // What to do for onSubmit?
   const onSubmit = (event) => {
-    console.log(currentUserID);
-    console.log(values);
+    let date = values.date;
+    if (values.date === "") {
+      date = getDate();
+    }
+
     if (
       !(values.topicID in hasSubtopics) &&
       (values.title === "" ||
-        values.date === "" ||
+        date === "" ||
         values.startTime === "" ||
         values.endTime === "" ||
         values.description === "" ||
@@ -161,23 +163,24 @@ function CreateWebinar(props) {
     ) {
       alert("Please fill in all the required field");
     } else if (
-      values.title === "" ||
-      values.date === "" ||
-      values.startTime === "" ||
-      values.endTime === "" ||
-      values.description === "" ||
-      values.learn === "" ||
-      values.know === "" ||
-      values.need === "" ||
-      values.topicID === "" ||
-      values.subTopicID === "" ||
-      values.zoomLink === ""
+      values.topicID in hasSubtopics &&
+      (values.title === "" ||
+        date === "" ||
+        values.startTime === "" ||
+        values.endTime === "" ||
+        values.description === "" ||
+        values.learn === "" ||
+        values.know === "" ||
+        values.need === "" ||
+        values.topicID === "" ||
+        values.subTopicID === "" ||
+        values.zoomLink === "")
     ) {
       alert("Please fill in all the required field");
     } else {
       let sendData = {
         title: values.title,
-        date: values.date,
+        date: date,
         startTime: values.startTime,
         endTime: values.endTime,
         description: values.description,
@@ -192,17 +195,13 @@ function CreateWebinar(props) {
         userID: values.userID,
       };
 
-      console.log(values);
-      console.log(sendData);
-      // createWebinar(sendData);
-      // props.history.push("/");
+      createWebinar(sendData);
+      props.history.push("/");
     }
     event.preventDefault();
   };
 
   const getTopicsQuery = async () => {
-    getDate();
-
     let data = await getTopics();
     for (let i = 0; i < data.length; i++) {
       let id = await getTopicIdByName({ name: data[i].topic.name });
