@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react'
+import { useHistory } from "react-router-dom";
 import Axios from "axios";
 
 const AuthContext = React.createContext();
-
 
 // custom hook
 export function useAuth() {
@@ -10,11 +10,8 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-
-  const [currentUserID, setCurrentUserID] = useState();
-  const [currentUserName, setCurrentUserName] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+  const history = useHistory();
   const verifyToken = async () => {
     let res;
     try {
@@ -23,6 +20,24 @@ export function AuthProvider({ children }) {
       throw err;
     }
     return res.data;
+  }
+
+  const verifyLocalToken = () => {
+    if (localStorage.getItem("jwt")) {
+      const userID = localStorage.getItem("userID");
+      const userName = localStorage.getItem("userName");
+      setIsAuthenticated(true);
+      return {
+        isAuthenticated: true,
+        userID: userID,
+        userName: userName,
+      }
+    } else {
+      setIsAuthenticated(true);
+      return {
+        isAuthenticated: false
+      }
+    }
   }
 
   const signup = async ({ name, email, password }) => {
@@ -47,27 +62,35 @@ export function AuthProvider({ children }) {
         password: password
       });
     } catch (err) { throw err }
+    if (res.data.jwt) {
+      console.log(res.data.jwt);
+      setIsAuthenticated(true);
+      localStorage.setItem("jwt", res.data.jwt);
+      localStorage.setItem("userID", res.data.userID);
+      localStorage.setItem("userName", res.data.userName);
+      window.location.reload();
+    }
 
-    setIsAuthenticated(res.data.isAuthenticated);
     return res.data
   }
 
   const logout = async () => {
     const url = '/logout'
     const res = await Axios.post(url);
-    setIsAuthenticated(res.data.isAuthenticated);
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userID");
+    setIsAuthenticated(false);
+    history.push("/");
   }
 
-
-
   const value = {
-    currentUserID,
-    currentUserName,
-    isAuthenticated,
     signup,
     login,
     logout,
-    verifyToken
+    verifyToken,
+    verifyLocalToken,
+    isAuthenticated
   }
 
   return (

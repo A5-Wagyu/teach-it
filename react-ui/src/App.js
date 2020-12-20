@@ -22,7 +22,7 @@ function App() {
           <Switch>
             <Route path="/login" component={Login}></Route>
             <Route path="/signup" component={SignUp}></Route>
-            <Route path="/createwebinar" component={CreateWebinar}></Route>
+            <PrivateRoute path="/createwebinar" component={CreateWebinar}></PrivateRoute>
             <PrivateRoute path="/mylearning" component={MyLearning}></PrivateRoute>
             <Route path="/myteaching" component={MyTeaching}></Route>
             <Route path="/search" component={Search}></Route>

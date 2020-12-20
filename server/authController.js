@@ -5,7 +5,6 @@ const util = require("util");
 const cookieParser = require("cookie-parser");
 mysql.pool.query = util.promisify(mysql.pool.query);
 const bcrypt = require('bcrypt');
-const { requireAuth, checkAuth } = require('./authMiddleware');
 /// Utility const
 const saltRounds = 10;
 const maxAge = 60 * 60 * 24; // 24 hours
@@ -119,7 +118,11 @@ module.exports.login_post = async (req, res) => {
         //   userID: userInfo[0].id,
         //   userName: userInfo[0].name
         // })
-        res.status(201).send();
+        res.status(201).send({
+          jwt: token,
+          userID: userInfo[0].id,
+          userName: userInfo[0].name,
+        });
       } else {
         // if password not correct
         res.json({

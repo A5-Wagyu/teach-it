@@ -17,7 +17,10 @@ function Header(props) {
 	const [topics, setTopics] = useState([]);
 	const [subtopics, setSubtopics] = useState([]);
 	const [values, setValues] = useState({});
-	const { currentUserID, currentUserName, isAuthenticated, logout } = useAuth();
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	const { verifyLocalToken, logout } = useAuth();
+
+	const res = verifyLocalToken();
 
 	const getTopicsQuery = () => {
 		getTopics().then(function (t) {
@@ -27,6 +30,7 @@ function Header(props) {
 
 	const handleLogout = async () => {
 		await logout();
+		setIsAuthenticated(false);
 		console.log(props);
 		// props.history.push("/");
 		return (
@@ -56,6 +60,7 @@ function Header(props) {
 	useEffect(() => {
 		getSubtopicsQuery();
 	}, []);
+
 
 	return (
 		<Navbar bg="light" expand="lg">
@@ -111,37 +116,38 @@ function Header(props) {
 				</Form>
 			</Navbar.Collapse>
 
+			{res.isAuthenticated ?
+				<div className="d-flex align-items-center">
+					<Nav.Item>
+						<Nav.Link href="/mylearning">My Learning</Nav.Link>
+					</Nav.Item>
+					<Nav.Item>
+						<Nav.Link href="/myteaching">My Teaching</Nav.Link>
+					</Nav.Item>
+					<Link to="/createwebinar">
+						<Button variant="outline-info" className="mr-3">
+							Create Webinar
+        </Button>
+					</Link>
+					<Button variant="info" className="mr-3" onClick={handleLogout}>
+						Log Out
+        </Button>
+				</div>
+				:
+				<div>
+					<Link to="/login">
+						<Button variant="outline-info" className="mr-3">
+							Log In
+        </Button>
+					</Link>
+					<Link to="/signup">
+						<Button variant="info" className="mr-3">
+							Sign Up
+        </Button>
+					</Link>
+				</div>
 
-			<div className="loggedIn d-flex align-items-center">
-				<p className="mb-0"> Welcome back, {currentUserName}</p>
-				<Nav.Item>
-					<Nav.Link href="/mylearning">My Learning</Nav.Link>
-				</Nav.Item>
-				<Nav.Item>
-					<Nav.Link href="/myteaching">My Teaching</Nav.Link>
-				</Nav.Item>
-				<Link to="/createwebinar">
-					<Button variant="outline-info" className="mr-3">
-						Create Webinar
-        </Button>
-				</Link>
-				<Button variant="info" className="mr-3" onClick={handleLogout}>
-					Log Out
-        </Button>
-			</div>
-
-			<div className="notLoggedIn">
-				<Link to="/login">
-					<Button variant="outline-info" className="mr-3">
-						Log In
-        </Button>
-				</Link>
-				<Link to="/signup">
-					<Button variant="info" className="mr-3">
-						Sign Up
-        </Button>
-				</Link>
-			</div>
+			}
 
 		</Navbar>
 	);
