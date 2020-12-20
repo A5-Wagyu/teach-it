@@ -22,7 +22,7 @@ export const WebinarInfoCard = ({
     >
       <Card.Header
         className="text-light"
-        style={{ backgroundColor: "#484c53" }}
+        style={{ backgroundColor: "#414a50" }}
       >
         {header}
       </Card.Header>
