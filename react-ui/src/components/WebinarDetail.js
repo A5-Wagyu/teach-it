@@ -56,7 +56,7 @@ export const WebinarDetail = ({
         <h1 className="mt-5">{title}</h1>
         <p className="mt-4">{description}</p>
         <p>
-          Hosted by <strong>{host}</strong>
+          Hosted by <strong>{host ? host.name : null}</strong>
         </p>
 
         <span className="mr-3">{date}</span>
