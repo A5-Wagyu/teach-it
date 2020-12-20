@@ -121,7 +121,6 @@ const Search = (props) => {
 			<Form onSubmit={onSubmit} className="w-75" inline>
 				<FormControl onChange={search} className="w-50 mr-2" type="text" placeholder="Search" />
 				<FormControl type="submit" onClick={onSubmit} type="submit" placeholder="Search" /> 
-				
 			</Form>
 
 			<h1 className="mt-5 text-justify">Upcoming Webinars</h1>
