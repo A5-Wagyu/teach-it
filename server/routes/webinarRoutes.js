@@ -112,7 +112,7 @@ router.post("/createWebinar", async (req, res) => {
 														'${zoomLink}', '${zoomPasscode}', '${isComplete}') `;
 
 	try {
-		let creteWebinar = await mysql.pool.query(createWebinarQuery);
+		let createWebinar = await mysql.pool.query(createWebinarQuery);
 
 		let associacionQuery = `INSERT INTO \`UserRoleWebinarAssociations\` 
 													(\`userID\`, \`roleID\`, \`webinarID\`) 
@@ -121,11 +121,7 @@ router.post("/createWebinar", async (req, res) => {
 
 		let assocation = await mysql.pool.query(associacionQuery);
 
-		res.send({
-			creteWebinar: creteWebinar,
-			lastInsertID: lastInsertID,
-			assocation: assocation,
-		});
+		res.send({ createWebinar: createWebinar, assocation: assocation });
 	} catch (err) {
 		throw err;
 	}
