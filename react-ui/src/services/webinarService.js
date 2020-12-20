@@ -24,6 +24,12 @@ export const getWebinarsById = async ({ id }) => {
 	return results;
 };
 
+export const getWebinarsByTitleContains = async ({ title }) => {
+	const url = "/getWebinarsByTitleContains";
+	let results = await Axios.post(url, { title: title });
+	return results;
+};
+
 export const createWebinar = async ({
 	title,
 	date,
