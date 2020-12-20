@@ -60,7 +60,9 @@ function Home() {
     getWebinarsQuery();
   }, []);
 
+
   return (
+
     <Container>
       <h1 className="mt-5 text-justify">Upcoming Webinars</h1>
 
@@ -110,5 +112,6 @@ function Home() {
     </Container>
   );
 }
+
 
 export default Home;
