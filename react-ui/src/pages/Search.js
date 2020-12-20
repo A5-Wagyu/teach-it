@@ -125,15 +125,6 @@ const Search = (props) => {
     }
   }, [props.history.location.key]);
 
-  const searchBarStyle = () => {
-    if (window.innerWidth <= 990) {
-      setSearchbar(true);
-    } else {
-      setSearchbar(false);
-    }
-  };
-
-  window.addEventListener("resize", searchBarStyle);
 
   return (
     <Container>
@@ -142,18 +133,11 @@ const Search = (props) => {
         className="w-75"
         inline
         style={
-          searchbar
-            ? {
-              position: "relative",
-              top: "2rem",
-              left: "0",
-              minWidth: "20%",
-            }
-            : {
-              position: "fixed",
-              top: "0.6rem",
-              left: "15.5rem",
-            }
+          {
+            position: "fixed",
+            top: "0.6rem",
+            left: "15.5rem",
+          }
         }
       >
         <FormControl

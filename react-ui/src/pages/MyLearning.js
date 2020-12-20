@@ -33,6 +33,8 @@ export default function MyTeaching() {
     };
   };
 
+  // TODO: refactor userID
+
   const getWebinarsQuery = async () => {
     const sendData = { id: 4, role: "guest" };
     let data = await getWebinarsByUserID(sendData);
