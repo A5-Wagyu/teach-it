@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-// import { Redirect } from "react-router";
 import Form from "react-bootstrap/Form";
 import { Button, Container, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Axios from 'axios';
-import { useAuth } from "../contexts/authContext";
+import { signup } from "../services/authService";
 
 export default function Login(props) {
 	const [email, setEmail] = useState("");
@@ -13,9 +11,7 @@ export default function Login(props) {
 	const [error, setError] = useState("");
 	const [passwordError, setPasswordError] = useState("");
 	const [loading, setLoading] = useState(false);
-	const { signup } = useAuth();
 
-	// console.log(localStorage.getItem("token"));
 
 	function validateForm() {
 		return name.length > 0 && email.length > 0 && password.length > 0;

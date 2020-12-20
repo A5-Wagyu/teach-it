@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import { Button, Container, Alert } from "react-bootstrap";
-import { useAuth } from "../contexts/authContext";
+import { login } from "../services/authService";
+
 import Axios from 'axios';
 
 export default function Login({ setIsAuthenticated, history }) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
-	const { login } = useAuth();
 
 	Axios.defaults.withCredentials = true;
 

@@ -9,7 +9,6 @@ import CreateWebinar from "./pages/CreateWebinar";
 import MyLearning from "./pages/MyLearning";
 import MyTeaching from "./pages/MyTeaching";
 import Search from "./pages/Search";
-import { AuthProvider } from "./contexts/authContext";
 import PrivateRoute from "./components/PrivateRoutes";
 
 function App() {
@@ -21,22 +20,20 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <AuthProvider>
-          <Header
-            isAuthenticated={isAuthenticated}
-            setIsAuthenticated={setIsAuthenticated} />
-          <Switch>
-            <Route path="/login"
-              render={(props) => <Login {...props}
-                setIsAuthenticated={setIsAuthenticated} />} />
-            <Route path="/signup" component={SignUp}></Route>
-            <PrivateRoute path="/createwebinar" component={CreateWebinar}></PrivateRoute>
-            <PrivateRoute path="/mylearning" component={MyLearning}></PrivateRoute>
-            <Route path="/myteaching" component={MyTeaching}></Route>
-            <Route path="/search" component={Search}></Route>
-            <Route path="/" exact component={Search}></Route>
-          </Switch>
-        </AuthProvider>
+        <Header
+          isAuthenticated={isAuthenticated}
+          setIsAuthenticated={setIsAuthenticated} />
+        <Switch>
+          <Route path="/login"
+            render={(props) => <Login {...props}
+              setIsAuthenticated={setIsAuthenticated} />} />
+          <Route path="/signup" component={SignUp}></Route>
+          <PrivateRoute path="/createwebinar" component={CreateWebinar}></PrivateRoute>
+          <PrivateRoute path="/mylearning" component={MyLearning}></PrivateRoute>
+          <Route path="/myteaching" component={MyTeaching}></Route>
+          <Route path="/search" component={Search}></Route>
+          <Route path="/" exact component={Search}></Route>
+        </Switch>
       </Router>
     </div>
   );
