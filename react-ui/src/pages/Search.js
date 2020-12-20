@@ -174,6 +174,7 @@ const Search = (props) => {
         handleClose={(e) => {
           setShow(false);
         }}
+        id={webinar.id}
         title={webinar.title}
         description={webinar.description}
         host={webinar.host}
