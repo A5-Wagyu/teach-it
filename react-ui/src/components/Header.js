@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Axios from "axios";
 import { getTopics } from "../services/topicService";
 import { getSubtopics } from "../services/subtopicService";
-import { Navbar, Nav, NavDropdown, Button, style } from "react-bootstrap";
+import { Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
 import { DropdownSubmenu, NavDropdownMenu } from "react-bootstrap-submenu";
 import { useHistory } from "react-router-dom";
 
@@ -63,6 +63,7 @@ function Header({ isAuthenticated, setIsAuthenticated, ...props }) {
 					}
 					.navbar-brand{
 						color:white !important;
+						font-size: 1.5rem;
 					}
 					.dropdown-toggle{
 						color:white !important;
@@ -72,16 +73,16 @@ function Header({ isAuthenticated, setIsAuthenticated, ...props }) {
 							background-color: #7fdad1;
 							border-color:#7fdad1;
 							color:#4e4a51;
-							font-weight:500
-							width:83px;
+							font-weight:500;
+							width:85px;
 					}
 					.btn-info:hover{
 							background-color: #8ef8ed;
 							border-color:#89f3e8;
 							font-weight:500;
 							color:#4e4a51;
-							width:87px;
-							height:42px;
+							width:85px;
+							
 							
 					}
 					.btn-outline-info{
@@ -95,17 +96,15 @@ function Header({ isAuthenticated, setIsAuthenticated, ...props }) {
 						background-color: #8ef8ed;
 						border-color:#89f3e8;
 						font-weight:500;
-						width:87px;
-						height:42px;
+						width:85px;
+					
 
 					}
 					#btn-create-webinar{
-						width: 140px;
-						
+						width: 140px;	
 					}
 					#btn-create-webinar:hover{
-						width: 142px;
-						height: 42px;
+						width: 140px;
 					}
 					.navbar-link{
 							text-decoration: none !important;
@@ -113,7 +112,7 @@ function Header({ isAuthenticated, setIsAuthenticated, ...props }) {
 					}
 					.navbar-link:hover{
 						text-decoration: none !important;
-						font-size:1.2rem;
+						
 					}
 				`}
 			</style>
@@ -129,49 +128,51 @@ function Header({ isAuthenticated, setIsAuthenticated, ...props }) {
 							id="collasible-nav-dropdown"
 							className="mr-3"
 						>
-							{topics.map((topic, i, array) => {
-								if (topic.id in values) {
-									return (
-										<DropdownSubmenu key={topic.name + i} title={topic.name}>
-											{subtopics.map((subtopic, j, arrayJ) => {
-												if (topic.id === subtopic.topicID) {
-													return (
-														<NavDropdown.Item
-															as="div"
-															key={subtopic.name + i + j}
-														>
-															<Link
-																className="text-reset"
-																to={{
-																	pathname: "/search",
-																	state: {
-																		subtopic: subtopic,
-																	},
-																}}
+							<span>
+								{topics.map((topic, i, array) => {
+									if (topic.id in values) {
+										return (
+											<DropdownSubmenu key={topic.name + i} title={topic.name}>
+												{subtopics.map((subtopic, j, arrayJ) => {
+													if (topic.id === subtopic.topicID) {
+														return (
+															<NavDropdown.Item
+																as="div"
+																key={subtopic.name + i + j}
 															>
-																{subtopic.name}
-															</Link>
-														</NavDropdown.Item>
-													);
-												} else {
-													return null;
-												}
-											})}
-										</DropdownSubmenu>
-									);
-								} else {
-									return (
-										<NavDropdown.Item as="div" key={i} title={topic.name}>
-											<Link
-												className="text-reset"
-												to={{ pathname: "/search", state: { topic: topic } }}
-											>
-												{topic.name}
-											</Link>
-										</NavDropdown.Item>
-									);
-								}
-							})}
+																<Link
+																	className="text-reset"
+																	to={{
+																		pathname: "/search",
+																		state: {
+																			subtopic: subtopic,
+																		},
+																	}}
+																>
+																	{subtopic.name}
+																</Link>
+															</NavDropdown.Item>
+														);
+													} else {
+														return null;
+													}
+												})}
+											</DropdownSubmenu>
+										);
+									} else {
+										return (
+											<NavDropdown.Item as="div" key={i} title={topic.name}>
+												<Link
+													className="text-reset"
+													to={{ pathname: "/search", state: { topic: topic } }}
+												>
+													{topic.name}
+												</Link>
+											</NavDropdown.Item>
+										);
+									}
+								})}
+							</span>
 						</NavDropdownMenu>
 					</Nav>
 				</Navbar.Collapse>
